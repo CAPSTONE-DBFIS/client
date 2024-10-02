@@ -64,7 +64,7 @@ $ yarn run build
 ![Github](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)             
 
 ### Config
-![Yarn-berry](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=npm&logoColor=white)        
+![Yarn-berry](https://img.shields.io/badge/Yarn-berry-2C8EBB?style=for-the-badge&logo=Yarn&logoColor=white)        
 
 ### Development
 ![TypeScript](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white)
