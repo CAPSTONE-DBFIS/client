@@ -25,19 +25,20 @@
 
 서비스명은 산학캡스톤 수업으로 DB.fis와 연계하여 업계 트렌드 정보를 제공하고 방향성을 제시하는 생성형 AI 기반 챗봇을 메인으로 하며 해당 데이터를 활용하여 업무의 효율을 늘릴 수 있는 웹 어플리케이션 서비스입니다.
 
-#### 서비스명 website will give you a learning-friendly environment.
+#### 서비스명 Website will provide forest landowners with an easy working environment.
 
 Our website supports the following component.
-1. Various online lectures with detailed descriptions and exercise questions.
-2. Q&A section to ask questions freely.
-3. Function to check the lecture you watched recently.
+1. It researches and shows trends in the topic you want.
+2. Easily manage trends so you can refer to them in your work.
+3. Makes difficult-to-see data visible at a glance.
 
 ## 시작 가이드
-### Requirements
-For building and running the application you need:
+### Version
+For building and running the application version:
 
-- [Node.js 14.19.3](https://nodejs.org/ca/blog/release/v14.19.3/)
-- [Npm 9.2.0](https://www.npmjs.com/package/npm/v/9.2.0)
+- [Node.js 21.05.0](https://nodejs.org/ca/blog/release/v14.19.3/)
+- [Yarn 4.5.0](https://yarnpkg.com/)
+- [React 18.2.0](https://ko.legacy.reactjs.org/versions/)
 
 ### Installation
 ``` bash
