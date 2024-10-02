@@ -107,7 +107,6 @@ $ yarn run build
 
 ```
 
-<!--
 ```bash
 voluntain-app/ : 프론트엔드
     ├── components/
