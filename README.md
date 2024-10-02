@@ -108,7 +108,7 @@ client : 프론트엔드
 ```
 
 ```bash
-client/: 프론트엔드
+client : 프론트엔드
     ├── components/
     │   ├──  파일 이름 : 설명
     ├── config/
