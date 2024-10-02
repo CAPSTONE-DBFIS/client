@@ -86,8 +86,8 @@ $ yarn run build
 ## 아키텍쳐
 
 ### 디렉토리 구조
-```
-client : 프론트엔드
+```bash
+client : 프론트엔드
     ├── README.md
     ├── components
     │   ├── 
@@ -108,7 +108,7 @@ $ yarn run build
 ```
 
 ```bash
-voluntain-app/ : 프론트엔드
+client/: 프론트엔드
     ├── components/
     │   ├──  파일 이름 : 설명
     ├── config/
