@@ -3,8 +3,6 @@
 <div align="center">
 <img width="329" alt="image" src="">
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FVoluntain-SKKU%2FVoluntain-2nd&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-
 </div>
 
 # 서비스명 v1.0
@@ -88,8 +86,7 @@ $ yarn run build
 ## 아키텍쳐
 
 ### 디렉토리 구조
-<!--
-```bash
+```
 client : 프론트엔드
     ├── README.md
     ├── components
@@ -109,7 +106,6 @@ $ yarn run build
         └── Home.module.css
 
 ```
--->
 
 <!--
 ```bash
@@ -128,4 +124,3 @@ voluntain-app/ : 프론트엔드
         └── 파일 이름 : 설명
 
 ```
--->
