@@ -20,7 +20,7 @@
 
 | **김세현** | **송가은** | 
 | :------: |  :------: | 
-| [<img src="https://github.com/user-attachments/assets/0ec92cc1-539d-4717-baf8-b8dfb4ef6303" height=150 width=150> <br/> @sehyun0518](https://github.com/Cheorizzang) | [<img src="https://avatars.githubusercontent.com/u/112460466?v=4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | 
+| [<img src="https://github.com/user-attachments/assets/0ec92cc1-539d-4717-baf8-b8dfb4ef6303" height=150 width=150> <br/> @sehyun0518](https://github.com/sehyun0518) | [<img src="https://avatars.githubusercontent.com/u/112460466?v=4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | 
 
 </div>
 
