@@ -1,6 +1,7 @@
 # 📖 TRENDB README
 
-![readme_mockup2](https://user-images.githubusercontent.com/112460466/210706312-6a44b60d-a42e-4210-b334-9e5983f70fb3.png)
+<img width="654" alt="image" src="https://github.com/user-attachments/assets/9b518f95-a34f-491a-8ff5-2370fa3da076">
+
 
 - 배포 URL : 
 - Test ID : 
@@ -19,7 +20,8 @@
 
 | **김세현** | **송가은** | 
 | :------: |  :------: | 
-| [<img src="https://avatars.githubusercontent.com/u/106502312?v=4" height=150 width=150> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://avatars.githubusercontent.com/u/112460466?v=4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | 
+| [<img src="https://github.com/user-attachments/assets/23d02498-2828-47e7-92a9-5743e02e1937" height=150 width=150>
+ <br/> @sehyun0518](https://github.com/yeon1615)] | [<img src="https://avatars.githubusercontent.com/u/112460466?v=4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | 
 
 </div>
 
