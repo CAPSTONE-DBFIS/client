@@ -2,6 +2,8 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
+import eslintConfigAirbnb from "eslint-config-airbnb";
+import eslintConfigAirbnbTypescript from "eslint-config-airbnb-typescript";
 
 export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
@@ -13,5 +15,8 @@ export default [
     rules: {
       "react/react-in-jsx-scope": "off",
     },
+  },
+  {
+    extends: [eslintConfigAirbnb, eslintConfigAirbnbTypescript],
   },
 ];
