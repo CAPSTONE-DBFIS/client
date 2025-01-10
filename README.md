@@ -36,6 +36,7 @@
 - 디자인 : [Figma](https://www.figma.com/file/fAisC2pEKzxTOzet9CfqML/README(oh-my-code)?node-id=39%3A1814)
 - Jira :
 - Notion :
+- CI : code review(Sonar clound, LlamaPReview)
 <br>
 
 ## 2. 채택한 개발 기술과 브랜치 전략
@@ -44,8 +45,8 @@
 
 - React/TS
     - 
-- styled-component
-    - 
+- vanila-extract
+    - zero-runtime css
     
 ### Recoil
 
