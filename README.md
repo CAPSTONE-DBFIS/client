@@ -34,7 +34,7 @@
 - 협업 툴 : Discord, Notion
 - 서비스 배포 환경 : 
 - 디자인 : [Figma](https://www.figma.com/file/fAisC2pEKzxTOzet9CfqML/README(oh-my-code)?node-id=39%3A1814)
-- Jira :
+- Jira : [Jira](https://vino-private.atlassian.net/jira/software/projects/DF/boards/3)
 - Notion :
 - CI : code review(Sonar clound, LlamaPReview)
 <br>
