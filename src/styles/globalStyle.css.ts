@@ -1,4 +1,3 @@
-import { globalStyle } from "@vanilla-extract/css";
+import { globalStyle } from '@vanilla-extract/css'
 
-globalStyle("html, body, #root", {
-});
+globalStyle('html, body, #root', {})
