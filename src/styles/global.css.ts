@@ -1,2 +1,2 @@
-import './layers/layers.css';
-import './reset.css';
+import './layers/layers.css'
+import './reset.css'
