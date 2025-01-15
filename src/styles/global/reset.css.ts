@@ -50,35 +50,34 @@ globalStyle('html', {
  */
 globalStyle('input, textarea', {
     '@layer': {
-      [layers.reset]: {
-        WebkitUserSelect: 'auto',
-      },
+        [layers.reset]: {
+            WebkitUserSelect: 'auto',
+        },
     },
-  });
+})
 
 /**
  * 사파리 브라우저에서 textarea 요소의 white-space 속성을 기본값으로 되돌리기 위해 사용됩니다.
  */
 globalStyle('textarea', {
     '@layer': {
-      [layers.reset]: {
-        whiteSpace: 'revert',
-      },
+        [layers.reset]: {
+            whiteSpace: 'revert',
+        },
     },
-  });
+})
 /**
  * draggable 속성이 있는 요소에서 드래그 기능이 제대로 작동하도록 설정
  * Apply back the draggable feature - exist only in Chromium and Safari
  */
 globalStyle(':where([draggable="true"])', {
     '@layer': {
-      [layers.reset]: {
-        // @ts-expect-error: -webkit-user-drag is a non-standard property
-        WebkitUserDrag: 'element',
-      },
+        [layers.reset]: {
+            // @ts-expect-error: -webkit-user-drag is a non-standard property
+            WebkitUserDrag: 'element',
+        },
     },
-  });
-
+})
 
 /**
  * a 태그와 button 태그에 pointer 재적용
@@ -89,34 +88,34 @@ globalStyle(':where([draggable="true"])', {
  */
 globalStyle(':where(pre)', {
     '@layer': {
-      [layers.reset]: {
-        all: 'revert',
-        boxSizing: 'border-box',
-      },
+        [layers.reset]: {
+            all: 'revert',
+            boxSizing: 'border-box',
+        },
     },
-  });
-  
+})
+
 /**
-* input의 placeholder의 컬러를 지정하지 않음
-*/
+ * input의 placeholder의 컬러를 지정하지 않음
+ */
 globalStyle('::placeholder', {
     '@layer': {
-      [layers.reset]: {
-        color: 'unset',
-      },
+        [layers.reset]: {
+            color: 'unset',
+        },
     },
-  });
-  
+})
+
 /**
-* hidden 속성을 가진 요소의 display none을 적용
-*/
+ * hidden 속성을 가진 요소의 display none을 적용
+ */
 globalStyle(':where([hidden])', {
     '@layer': {
-      [layers.reset]: {
-        display: 'none',
-      },
+        [layers.reset]: {
+            display: 'none',
+        },
     },
-  });
+})
 
 /**
  * a 태그와 button 태그에 pointer 재적용
@@ -182,7 +181,6 @@ globalStyle('html:focus-within', {
     '@layer': {
         [layers.components]: {
             scrollBehavior: 'smooth',
-        }
-    }
-}
-)
+        },
+    },
+})
