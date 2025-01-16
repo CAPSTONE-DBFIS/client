@@ -1,53 +1,53 @@
-import { futura, pretendard } from "./global/globalText.css"
+import { futura, pretendard } from './global/globalText.css'
 
 export const fonts = {} as const
 
 export const fontSizes = {
     largeTitle: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 26,
         lineHeight: '32px',
     },
     title1: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 22,
         lineHeight: '26px',
     },
     title2: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 17,
         lineHeight: '22px',
     },
     title3: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 15,
         lineHeight: '20px',
     },
     headline: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 13,
         lineHeight: '16px',
     },
     subHeadline: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 11,
         lineHeight: '14px',
     },
     body: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 13,
         lineHeight: '16px',
     },
     caption: {
-        fontFamily : pretendard,
+        fontFamily: pretendard,
         fontSize: 10,
         lineHeight: '13px',
     },
-    logo : {
-        fontFamily : futura,
-        fontSize : 10,
-        lineHeight : '13px'
-    }
+    logo: {
+        fontFamily: futura,
+        fontSize: 10,
+        lineHeight: '13px',
+    },
 } as const
 
 export const fontWeights = {
