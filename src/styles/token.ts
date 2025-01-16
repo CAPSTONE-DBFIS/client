@@ -1,6 +1,9 @@
 import { futura, pretendard } from './global/globalText.css'
 
-export const fonts = {} as const
+export const fonts = {
+    futura,
+    pretendard,
+} as const
 
 export const fontSizes = {
     largeTitle: {
