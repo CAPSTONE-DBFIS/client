@@ -1351,6 +1351,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vanilla-extract/sprinkles@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "@vanilla-extract/sprinkles@npm:1.6.3"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.0.0
+  checksum: 10c0/17e03af9d090aa175bdeae646ae4a5bf1da37b7e473caa4ab92efbbd7678e53137e10281a0669f50ab5bd985a59e621da2bfc3e0cc28bded32becd72b8cfaf13
+  languageName: node
+  linkType: hard
+
 "@vanilla-extract/vite-plugin@npm:^4.0.17":
   version: 4.0.17
   resolution: "@vanilla-extract/vite-plugin@npm:4.0.17"
@@ -1783,6 +1792,7 @@ __metadata:
     "@types/react": "npm:^18.3.10"
     "@types/react-dom": "npm:^18.3.0"
     "@vanilla-extract/css": "npm:^1.16.0"
+    "@vanilla-extract/sprinkles": "npm:^1.6.3"
     "@vanilla-extract/vite-plugin": "npm:^4.0.17"
     "@vitejs/plugin-react": "npm:^4.3.2"
     eslint: "npm:^8.56.0"

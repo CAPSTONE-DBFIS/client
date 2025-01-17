@@ -32,6 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:18.3.11"],\
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vanilla-extract/css", "npm:1.16.0"],\
+          ["@vanilla-extract/sprinkles", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:1.6.3"],\
           ["@vanilla-extract/vite-plugin", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:4.0.17"],\
           ["@vitejs/plugin-react", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:4.3.2"],\
           ["eslint", "npm:8.57.1"],\
@@ -1728,6 +1729,28 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@vanilla-extract/sprinkles", [\
+      ["npm:1.6.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@vanilla-extract-sprinkles-npm-1.6.3-8553c69abf-10c0.zip/node_modules/@vanilla-extract/sprinkles/",\
+        "packageDependencies": [\
+          ["@vanilla-extract/sprinkles", "npm:1.6.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:1.6.3", {\
+        "packageLocation": "./.yarn/__virtual__/@vanilla-extract-sprinkles-virtual-c14109d3c0/3/.yarn/berry/cache/@vanilla-extract-sprinkles-npm-1.6.3-8553c69abf-10c0.zip/node_modules/@vanilla-extract/sprinkles/",\
+        "packageDependencies": [\
+          ["@vanilla-extract/sprinkles", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:1.6.3"],\
+          ["@types/vanilla-extract__css", null],\
+          ["@vanilla-extract/css", "npm:1.16.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/vanilla-extract__css",\
+          "@vanilla-extract/css"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@vanilla-extract/vite-plugin", [\
       ["npm:4.0.17", {\
         "packageLocation": "../../.yarn/berry/cache/@vanilla-extract-vite-plugin-npm-4.0.17-72e0dbf42b-10c0.zip/node_modules/@vanilla-extract/vite-plugin/",\
@@ -2228,6 +2251,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:18.3.11"],\
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vanilla-extract/css", "npm:1.16.0"],\
+          ["@vanilla-extract/sprinkles", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:1.6.3"],\
           ["@vanilla-extract/vite-plugin", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:4.0.17"],\
           ["@vitejs/plugin-react", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:4.3.2"],\
           ["eslint", "npm:8.57.1"],\
