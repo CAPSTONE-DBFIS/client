@@ -7,7 +7,7 @@ import { globalFontFace, style } from '@vanilla-extract/css'
  * 600 : semiBold
  * 700 : bold
  */
-export const pretendard = 'globalPretendard'
+export const pretendard = 'pretendard'
 
 globalFontFace(pretendard, [
     {
