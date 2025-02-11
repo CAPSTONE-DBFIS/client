@@ -1,4 +1,4 @@
-import { futura, pretendard } from './global/globalText.css'
+import { futura, pretendard } from '../styles/globalText.css'
 
 export const fonts = {
     futura,

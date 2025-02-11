@@ -1,5 +1,5 @@
 import { globalStyle } from '@vanilla-extract/css'
-import * as layers from '../layers/layers.css'
+import * as layers from '../layer/layers.css'
 /**
  * 'display' 속성만 제외한 모든 "User-Agent-StyleSheet" 스타일을 제거합니다.
  * - "symbol *" 부분은 Firefox에서 발생하는 SVG 스프라이트 버그를 해결하기 위한 것입니다.

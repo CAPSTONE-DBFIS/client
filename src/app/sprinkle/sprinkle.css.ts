@@ -1,16 +1,10 @@
 import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
-import { colors, fontSizes, fontWeights } from './token'
+import { colors, fontSizes, fontWeights } from '../token/token'
 
 /**
  * responsiveProperties : Box 모델과 관련된 CSS 속성을 정의
  */
 const responsiveProperties = defineProperties({
-    conditions: {
-        mobile: {},
-        tablet: { '@media': 'screen and (min-width: 768px)' },
-        desktop: { '@media': 'screen and (min-width: 1024px)' },
-    },
-    defaultCondition: 'desktop',
     properties: {
         display: ['none', 'block', 'inline-block', 'flex', 'grid'],
         flexDirection: ['row', 'column'],
