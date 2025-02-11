@@ -1,21 +1,28 @@
-// @ts-check
-import globals from "globals";
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import tseslint from 'typescript-eslint';
+import globals from 'globals';
+import js from "@eslint/js";
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
-// 변경 전: export default [...]// 변경 후: export default tseslint.config(...)
 export default tseslint.config(
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  
-  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  {ignores : ['**/*.cjs', '**/*.mjs', '.yarn']}, // eslint 설정 무시 파일
   {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
-      parserOptions: { ecmaFeatures: { jsx: true } },
-      globals: { ...globals.browser },
+      ecmaVersion: 2020, // ecma 버전
+      globals: globals.browser, // window, document, fetch 등
     },
-  },
-  {
-    ignores : [".yarn/**", ".vite/**"]
+    plugins : {
+      'react-hooks' : reactHooks, // react hooks
+      'react-refresh': reactRefresh
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    }
   }
 );
