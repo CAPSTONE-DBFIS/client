@@ -1,21 +1,20 @@
 import { Sprinkles, sprinkles } from '@/app/sprinkle/sprinkle.css'
-import { AllHTMLAttributes, ElementType, forwardRef } from 'react'
-
-export interface BoxProps 
-extends Omit<AllHTMLAttributes<HTMLElement>, 'as' | 'color'>, Sprinkles {
-    children?: React.ReactNode // 하위 React 노드
-    className?: string // 클래스 이름
-    as?: ElementType // HTML 엘리먼트 타입 (기본값: div)
-}
+import { forwardRef } from 'react'
+import { BoxProps } from './box.types'
 
 /**
  * Box 컴포넌트는 shared UI 컴포넌트 중 가장 기본이 되는 컴포넌트입니다.
- * @param as HTML 엘리먼트 타입 (기본값: div)
- * @param children 하위 React 노드
- * @param className 클래스 이름
- * @param props Sprinkles 속성 및 기타 속성
- * @returns Box 컴포넌트
+ * @param {string} [as = 'div'] HTML 엘리먼트 타입(optional)
+ * @param {ReactNode} children 하위 React 노드(optional)
+ * @param {string} className 클래스 이름(optional)
+ * @param {any} props Sprinkles 속성 및 기타 속성
+ * @returns {JsxElement} Box 컴포넌트
+ * @example
+ * <Box as={'div' | 'span' | ...} className="example"">
+ *    <p>example</p>
+ * </Box>
  */
+
 export const Box = forwardRef<HTMLElement, BoxProps>(
     (
         {
