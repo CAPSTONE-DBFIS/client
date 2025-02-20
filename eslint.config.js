@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default tseslint.config(
-  {ignores : ['**/*.cjs', '**/*.mjs', '.yarn']}, // eslint 설정 무시 파일
+  {ignores : ['**/*.cjs', '**/*.mjs', '.yarn', '.vite']}, // eslint 설정 무시 파일
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['src/**/*.{ts,tsx}'],
