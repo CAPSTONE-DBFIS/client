@@ -34,10 +34,15 @@ export const Box = forwardRef<HTMLElement, BoxProps>(
                 atomProps[key] = props[key as keyof typeof props]
             else nativeProps[key] = props[key as keyof typeof props]
         }
+        const sprinklesClassName = sprinkles({ ...atomProps })
+        const combinedClassName = className
+            ? `${className} ${sprinklesClassName}`
+            : sprinklesClassName
+
         return (
             <Element
                 ref={ref} // ref 속성
-                className={`${className} ${sprinkles({ ...atomProps })}`} // Sprinkles 클래스 이름
+                className={combinedClassName} // Sprinkles 클래스 이름
                 {...nativeProps} // 나머지 속성
             >
                 {children}
