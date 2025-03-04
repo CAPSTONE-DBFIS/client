@@ -7,11 +7,11 @@ import {
 } from '@/shared/types/toast.types'
 import { useState } from 'react'
 
-// default Toast Config 
+// default Toast Config
 const defaultToastConfig: IToastConfig = {
     autoClose: 300, // 300 MS
-    toastType: 'default', // default 
-    toastPosition: 'UP', // 'UP' | 'DOWN' 
+    toastType: 'default', // default
+    toastPosition: 'UP', // 'UP' | 'DOWN'
 }
 
 /**
@@ -30,13 +30,13 @@ const defaultToastConfig: IToastConfig = {
  * - removeIndexToast: 특정 인덱스 토스트 삭제 함수
  * - toasts: 토스트 배열
  */
-export const useToast = (config?: IToastConfig) : IToastListReturn => {
+export const useToast = (config?: IToastConfig): IToastListReturn => {
     const [toastConfig, setToastsConfig] = useState<IToastConfig>({
         ...defaultToastConfig,
         ...config,
     }) // 토스트 기본 설정
     const [toastArr, setToastArr] = useState<toastProps[]>([]) // 토스트 배열
-    
+
     // 토스트 방향 변경 함수
     const changeToastPosition = (position: ToastPosition) => {
         setToastsConfig((prev) => {
@@ -61,7 +61,7 @@ export const useToast = (config?: IToastConfig) : IToastListReturn => {
         setToastArr(newState)
         return newState.length
     }
-    
+
     // 토스트 배열 리턴 함수
     const getAllToast = () => {
         return toastArr

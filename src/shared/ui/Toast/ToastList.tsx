@@ -3,7 +3,6 @@ import { Box } from '../Box'
 import { toastContainerStyle, toastStackStyle, toastStyle } from './toast.css'
 import { IToastList, toastProps } from '@/shared/types/toast.types'
 
-
 /**
  * shared level, 토스트 리스트 컴포넌트
  * @param {IExtendedToastConfig} toastConfig 커스텀 훅을 사용한 토스트 설정 객체
@@ -29,7 +28,10 @@ export const ToastList = ({ toastConfig, toasts }: IToastList) => {
                         usedHeight * (stack ? 0.2 : 1) + (stack ? 0 : gap * i)
                     node.classList.add(toastStackStyle as string)
 
-                    node.style.setProperty('--y', `${toastConfig.toastPosition === "UP" ? -y : y}px`)
+                    node.style.setProperty(
+                        '--y',
+                        `${toastConfig.toastPosition === 'UP' ? -y : y}px`
+                    )
                     node.style.setProperty('--g', `${gap}`)
                     node.style.setProperty('--s', `${1 - (stack ? prevS : 0)}`)
 

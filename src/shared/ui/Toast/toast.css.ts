@@ -19,5 +19,5 @@ export const toastStackStyle = style({
     position: 'absolute',
     transform: 'translate3d(0, var(--y), 0) scale(var(--s))',
     transition: 'transform 0.3s',
-    zIndex: 100
+    zIndex: 100,
 })

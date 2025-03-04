@@ -23,10 +23,10 @@ export interface IExtendedToastConfig extends IToastConfig {
 
 // 토스트리스트 컴포넌트 반환
 export interface IToastListReturn {
-    changeToastPosition: (position : ToastPosition) => void
+    changeToastPosition: (position: ToastPosition) => void
     changeToastClose: (TOAST_MS: number) => void
     toastConfig: IExtendedToastConfig
-    pushToast: (toast : toastProps) => number
+    pushToast: (toast: toastProps) => number
     popToast: () => number
     getAllToast: () => toastProps[]
     removeIndexToast: (index: number) => number

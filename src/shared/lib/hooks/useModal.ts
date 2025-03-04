@@ -17,7 +17,7 @@ const defaultModalConfig: IModalConfig = {
  * - [open=false]: 모달이 열려있는지 여부
  * - [showCloseButton=true]: 모달 내부 버튼 유무
  * - [btnSize=24]: 모달 내부 버튼 크기 (24, 32 only)
- * @returns 모달 설정을 변경할 수 있는 객체
+ * @returns {IModalReturn} 모달 설정을 변경할 수 있는 객체
  * - {void} toggleModal: 모달을 열거나 닫는 함수
  * - {void} showModal: 모달을 열어주는 함수
  * - {void} hideModal: 모달을 닫아주는 함수
