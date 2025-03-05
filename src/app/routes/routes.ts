@@ -8,4 +8,4 @@ export const route = {
     MANAGEMENT: '/management',
     NOT_FOUND: '*',
     ERROR: '/error',
-}
+} as const
