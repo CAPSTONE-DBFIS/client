@@ -6,8 +6,8 @@ type ValidElements = 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 interface TextProps {
     as?: ValidElements
     children?: React.ReactNode
-    fontSize: keyof typeof fontSizes
-    color: keyof typeof colors
+    fontSize?: keyof typeof fontSizes
+    color?: keyof typeof colors
     className?: string
     style?: unknown
 }
@@ -15,8 +15,8 @@ interface TextProps {
 export const Text = ({
     as = 'span',
     children,
-    fontSize,
-    color,
+    fontSize = 'body',
+    color = 'neutral-900',
     className,
     style,
 }: TextProps) => {
