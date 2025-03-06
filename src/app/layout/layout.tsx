@@ -1,5 +1,5 @@
 // components
-import { Footer } from '@/widgets/footer/Footer'
+import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
 // outlet
 import { Outlet } from 'react-router-dom'

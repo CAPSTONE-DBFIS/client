@@ -2,6 +2,10 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { footerColumn, footerContainer, footerWrapper } from './footer.css'
 
+/**
+ * footer component
+ * @returns {JsxElement}
+ */
 export const Footer = () => {
     return (
         <Box
