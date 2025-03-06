@@ -1,4 +1,5 @@
 // components
+import { Footer } from '@/widgets/footer/Footer'
 import { Header } from '@/widgets/header'
 // outlet
 import { Outlet } from 'react-router-dom'
@@ -14,7 +15,7 @@ export function Layout() {
             <main>
                 <Outlet />
             </main>
-            <footer></footer>
+            <Footer />
         </>
     )
 }
