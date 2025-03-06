@@ -17,7 +17,7 @@ export const Text = ({
     as = 'span',
     children,
     fontSize = 'body',
-    fontWeight = 'medium',
+    fontWeight = 'regular',
     color = 'neutral-900',
     className,
     style,

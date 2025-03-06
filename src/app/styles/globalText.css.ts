@@ -1,6 +1,6 @@
 import { globalFontFace, style } from '@vanilla-extract/css'
 // futura
-import futuraFont from '@/shared/asset/font/futur.woff'
+import futuraMedium from '@/shared/asset/font/futur.woff'
 // jalnan
 import jalnan2 from '@/shared/asset/font/Jalnan2.woff'
 // pretendard
@@ -20,22 +20,22 @@ export const pretendard = 'pretendard'
 
 globalFontFace(pretendard, [
     {
-        src: pretendardRegular,
+        src: `url(${pretendardRegular})`,
         fontWeight: 400,
         fontStyle: 'regular',
     },
     {
-        src: pretendardMedium,
+        src: `url(${pretendardMedium})`,
         fontWeight: 500,
         fontStyle: 'medium',
     },
     {
-        src: pretendardSemibold,
+        src: `url(${pretendardSemibold})`,
         fontWeight: 600,
         fontStyle: 'semiBold',
     },
     {
-        src: pretendardBold,
+        src: `url(${pretendardBold})`,
         fontWeight: 700,
         fontStyle: 'bold',
     },
@@ -53,7 +53,7 @@ export const futura = 'futura'
 
 globalFontFace(futura, [
     {
-        src: futuraFont,
+        src: `url(${futuraMedium})`,
         fontWeight: 700,
         fontStyle: 'bold',
     },
@@ -72,7 +72,7 @@ export const jalnan = 'jalnan'
 
 globalFontFace(jalnan, [
     {
-        src: jalnan2,
+        src: `url(${jalnan2})`,
         fontWeight: 500,
         fontStyle: 'regular',
     },
