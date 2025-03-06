@@ -30,11 +30,11 @@ export const Nav = () => {
                 <Logo />
             </Box>
             <Box as={'ul'} display="flex" alignItems="center" className={ulBox}>
-                {navList.map((item, idx) => {
+                {navList.map((item) => {
                     return (
                         <Box
                             as={'li'}
-                            key={`nav-list-${idx}`}
+                            key={item.key}
                             onClick={() =>
                                 handleNavigate(location.pathname, item.url)
                             }
