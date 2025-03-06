@@ -1,7 +1,14 @@
-import { style, styleVariants } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-export const header = style({})
+export const headerContainer = style({
+    height: '80px',
+})
 
-export const headerVariant = styleVariants({
-    desktop: [],
+export const headerWrapper = style({
+    width: '1024px',
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
 })

@@ -1,11 +1,30 @@
+// components
 import { Box } from '@/shared/ui/Box'
+import { Nav } from '../nav'
+// style
+import { headerContainer, headerWrapper } from './header.css'
 
-export default function Header() {
+/**
+ * Custom Header 컴포넌트
+ * @returns {JsxElement}
+ */
+export const Header: React.FC = () => {
     return (
-        <Box flexDirection="row">
-            <img src="" alt="header-icon" />
-            <nav></nav>
-            <div></div>
+        <Box
+            as="header"
+            display="flex"
+            className={headerContainer}
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Box
+                className={headerWrapper}
+                display="flex"
+                justifyContent="space-between"
+            >
+                <Nav />
+                <div></div>
+            </Box>
         </Box>
     )
 }
