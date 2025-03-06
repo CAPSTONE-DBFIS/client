@@ -9,7 +9,7 @@ export const Footer = () => {
             background="neutral-10"
             display="flex"
             flexDirection="column"
-            justifyContent='center'
+            justifyContent="center"
             alignItems="center"
             className={footerContainer}
         >

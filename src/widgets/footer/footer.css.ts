@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 export const footerContainer = style({
-    height: "200px"
+    height: '200px',
 })
 
 export const footerWrapper = style({
