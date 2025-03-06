@@ -53,3 +53,18 @@ globalFontFace(futura, [
 export const LogoText = style({
     fontFamily: futura,
 })
+
+/**
+ * team 이름 사용 jalnan 2 체
+ * regular weight
+ */
+
+export const jalnan = 'jalnan'
+
+globalFontFace(jalnan, [
+    {
+        src: 'url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff") format("woff")',
+        fontWeight: 500,
+        fontStyle: 'regular',
+    },
+])
