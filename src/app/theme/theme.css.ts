@@ -11,6 +11,6 @@ export const vars = createGlobalTheme(':root', {
     font: {
         basic: pretendard,
         logo: futura,
-        team: jalnan
+        team: jalnan,
     },
 })
