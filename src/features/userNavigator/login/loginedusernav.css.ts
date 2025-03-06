@@ -6,9 +6,9 @@ export const userNavContainer = style({
 
 export const btnBox = style({
     gap: '16px',
-    "@media": {
-        'screen and (max-width: 810px)' : {
-            display: "none"
-        }
-    }
+    '@media': {
+        'screen and (max-width: 810px)': {
+            display: 'none',
+        },
+    },
 })

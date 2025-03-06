@@ -10,7 +10,7 @@ import { btnBox, userNavContainer } from './loginedusernav.css'
 export const LoginedUserNav = () => {
     return (
         <Box display="flex" alignItems="center" className={userNavContainer}>
-            <Box display='flex' className={btnBox}>
+            <Box display="flex" className={btnBox}>
                 <ThemeBtn />
                 <CalendarBtn />
                 <AlarmBtn />

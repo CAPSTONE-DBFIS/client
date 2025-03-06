@@ -3,5 +3,5 @@ import { LoginedUserNav } from './login'
 
 export const UserNav = () => {
     const isAuth = true
-    return isAuth ? <LoginedUserNav/> : <UnLoginedUserNav />
+    return isAuth ? <LoginedUserNav /> : <UnLoginedUserNav />
 }

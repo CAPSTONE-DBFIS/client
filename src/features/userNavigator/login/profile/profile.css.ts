@@ -21,7 +21,7 @@ export const profileImgBox = style({
     backgroundColor: '#FAFBFB',
     ':hover': {
         border: `1px solid ${colors['teal-100']}`,
-    }
+    },
 })
 
 export const notSelect = style({
