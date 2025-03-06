@@ -1,8 +1,7 @@
-import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
 interface IProtectedRoute {
-    children: ReactNode
+    children: React.ReactNode
     isAuth: boolean
 }
 export const ProtectedRoute: React.FC<IProtectedRoute> = ({

@@ -11,10 +11,11 @@ import { Insight } from '@/pages/insight'
 import { Management } from '@/pages/management'
 import { Community } from '@/pages/community'
 
+// v7 부터 변경될 내용으로 추후 해결 필요
 export default function AppRouter() {
     const isAuth = true
     return (
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: false }}>
             <Routes>
                 <Route path={route.HOME} element={<Layout />}>
                     {/* 기본 홈 */}
