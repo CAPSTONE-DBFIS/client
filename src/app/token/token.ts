@@ -69,6 +69,15 @@ export const fontWeights = {
 export const colors = {
     // neutral 텍스트 기본 색상
     'neutral-0': '#000000',
+    'neutral-10': '#fafbfb',
+    'neutral-20': '#f5f6f7',
+    'neutral-30': '#ebedf0',
+    'neutral-40': '#dfe2e6',
+    'neutral-50': '#c2c7d0',
+    'neutral-60': '#b3b9c4',
+    'neutral-70': '#a6aebb',
+    'neutral-80': '#98a1b0',
+    'neutral-90': '#8993a4',
     'neutral-100': '#7a8699',
     'neutral-200': '#6b788e',
     'neutral-300': '#5d6b82',
