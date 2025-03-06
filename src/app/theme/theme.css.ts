@@ -1,6 +1,6 @@
 import { createGlobalTheme } from '@vanilla-extract/css'
 import { colors, shadows } from '../token/token'
-import { futura, pretendard } from '../styles/globalText.css'
+import { futura, jalnan, pretendard } from '../styles/globalText.css'
 
 export const vars = createGlobalTheme(':root', {
     // design system color(neutral, blue, red, yellow, green, teal)
@@ -11,5 +11,6 @@ export const vars = createGlobalTheme(':root', {
     font: {
         basic: pretendard,
         logo: futura,
+        team: jalnan,
     },
 })

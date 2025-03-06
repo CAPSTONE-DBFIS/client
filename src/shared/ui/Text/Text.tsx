@@ -1,4 +1,4 @@
-import { colors, fontSizes } from '@/app/token'
+import { colors, fontSizes, fontWeights } from '@/app/token'
 import { Box } from '../Box'
 
 type ValidElements = 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
@@ -6,8 +6,9 @@ type ValidElements = 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 interface TextProps {
     as?: ValidElements
     children?: React.ReactNode
-    fontSize: keyof typeof fontSizes
-    color: keyof typeof colors
+    fontSize?: keyof typeof fontSizes
+    fontWeight?: keyof typeof fontWeights
+    color?: keyof typeof colors
     className?: string
     style?: unknown
 }
@@ -15,8 +16,9 @@ interface TextProps {
 export const Text = ({
     as = 'span',
     children,
-    fontSize,
-    color,
+    fontSize = 'body',
+    fontWeight = 'medium',
+    color = 'neutral-900',
     className,
     style,
 }: TextProps) => {
@@ -24,6 +26,7 @@ export const Text = ({
         <Box
             as={as}
             fontSize={fontSize}
+            fontWeight={fontWeight}
             color={color}
             className={`${className} ${style}`}
         >

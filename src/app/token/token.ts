@@ -1,8 +1,9 @@
-import { futura, pretendard } from '../styles/globalText.css'
+import { futura, jalnan, pretendard } from '../styles/globalText.css'
 
 export const fonts = {
     futura,
     pretendard,
+    jalnan,
 } as const
 
 export const fontSizes = {
@@ -50,6 +51,11 @@ export const fontSizes = {
         fontFamily: futura,
         fontSize: 10,
         lineHeight: '13px',
+    },
+    team: {
+        fontFamily: jalnan,
+        fontSize: 10,
+        lineHeight: '16px',
     },
 } as const
 
