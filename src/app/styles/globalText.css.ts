@@ -1,4 +1,13 @@
 import { globalFontFace, style } from '@vanilla-extract/css'
+// futura
+import futuraFont from '@/shared/asset/font/futur.woff'
+// jalnan
+import jalnan2 from '@/shared/asset/font/Jalnan2.woff'
+// pretendard
+import pretendardRegular from '@/shared/asset/font/Pretendard-Regular.woff'
+import pretendardMedium from '@/shared/asset/font/Pretendard-Medium.woff'
+import pretendardSemibold from '@/shared/asset/font/Pretendard-SemiBold.woff'
+import pretendardBold from '@/shared/asset/font/Pretendard-Bold.woff'
 
 /**
  * 기본 폰트 pretendard 폰트 로드
@@ -11,22 +20,22 @@ export const pretendard = 'pretendard'
 
 globalFontFace(pretendard, [
     {
-        src: 'url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff")',
+        src: pretendardRegular,
         fontWeight: 400,
         fontStyle: 'regular',
     },
     {
-        src: 'url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff") format("woff")',
+        src: pretendardMedium,
         fontWeight: 500,
         fontStyle: 'medium',
     },
     {
-        src: 'url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff") format("woff")',
+        src: pretendardSemibold,
         fontWeight: 600,
         fontStyle: 'semiBold',
     },
     {
-        src: 'url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff") format("woff")',
+        src: pretendardBold,
         fontWeight: 700,
         fontStyle: 'bold',
     },
@@ -44,7 +53,7 @@ export const futura = 'futura'
 
 globalFontFace(futura, [
     {
-        src: 'url("https://fonts.cdnfonts.com/css/futura-std-4") format("woff")',
+        src: futuraFont,
         fontWeight: 700,
         fontStyle: 'bold',
     },
@@ -63,7 +72,7 @@ export const jalnan = 'jalnan'
 
 globalFontFace(jalnan, [
     {
-        src: 'url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff") format("woff")',
+        src: jalnan2,
         fontWeight: 500,
         fontStyle: 'regular',
     },
