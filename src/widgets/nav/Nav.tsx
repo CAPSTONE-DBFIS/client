@@ -7,7 +7,7 @@ import Logo from '@/shared/asset/image/logo.svg?react'
 // react hooks
 import { useLocation, useNavigate } from 'react-router-dom'
 // style
-import { listBox, listText, navContainer, ulBox } from './nav.css'
+import { listBox, listText, logoBox, navContainer, ulBox } from './nav.css'
 
 /**
  * Custom Navigate 컴포넌트
@@ -23,7 +23,10 @@ export const Nav = () => {
 
     return (
         <Box as={'nav'} display="flex" className={navContainer}>
-            <Box onClick={() => handleNavigate(location.pathname, '/')}>
+            <Box
+                onClick={() => handleNavigate(location.pathname, '/')}
+                className={logoBox}
+            >
                 <Logo />
             </Box>
             <Box as={'ul'} display="flex" alignItems="center" className={ulBox}>

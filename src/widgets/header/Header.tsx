@@ -3,6 +3,7 @@ import { Box } from '@/shared/ui/Box'
 import { Nav } from '../nav'
 // style
 import { headerContainer, headerWrapper } from './header.css'
+import { UserNav } from '@/features/userNavigator/UserNav'
 
 /**
  * Custom Header 컴포넌트
@@ -23,7 +24,7 @@ export const Header: React.FC = () => {
                 justifyContent="space-between"
             >
                 <Nav />
-                <div></div>
+                <UserNav />
             </Box>
         </Box>
     )

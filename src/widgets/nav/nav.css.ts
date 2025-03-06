@@ -13,13 +13,26 @@ export const ulBox = style({
     gap: '59px',
 })
 
+export const logoBox = style({
+    cursor: 'pointer',
+})
+
+const listTextBase = style({
+    userSelect: 'none',
+})
 export const listText = styleVariants({
-    default: {
-        fontWeight: fontWeights.regular,
-        color: colors['neutral-300'],
-    },
-    selected: {
-        fontWeight: fontWeights.medium,
-        color: colors['neutral-900'],
-    },
+    default: [
+        listTextBase,
+        {
+            fontWeight: fontWeights.regular,
+            color: colors['neutral-300'],
+        },
+    ],
+    selected: [
+        listTextBase,
+        {
+            fontWeight: fontWeights.medium,
+            color: colors['neutral-900'],
+        },
+    ],
 })
