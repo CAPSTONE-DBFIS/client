@@ -7,6 +7,7 @@ export const footerContainer = style({
 export const footerWrapper = style({
     width: '1024px',
     gap: '24px',
+    userSelect: 'none',
     '@media': {
         'screen and (max-width: 1024px)': {
             width: '100%',
@@ -17,4 +18,5 @@ export const footerWrapper = style({
 export const footerColumn = style({
     display: 'flex',
     gap: '48px',
+    userSelect: 'none',
 })

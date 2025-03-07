@@ -1,5 +1,5 @@
-import { UnLoginedUserNav } from './unlogin/UnLoginedUserNav'
-import { LoginedUserNav } from './login'
+import { LoginedUserNav } from '@/features/nav/login'
+import { UnLoginedUserNav } from '@/features/nav/unlogin'
 
 export const UserNav = () => {
     const isAuth = true
