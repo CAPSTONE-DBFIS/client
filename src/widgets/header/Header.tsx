@@ -3,7 +3,7 @@ import { Box } from '@/shared/ui/Box'
 import { Nav } from '../nav'
 // style
 import { headerContainer, headerWrapper } from './header.css'
-import { UserNav } from '@/features/userNavigator/UserNav'
+import { UserNav } from '../nav/user'
 
 /**
  * Custom Header 컴포넌트
