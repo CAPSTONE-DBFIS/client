@@ -5,6 +5,7 @@ import {
     IPopupReturn,
 } from '@/shared/types/popup.types'
 
+// default popup 설정
 const defaultConfig: IPopupConfig = {
     open: false,
     type: 'default',
@@ -12,6 +13,20 @@ const defaultConfig: IPopupConfig = {
     arrow: 'top',
 }
 
+/**
+ * Popup 컴포넌트를 제어하기 위한 커스텀 훅
+ * @param {IPopupConfig} config 팝업 설정을 위한 객체(optional)
+ * - [open=false] 팝업 열림 여부
+ * - [type='default'] 팝업 유형
+ * - [SET_TIMER_MS = 3000] timer 타입일 경우 제거될 시간(ms)
+ * - [arrow='top'] 팝업 말풍선 형태
+ * @returns {IPopupReturn}
+ * - {IExtendedPopupConfig} config 팝업 설정을 위한 객체(required)
+ * - {void} showPopup 팝업 오픈 함수(optional)
+ * - {void} hidePopup 팝업 닫힘 함수(optional)
+ * - {void} togglePopup 팝업 열고 닫힘 함수(optional)
+ * - {void} updatePopupConfig 팝업 config 설정 변경 함수(optional)
+ */
 export const usePopup = (config?: Partial<IPopupConfig>): IPopupReturn => {
     const [modalConfig, setModalConfig] = useState<IPopupConfig>({
         ...defaultConfig,

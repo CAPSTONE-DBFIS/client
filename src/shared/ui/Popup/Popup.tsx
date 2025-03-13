@@ -5,9 +5,17 @@ import { Box } from '../Box'
 // css
 import { popupArrow } from './popup.css'
 // type
-import { IPopup } from '@/shared/types/popup.types'
+import { PopupProps } from '@/shared/types/popup.types'
 
-export const Popup: React.FC<IPopup> = ({
+/**
+ * Popup 컴포넌트
+ * @param {React.ReactNode} chidlren children(optional)
+ * @param {usePopup} config Popup 설정 객체(required)
+ * @param {number} TOP css - position - top(optional)
+ * @param {number} LEFT css - position - left(optional)
+ * @returns {JsxElement}
+ */
+export const Popup: React.FC<PopupProps> = ({
     children,
     config,
     TOP = 0,
