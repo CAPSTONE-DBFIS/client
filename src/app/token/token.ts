@@ -127,6 +127,8 @@ export const colors = {
     'teal-300': '#008da6',
     'teal-400': '#006374',
     'teal-500': '#005665',
+    // white 흰색
+    white: '#ffffff',
 } as const
 
 export const shadows = {
