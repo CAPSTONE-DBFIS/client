@@ -1,6 +1,54 @@
-import { style } from '@vanilla-extract/css'
+import { style, styleVariants } from '@vanilla-extract/css'
 
-export const popupContainer = style({
+const popupDefault = style({
     position: 'absolute',
-    borderRadius: '6px',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+    cursor: 'default',
+})
+
+const topShadow = style({
+    boxShadow:
+        'rgba(0, 0, 0, 0.1) -10px -10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px',
+})
+
+const bottomShadow = style({
+    boxShadow:
+        'rgba(0, 0, 0, 0.1) -10px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px',
+})
+
+export const popupArrow = styleVariants({
+    top: [
+        popupDefault,
+        topShadow,
+        {
+            '::after': {
+                position: 'absolute',
+                borderTop: '0px solid transparent',
+                borderLeft: '10px solid transparent',
+                borderRight: '10px solid transparent',
+                borderBottom: '10px solid #fff',
+                content: '',
+                top: '-5px',
+                left: '0px',
+            },
+        },
+    ],
+    bottom: [
+        popupDefault,
+        bottomShadow,
+        {
+            '::after': {
+                position: 'absolute',
+                borderTop: '10px solid #fff',
+                borderLeft: '10px solid transparent',
+                borderRight: '10px solid transparent',
+                borderBottom: '0px solid transparent',
+                content: '',
+                left: '0px',
+                bottom: '-5px',
+            },
+        },
+    ],
+    none: [popupDefault, bottomShadow],
 })
