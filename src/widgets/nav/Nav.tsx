@@ -6,14 +6,23 @@ import { Logo } from './Logo'
 import { navList } from './token'
 // style
 import { navContainer, ulBox } from './nav.css'
+// stores
+import { useNavThemeStore } from '@/app/stores'
+import { colors } from '@/app/token'
 
 /**
  * Custom Navigate 컴포넌트
  * @returns {JsxElement}
  */
 export const Nav: React.FC = () => {
+    const navColor = useNavThemeStore((state) => state.navColor)
     return (
-        <Box as={'nav'} display="flex" className={navContainer}>
+        <Box
+            as={'nav'}
+            display="flex"
+            className={navContainer}
+            style={{ backgroundColor: colors[navColor] }}
+        >
             <Logo />
             <Box as={'ul'} display="flex" alignItems="center" className={ulBox}>
                 {navList.map((item) => {
