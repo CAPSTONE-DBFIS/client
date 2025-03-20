@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
                 justifyContent="space-between"
             >
                 {isNav && <Nav />}
-                <UserNav />
+                {isNav && <UserNav />}
             </Box>
         </Box>
     )
