@@ -4,12 +4,14 @@ import { Nav } from '../nav'
 // style
 import { headerContainer, headerWrapper } from './header.css'
 import { UserNav } from '../nav/user'
+import { useNavThemeStore } from '@/app/providers'
 
 /**
  * Custom Header 컴포넌트
  * @returns {JsxElement}
  */
 export const Header: React.FC = () => {
+    const isNav = useNavThemeStore((state) => state.isNav)
     return (
         <Box
             as="header"
@@ -23,7 +25,7 @@ export const Header: React.FC = () => {
                 display="flex"
                 justifyContent="space-between"
             >
-                <Nav />
+                {isNav && <Nav />}
                 <UserNav />
             </Box>
         </Box>
