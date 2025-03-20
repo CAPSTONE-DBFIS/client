@@ -10,6 +10,7 @@ import { Tracking } from '@/pages/tracking'
 import { Insight } from '@/pages/insight'
 import { Management } from '@/pages/management'
 import { Community } from '@/pages/community'
+import { Auth } from '@/pages/auth/Auth'
 
 // v7 부터 변경될 내용으로 추후 해결 필요
 export default function AppRouter() {
@@ -65,6 +66,7 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route path={route.AUTH} element={<Auth />}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
