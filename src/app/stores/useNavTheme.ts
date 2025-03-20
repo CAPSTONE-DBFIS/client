@@ -21,10 +21,10 @@ type NavThemeAction = {
 export const useNavThemeStore = create<NavThemeState & NavThemeAction>()(
     (set) => ({
         isNav: true,
-        navColor: "white",
+        navColor: 'white',
         showNav: () => set({ isNav: true }),
         hideNav: () => set({ isNav: false }),
         updateShowNav: (isNav) => set({ isNav }),
-        changeNavColor: (navColor : keyof typeof colors) => set({ navColor }),
+        changeNavColor: (navColor: keyof typeof colors) => set({ navColor }),
     })
 )
