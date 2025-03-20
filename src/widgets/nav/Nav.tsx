@@ -8,6 +8,7 @@ import { navList } from './token'
 import { navContainer, ulBox } from './nav.css'
 // stores
 import { useNavThemeStore } from '@/app/stores'
+import { colors } from '@/app/token'
 
 /**
  * Custom Navigate 컴포넌트
@@ -20,7 +21,7 @@ export const Nav: React.FC = () => {
             as={'nav'}
             display="flex"
             className={navContainer}
-            style={{ backgroundColor: navColor }}
+            style={{ backgroundColor: colors[navColor] }}
         >
             <Logo />
             <Box as={'ul'} display="flex" alignItems="center" className={ulBox}>
