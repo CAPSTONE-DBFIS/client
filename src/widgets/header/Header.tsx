@@ -4,7 +4,7 @@ import { Nav } from '../nav'
 // style
 import { headerContainer, headerWrapper } from './header.css'
 import { UserNav } from '../nav/user'
-import { useNavThemeStore } from '@/app/providers'
+import { useNavThemeStore } from '@/app/stores'
 
 /**
  * Custom Header 컴포넌트

@@ -6,7 +6,7 @@ import { Logo } from './Logo'
 import { navList } from './token'
 // style
 import { navContainer, ulBox } from './nav.css'
-import { useNavThemeStore } from '@/app/providers'
+import { useNavThemeStore } from '@/app/stores'
 
 /**
  * Custom Navigate 컴포넌트
