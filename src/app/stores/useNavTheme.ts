@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { colors } from '../token'
+import { devtools } from 'zustand/middleware'
 
 // NavTheme 상태
 type NavThemeState = {
@@ -8,9 +9,10 @@ type NavThemeState = {
 }
 // NavTheme 액션
 type NavThemeAction = {
-    showNav: () => void
-    hideNav: () => void
-    updateShowNav: (isNav: boolean) => void
+    navController: {
+        showNav: () => void
+        hideNav: () => void
+    }
     changeNavColor: (color: keyof typeof colors) => void
 }
 
@@ -19,12 +21,13 @@ type NavThemeAction = {
  * @returns {NavThemeState & NavThemeAction} NavThemeState & NavThemeAction
  */
 export const useNavThemeStore = create<NavThemeState & NavThemeAction>()(
-    (set) => ({
+    devtools((set) => ({
         isNav: true,
         navColor: 'white',
-        showNav: () => set({ isNav: true }),
-        hideNav: () => set({ isNav: false }),
-        updateShowNav: (isNav) => set({ isNav }),
+        navController: {
+            showNav: () => set({ isNav: true }),
+            hideNav: () => set({ isNav: false }),
+        },
         changeNavColor: (navColor: keyof typeof colors) => set({ navColor }),
-    })
+    }))
 )
