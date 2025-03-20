@@ -47,23 +47,42 @@ export const ProfileOption = () => {
 }
 
 const menu_list = [
-    { logo: <Cog width={16} height={16} />, name: '환경설정', to: '/setting' },
-    { logo: <Call width={16} height={16} />, name: '고객센터', to: '/help' },
-    { logo: <Guide width={16} height={16} />, name: '가이드', to: '/guide' },
+    {
+        logo: <Cog width={16} height={16} />,
+        name: '환경설정',
+        to: '/setting',
+        id: 'nav:po:setting',
+    },
+    {
+        logo: <Call width={16} height={16} />,
+        name: '고객센터',
+        to: '/help',
+        id: 'nav:po:help',
+    },
+    {
+        logo: <Guide width={16} height={16} />,
+        name: '가이드',
+        to: '/guide',
+        id: 'nav:po:guide',
+    },
 ]
 
 export const ProfileOptionMenu = () => {
     return (
         <Box as={'ul'} className={profileOptionMenu}>
-            {menu_list.map((menu, idx) => (
-                <Link to={menu.to} key={idx}>
+            {menu_list.map((menu) => (
+                <Link to={menu.to} key={menu.id}>
                     <Box as={'li'} className={profileOptionMenuCell}>
                         {menu.logo}
                         <Text fontSize="subHeadline">{menu.name}</Text>
                     </Box>
                 </Link>
             ))}
-            <Box as={'li'} className={profileOptionMenuCell}>
+            <Box
+                as={'li'}
+                className={profileOptionMenuCell}
+                key={'nav:po:logout'}
+            >
                 <Logout />
                 <Text fontSize="subHeadline">로그아웃</Text>
             </Box>
