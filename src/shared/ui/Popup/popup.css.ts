@@ -5,6 +5,7 @@ const popupDefault = style({
     borderRadius: '4px',
     backgroundColor: '#fff',
     cursor: 'default',
+    zIndex: 10,
 })
 
 const topShadow = style({

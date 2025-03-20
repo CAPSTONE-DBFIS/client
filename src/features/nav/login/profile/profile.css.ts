@@ -31,3 +31,30 @@ export const notSelect = style({
 export const profileOptionBox = style({
     cursor: 'pointer',
 })
+
+export const profileOptionMenu = style({
+    width: '110px',
+    display: 'flex',
+    flexDirection: 'column',
+})
+
+export const profileOptionMenuCell = style({
+    backgroundColor: colors['neutral-10'],
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '6px 10px',
+    gap: '10px',
+    ':hover': {
+        backgroundColor: colors.white,
+        color: colors['teal-500'],
+    },
+    ':first-child': {
+        borderTopLeftRadius: '4px',
+        borderTopRightRadius: '4px',
+    },
+    ':last-child': {
+        borderBottomLeftRadius: '4px',
+        borderBottomRightRadius: '4px',
+    },
+})

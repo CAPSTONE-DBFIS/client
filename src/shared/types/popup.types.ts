@@ -36,4 +36,5 @@ export type PopupProps = {
     config: IExtendedPopupConfig
     TOP?: number
     LEFT?: number
+    ref?: React.RefObject<HTMLDivElement>
 }
