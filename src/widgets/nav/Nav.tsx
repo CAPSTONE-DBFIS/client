@@ -6,6 +6,7 @@ import { Logo } from './Logo'
 import { navList } from './token'
 // style
 import { navContainer, ulBox } from './nav.css'
+// stores
 import { useNavThemeStore } from '@/app/stores'
 
 /**

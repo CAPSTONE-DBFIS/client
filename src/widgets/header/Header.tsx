@@ -1,9 +1,10 @@
 // components
 import { Box } from '@/shared/ui/Box'
 import { Nav } from '../nav'
+import { UserNav } from '../nav/user'
 // style
 import { headerContainer, headerWrapper } from './header.css'
-import { UserNav } from '../nav/user'
+// stores
 import { useNavThemeStore } from '@/app/stores'
 
 /**
