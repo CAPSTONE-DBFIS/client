@@ -9,11 +9,6 @@ export const sidebarContainer = style({
     borderRadius: '20px',
     minHeight: '100vh', // 최소 높이를 현재 화면 크기로 설정
     maxHeight: '877px', // 최대 높이를 877px로 설정
-    '@media': {
-        'screen and (max-height: 877px)': {
-            height: '100vh',
-        },
-    },
 })
 
 export const header = style({

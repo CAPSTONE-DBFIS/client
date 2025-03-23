@@ -2,7 +2,13 @@ import { Box } from '@/shared/ui/Box'
 import * as style from './sidebar.css'
 import { SidebarFooter } from '../Sidebar-Footer/SidebarFooter'
 
-export const Sidebar = ({ children }: { children?: React.ReactNode }) => {
+export const Sidebar = ({
+    headerText,
+    children,
+}: {
+    children?: React.ReactNode
+    headerText: string
+}) => {
     return (
         <Box
             as={'aside'}
@@ -11,10 +17,10 @@ export const Sidebar = ({ children }: { children?: React.ReactNode }) => {
             className={style.sidebarContainer}
         >
             <Box className={style.header}>
-                TRENDB. <Box as={'span'}>추적</Box>{' '}
+                TRENDB. <Box as={'span'}>{headerText}</Box>{' '}
             </Box>
             <Box className={style.main}>{children}</Box>
-            <SidebarFooter />
+            <SidebarFooter userName="사용자이름" />
         </Box>
     )
 }

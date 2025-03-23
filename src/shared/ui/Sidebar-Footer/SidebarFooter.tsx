@@ -6,7 +6,11 @@ import Logout from '@/shared/asset/icon/logout.svg?react'
 import Setting from '@/shared/asset/icon/cog.svg?react'
 import { useState } from 'react'
 
-export const SidebarFooter = () => {
+interface UserProps {
+    userName: string
+}
+
+export const SidebarFooter = ({ userName }: UserProps) => {
     const [hoverUser, setHoverUser] = useState<boolean>(false)
     const footerBtn = ['settings', 'info', 'logout']
     const handleClick = (btn: string) => {
@@ -30,7 +34,7 @@ export const SidebarFooter = () => {
             </Box>
 
             <Box
-                onMouseEnter={() => setHoverUser(true)}
+                onMouseEnter={() => setHoverUser(true)} //호버
                 onMouseLeave={() => setHoverUser(false)}
             >
                 {!hoverUser ? (
@@ -38,7 +42,7 @@ export const SidebarFooter = () => {
                         <Box className={style.circle}>
                             <Box className={style.user} />
                         </Box>
-                        사용자이름
+                        {userName}
                     </Text>
                 ) : (
                     <Box

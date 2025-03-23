@@ -4,7 +4,7 @@ import * as style from './tracking-sidebar.css'
 export const TrackingSidebar = () => {
     return (
         <Box className={style.layout}>
-            <Sidebar></Sidebar>
+            <Sidebar headerText="추적"></Sidebar>
         </Box>
     )
 }
