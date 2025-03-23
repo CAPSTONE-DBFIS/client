@@ -5,6 +5,7 @@ import { SidebarFooter } from '../Sidebar-Footer/SidebarFooter'
 export const Sidebar = ({ children }: { children?: React.ReactNode }) => {
     return (
         <Box
+            as={'aside'}
             display="flex"
             alignItems="flex-start"
             className={style.sidebarContainer}
