@@ -1,10 +1,8 @@
 import { style } from '@vanilla-extract/css'
-import { colors, fontSizes, shadows } from '@/app/token'
+import { colors, shadows } from '@/app/token'
 
 export const footer = style({
     width: '225px',
-    fontSize: `${fontSizes['body']}`,
-    color: `${colors['neutral-900']}`,
     gap: '11px',
     margin: '20px 17px',
     position: 'absolute',

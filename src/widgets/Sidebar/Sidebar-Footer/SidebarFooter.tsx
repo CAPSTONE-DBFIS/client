@@ -24,16 +24,17 @@ export const SidebarFooter = ({ userName }: ISidebarFooter) => {
             display="flex"
             flexDirection="column"
             justifyContent="center"
+            color={'neutral-900'}
             className={style.footer}
         >
             {/* 설정버튼 */}
             <Box>
-                <Text fontSize="body" className={style.footerItem}>
+                <Box fontSize="body" className={style.footerItem}>
                     <Box className={style.circle}>
                         <Setting />
                     </Box>
-                    설정
-                </Text>
+                    <Text>설정</Text>
+                </Box>
             </Box>
             {/* 사용자 이름 컨테이너 */}
             <Box
