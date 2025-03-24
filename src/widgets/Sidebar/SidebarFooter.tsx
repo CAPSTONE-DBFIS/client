@@ -1,5 +1,5 @@
 import { Box } from '@/shared/ui/Box'
-import * as style from './sidebar-footer.css'
+import * as style from './sidebarfooter.css'
 import User from '@/shared/asset/icon/user.svg?react'
 import Logout from '@/shared/asset/icon/logout.svg?react'
 import Setting from '@/shared/asset/icon/cog.svg?react'

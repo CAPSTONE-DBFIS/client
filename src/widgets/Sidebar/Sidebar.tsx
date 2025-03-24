@@ -1,6 +1,6 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './sidebar.css'
-import { SidebarFooter } from './Sidebar-Footer'
+import { SidebarFooter } from './SidebarFooter'
 import React from 'react'
 
 interface ISidebarProps {
