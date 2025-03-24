@@ -1,6 +1,5 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './sidebar-footer.css'
-
 import User from '@/shared/asset/icon/user.svg?react'
 import Logout from '@/shared/asset/icon/logout.svg?react'
 import Setting from '@/shared/asset/icon/cog.svg?react'
@@ -11,9 +10,10 @@ interface ISidebarFooter {
     userName: string
 }
 
+const footerBtn = { profile: 'profile', logout: 'logout' }
+
 export const SidebarFooter = ({ userName }: ISidebarFooter) => {
     const [hoverUser, setHoverUser] = useState<boolean>(false)
-    const footerBtn = ['info', 'logout']
     const handleClick = (btn: string) => {
         console.log(btn)
         // 설정 관련 기능 예정 설정으로 이동, 로그아웃
@@ -27,7 +27,7 @@ export const SidebarFooter = ({ userName }: ISidebarFooter) => {
             className={style.footer}
         >
             {/* 설정버튼 */}
-            <Box onClick={() => handleClick(footerBtn[0])}>
+            <Box>
                 <Text fontSize="body" className={style.footerItem}>
                     <Box className={style.circle}>
                         <Setting />
@@ -42,12 +42,13 @@ export const SidebarFooter = ({ userName }: ISidebarFooter) => {
             >
                 {!hoverUser ? (
                     // 기본 상태: hoverUser가 false일 때 사용자 이름이 표시됨
-                    <Text fontSize="body" className={style.footerItem}>
+                    <Box className={style.footerItem}>
                         <Box className={style.circle}>
                             <Box className={style.user} />
                         </Box>
-                        {userName}
-                    </Text>
+
+                        <Text fontSize="body">{userName}</Text>
+                    </Box>
                 ) : (
                     // 프로필보기/로그아웃 버튼
                     <Box
@@ -55,21 +56,21 @@ export const SidebarFooter = ({ userName }: ISidebarFooter) => {
                         flexDirection="row"
                         className={style.footerItem}
                     >
-                        <Box onClick={() => handleClick(footerBtn[0])}>
-                            <Text className={style.footerText}>
+                        <Box onClick={() => handleClick(footerBtn.profile)}>
+                            <Box className={style.footerText}>
                                 <Box className={style.circle}>
                                     <User />
                                 </Box>
-                                프로필 보기
-                            </Text>
+                                <Text fontSize="body">프로필보기</Text>
+                            </Box>
                         </Box>
-                        <Box onClick={() => handleClick(footerBtn[1])}>
-                            <Text className={style.footerText}>
+                        <Box onClick={() => handleClick(footerBtn.logout)}>
+                            <Box className={style.footerText}>
                                 <Box className={style.circle}>
                                     <Logout />
                                 </Box>
-                                로그아웃
-                            </Text>
+                                <Text fontSize="body">로그아웃</Text>
+                            </Box>
                         </Box>
                     </Box>
                 )}
