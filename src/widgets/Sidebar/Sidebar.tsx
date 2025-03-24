@@ -1,14 +1,14 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './sidebar.css'
 import { SidebarFooter } from './Sidebar-Footer'
+import React from 'react'
 
-export const Sidebar = ({
-    headerText,
-    children,
-}: {
-    children?: React.ReactNode
-    headerText: string
-}) => {
+interface ISidebarProps {
+    headerText: string //로고 옆 제목 텍스트
+    children?: React.ReactNode //사이드바의 메인 콘텐츠 영역
+}
+
+export const Sidebar = ({ headerText, children }: ISidebarProps) => {
     return (
         <Box
             as={'aside'}
