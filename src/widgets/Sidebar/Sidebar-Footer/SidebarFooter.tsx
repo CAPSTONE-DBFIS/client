@@ -1,10 +1,11 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './sidebar-footer.css'
-import { Text } from '../Text'
+
 import User from '@/shared/asset/icon/user.svg?react'
 import Logout from '@/shared/asset/icon/logout.svg?react'
 import Setting from '@/shared/asset/icon/cog.svg?react'
 import { useState } from 'react'
+import { Text } from '@/shared/ui/Text'
 
 interface UserProps {
     userName: string

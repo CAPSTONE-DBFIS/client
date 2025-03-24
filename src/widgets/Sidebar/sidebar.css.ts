@@ -9,6 +9,9 @@ export const sidebarContainer = style({
     borderRadius: '20px',
     minHeight: '100vh', // 최소 높이를 현재 화면 크기로 설정
     maxHeight: '877px', // 최대 높이를 877px로 설정
+    position: 'relative',
+    top: '30px',
+    marginBottom: '37px',
 })
 
 export const header = style({
