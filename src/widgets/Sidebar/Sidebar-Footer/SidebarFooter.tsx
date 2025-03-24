@@ -7,11 +7,11 @@ import Setting from '@/shared/asset/icon/cog.svg?react'
 import { useState } from 'react'
 import { Text } from '@/shared/ui/Text'
 
-interface UserProps {
+interface ISidebarFooter {
     userName: string
 }
 
-export const SidebarFooter = ({ userName }: UserProps) => {
+export const SidebarFooter = ({ userName }: ISidebarFooter) => {
     const [hoverUser, setHoverUser] = useState<boolean>(false)
     const footerBtn = ['settings', 'info', 'logout']
     const handleClick = (btn: string) => {
