@@ -17,7 +17,7 @@ export const textLabel = recipe({
         size: {
             small: {
                 gap: '0px',
-                height: '32px',
+                minHeight: '32px',
                 padding: '0 10px',
                 borderRadius: '6px',
                 ':hover': {
@@ -26,7 +26,7 @@ export const textLabel = recipe({
             },
             medium: {
                 gap: '4px',
-                height: '40px',
+                minHeight: '40px',
                 padding: '0 14px',
                 borderRadius: '8px',
                 ':hover': {
@@ -35,7 +35,7 @@ export const textLabel = recipe({
             },
             large: {
                 gap: '8px',
-                height: '52px',
+                minHeight: '52px',
                 padding: '0 18px',
                 borderRadius: '12px',
                 ':hover': {
