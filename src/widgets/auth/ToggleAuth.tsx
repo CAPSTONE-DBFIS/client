@@ -8,7 +8,6 @@ import { Info } from '../info/Info'
 import { pannel, toggleAuthContainer, content } from './toggleauth.css'
 
 import { useState } from 'react'
-import { UserDetails } from '@/features/signup/ui/UserDetails/UserDetails'
 import { PositionForm } from '@/features/signup/ui/UserDetails/PositionForm'
 
 export const ToggleAuth = () => {
@@ -39,7 +38,7 @@ export const ToggleAuth = () => {
                 </Button>
             </Box>
             <Box className={isToggleLeft ? content.right : content.left}>
-                {isToggleLeft ? <Login /> : <PositionForm/>}
+                {isToggleLeft ? <Login /> : <PositionForm />}
             </Box>
         </Box>
     )
