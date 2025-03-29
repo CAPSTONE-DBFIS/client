@@ -1,8 +1,12 @@
+//components
 import { Box } from '@/shared/ui/Box'
-import * as style from '@/features/tracking-main/trackingmain.css'
 import { Title } from './Title'
-import { Tap } from './Tap'
-import { Dashboard } from './dashboard/index'
+import { Taps } from './Taps'
+import { Dashboard } from '../dashboard/index'
+
+//css
+import * as style from './styles/trackingmain.css'
+
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
  *
@@ -12,7 +16,7 @@ export const TrackingMain = () => {
     return (
         <Box className={style.layout}>
             <Title></Title>
-            <Tap></Tap>
+            <Taps></Taps>
             <Dashboard></Dashboard>
         </Box>
     )

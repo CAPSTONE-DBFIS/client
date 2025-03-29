@@ -6,7 +6,7 @@ import Right from '@/shared/asset/icon/cheveron-right.svg?react'
 import Pencil from '@/shared/asset/icon/pencil.svg?react'
 import Trash from '@/shared/asset/icon/trash.svg?react'
 //css
-import * as style from './title.css'
+import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
 /**
  * 프로젝트 헤더 컴포넌트
