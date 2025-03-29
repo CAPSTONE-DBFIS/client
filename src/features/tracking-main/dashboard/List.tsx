@@ -1,5 +1,9 @@
 import { Box } from '@/shared/ui/Box'
+/**
+ * 대시보드 중 리스트
+ *
+ * @returns {JSX.Element}
+ */
 export const List = () => {
-    // 대시보드 중 리스트
     return <Box></Box>
 }

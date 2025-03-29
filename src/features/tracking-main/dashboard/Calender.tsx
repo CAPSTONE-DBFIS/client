@@ -1,5 +1,9 @@
 import { Box } from '@/shared/ui/Box'
+/**
+ * 대시보드 중 캘린더
+ *
+ * @returns {JSX.Element}
+ */
 export const Calender = () => {
-    // 대시보드 중 캘린더
     return <Box></Box>
 }

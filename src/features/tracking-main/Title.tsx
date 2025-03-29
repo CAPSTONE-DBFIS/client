@@ -7,7 +7,7 @@ import Pencil from '@/shared/asset/icon/pencil.svg?react'
 import Trash from '@/shared/asset/icon/trash.svg?react'
 //css
 import * as style from './title.css'
-import { colors } from '@/app/token'
+import { colors } from '@/app/token/index'
 /**
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 관련 메뉴를 표시하는 컴포넌트입니다.
@@ -34,38 +34,32 @@ export const Title = () => {
                     color={'neutral-60'}
                     style={{ gap: '4px' }}
                 >
-                    <Right
-                        width={16}
-                        height={16}
-                        fill={`${colors['neutral-60']}`}
-                    />
+                    <Right width={16} height={16} fill={colors['neutral-60']} />
                     프로젝트
                 </Box>
             </Box>
 
             <Box display="flex" fontSize="body" style={{ gap: '20px' }}>
                 <Box display="flex" alignItems="center" color={'neutral-50'}>
-                    {' '}
                     <Pencil
                         width={14}
                         height={14}
-                        fill={`${colors['neutral-50']}`}
+                        fill={colors['neutral-50']}
                         style={{
                             marginRight: '4px',
                         }}
-                    />{' '}
+                    />
                     프로젝트 명 수정
                 </Box>
                 <Box display="flex" alignItems="center" color={'neutral-50'}>
-                    {' '}
                     <Trash
                         width={14}
                         height={14}
-                        fill={`${colors['neutral-50']}`}
+                        fill={colors['neutral-50']}
                         style={{
                             marginRight: '4px',
                         }}
-                    />{' '}
+                    />
                     프로젝트 삭제
                 </Box>
             </Box>
