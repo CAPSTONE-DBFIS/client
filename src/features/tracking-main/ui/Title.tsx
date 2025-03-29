@@ -8,11 +8,8 @@ import Trash from '@/shared/asset/icon/trash.svg?react'
 //css
 import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
-
-interface Iproject {
-    projectName: string //프로젝트 제목
-    projectPath: string //프로젝트 경로 (개인/프로젝트)
-}
+//interface
+import { Iproject } from '../model/prjoject'
 /**
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 관련 메뉴를 표시하는 컴포넌트입니다.

@@ -7,10 +7,8 @@ import { Dashboard } from '../dashboard/index'
 //css
 import * as style from './styles/trackingmain.css'
 
-interface Iproject {
-    projectName: string //프로젝트 제목
-    projectPath: string //프로젝트 경로 (개인/프로젝트)
-}
+//interface
+import { Iproject } from '../model/prjoject'
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
  *
