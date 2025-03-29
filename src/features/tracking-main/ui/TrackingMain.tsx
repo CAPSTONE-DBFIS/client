@@ -7,15 +7,19 @@ import { Dashboard } from '../dashboard/index'
 //css
 import * as style from './styles/trackingmain.css'
 
+interface Iproject {
+    projectName: string //프로젝트 제목
+    projectPath: string //프로젝트 경로 (개인/프로젝트)
+}
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
  *
  * @returns {JSX.Element}
  */
-export const TrackingMain = () => {
+export const TrackingMain = ({ projectName, projectPath }: Iproject) => {
     return (
         <Box className={style.layout}>
-            <Title></Title>
+            <Title projectName={projectName} projectPath={projectPath}></Title>
             <Taps></Taps>
             <Dashboard></Dashboard>
         </Box>

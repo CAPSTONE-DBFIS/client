@@ -8,12 +8,17 @@ import Trash from '@/shared/asset/icon/trash.svg?react'
 //css
 import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
+
+interface Iproject {
+    projectName: string //프로젝트 제목
+    projectPath: string //프로젝트 경로 (개인/프로젝트)
+}
 /**
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 관련 메뉴를 표시하는 컴포넌트입니다.
  * @returns {JSX.Element} Title 컴포넌트
  */
-export const Title = () => {
+export const Title = ({ projectName, projectPath }: Iproject) => {
     return (
         <Box display="flex" flexDirection="column" className={style.layout}>
             <Box display="flex" flexDirection="column" style={{ gap: '8px' }}>
@@ -24,7 +29,7 @@ export const Title = () => {
                     color={'neutral-900'}
                     style={{ gap: '8px', fontWeight: '500' }}
                 >
-                    슈퍼 프로젝트
+                    {projectName}
                     <Menu width={26} height={26} />
                 </Box>
                 <Box
@@ -35,7 +40,7 @@ export const Title = () => {
                     style={{ gap: '4px' }}
                 >
                     <Right width={16} height={16} fill={colors['neutral-60']} />
-                    프로젝트
+                    {projectPath}
                 </Box>
             </Box>
 
