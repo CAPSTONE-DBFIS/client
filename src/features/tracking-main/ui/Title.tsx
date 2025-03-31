@@ -9,13 +9,14 @@ import Trash from '@/shared/asset/icon/trash.svg?react'
 import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
 //interface
-import { Iproject } from '../model/prjoject'
+import { IProject } from '../model/project.type'
 /**
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 관련 메뉴를 표시하는 컴포넌트입니다.
- * @returns {JSX.Element} Title 컴포넌트
+ *
+ * @returns {JSX.Element}
  */
-export const Title = ({ projectName, projectPath }: Iproject) => {
+export const Title = ({ projectName, projectPath }: IProject) => {
     return (
         <Box display="flex" flexDirection="column" className={style.layout}>
             <Box display="flex" flexDirection="column" style={{ gap: '8px' }}>

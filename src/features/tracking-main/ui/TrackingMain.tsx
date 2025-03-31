@@ -8,7 +8,7 @@ import { Dashboard } from '../dashboard/index'
 import * as style from './styles/trackingmain.css'
 
 //interface
-import { Iproject } from '../model/prjoject'
+import { Iproject } from '../model/project.type'
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
  *
