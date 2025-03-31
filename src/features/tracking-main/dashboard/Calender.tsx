@@ -5,5 +5,5 @@ import { Box } from '@/shared/ui/Box'
  * @returns {JSX.Element}
  */
 export const Calender = () => {
-    return <Box></Box>
+    return <Box>켈린더</Box>
 }

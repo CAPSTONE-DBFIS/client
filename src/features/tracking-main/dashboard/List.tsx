@@ -5,5 +5,5 @@ import { Box } from '@/shared/ui/Box'
  * @returns {JSX.Element}
  */
 export const List = () => {
-    return <Box></Box>
+    return <Box>리스트</Box>
 }
