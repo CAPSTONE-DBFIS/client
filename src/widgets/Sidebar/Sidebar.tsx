@@ -1,5 +1,5 @@
 import { Box } from '@/shared/ui/Box'
-import * as style from './sidebar.css'
+import * as style from './styles/sidebar.css'
 import { SidebarFooter } from './SidebarFooter'
 import React from 'react'
 
