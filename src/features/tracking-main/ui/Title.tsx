@@ -9,7 +9,7 @@ import Trash from '@/shared/asset/icon/trash.svg?react'
 import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
 //interface
-import { IProject } from '../model/project.type'
+import { IProject } from '../types/project.type'
 import { Text } from '@/shared/ui/Text'
 /**
  * 프로젝트 헤더 컴포넌트

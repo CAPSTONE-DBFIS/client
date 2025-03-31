@@ -1,5 +1,5 @@
 import { Box } from '@/shared/ui/Box'
-import * as style from './Dashboard.css'
+import * as style from './styles/Dashboard.css'
 /**
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
  *
