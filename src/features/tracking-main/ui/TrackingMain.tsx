@@ -11,7 +11,8 @@ import * as style from './styles/trackingmain.css'
 import { IProject } from '../model/project.type'
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
- *
+ * @param {string} projectName - 프로젝트 제목
+ * @param {string} projectPath - 프로젝트 경로(개인/프로젝트)
  * @returns {JSX.Element}
  */
 export const TrackingMain = ({ projectName, projectPath }: IProject) => {

@@ -4,6 +4,11 @@ import { Sidebar } from '@/widgets/Sidebar/index'
 import { colors } from '@/app/token'
 import { TrackingMain } from '@/features/tracking-main/index'
 import { useState } from 'react'
+/**
+ * 추적페이지
+ * @type {{ name: string, path: string }}
+ * @returns {JSX.Element}
+ */
 export const Tracking = () => {
     const [selectedProject] = useState({
         name: '슈퍼프로젝트',
