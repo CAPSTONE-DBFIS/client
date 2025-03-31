@@ -11,6 +11,10 @@ interface ITaps {
  * @param {function} onTapsChange - 뷰 변경 핸들러
  * @returns {JSX.Element}
  */
+
+const handleTaskBtnClick = () => {
+    console.log('taskBtn')
+}
 export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
     return (
         <Box
@@ -46,6 +50,7 @@ export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
                 alignItems="center"
                 background={'neutral-900'}
                 className={style.taskBtn}
+                onClick={() => handleTaskBtnClick()}
             >
                 <Text color="white" fontSize="title3" fontWeight="semibold">
                     작업 추가
