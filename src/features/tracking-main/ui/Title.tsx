@@ -10,6 +10,7 @@ import * as style from './styles/title.css'
 import { colors } from '@/app/token/index'
 //interface
 import { IProject } from '../model/project.type'
+import { Text } from '@/shared/ui/Text'
 /**
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 경로 표시 & 관련 메뉴(수정,삭제)를 표시하는 컴포넌트입니다.
@@ -24,22 +25,17 @@ export const Title = ({ projectName, projectPath }: IProject) => {
                 <Box
                     display="flex"
                     alignItems="center"
-                    fontSize="title1"
                     color={'neutral-900'}
                     style={{ gap: '8px', fontWeight: '500' }}
                 >
-                    {projectName}
+                    <Text fontSize="title1">{projectName}</Text>
                     <Menu width={26} height={26} />
                 </Box>
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    fontSize="headline"
-                    color={'neutral-60'}
-                    style={{ gap: '4px' }}
-                >
+                <Box display="flex" alignItems="center" style={{ gap: '4px' }}>
                     <Right width={16} height={16} fill={colors['neutral-60']} />
-                    {projectPath}
+                    <Text fontSize="headline" color="neutral-60">
+                        {projectPath}
+                    </Text>
                 </Box>
             </Box>
 
@@ -53,9 +49,9 @@ export const Title = ({ projectName, projectPath }: IProject) => {
                             marginRight: '4px',
                         }}
                     />
-                    프로젝트 명 수정
+                    <Text color="neutral-50">프로젝트 명 수정</Text>
                 </Box>
-                <Box display="flex" alignItems="center" color={'neutral-50'}>
+                <Box display="flex" alignItems="center">
                     <Trash
                         width={14}
                         height={14}
@@ -64,7 +60,7 @@ export const Title = ({ projectName, projectPath }: IProject) => {
                             marginRight: '4px',
                         }}
                     />
-                    프로젝트 삭제
+                    <Text color="neutral-50">프로젝트 삭제</Text>
                 </Box>
             </Box>
         </Box>
