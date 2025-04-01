@@ -11,6 +11,7 @@ interface TextProps {
     color?: keyof typeof colors
     className?: string
     style?: unknown
+    align?: 'left' | 'center' | 'right'
 }
 
 export const Text = ({
@@ -21,6 +22,7 @@ export const Text = ({
     color = 'neutral-900',
     className,
     style,
+    align = 'left',
 }: TextProps) => {
     return (
         <Box
@@ -29,6 +31,7 @@ export const Text = ({
             fontWeight={fontWeight}
             color={color}
             className={`${className} ${style}`}
+            style={{ textAlign: align }}
         >
             {children}
         </Box>
