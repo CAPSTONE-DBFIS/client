@@ -11,7 +11,7 @@ interface ISignupRegister {
 /**
  * 회원 가입 등록 컴포넌트 (Funnel 기반)
  * @param {() => void} onSuccess 회원가입 유저 정보 등록 성공 시 실행 함수
- * @returns 
+ * @returns
  */
 export const SignupRegister = ({ onSuccess }: ISignupRegister) => {
     const [Funnel, setFunnel] = useFunnel(
