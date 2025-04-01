@@ -1,14 +1,15 @@
+// shared component
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { Button } from '@/shared/ui/Button'
-
+// feature component
 import { Login } from '@/features/login/ui/Login'
+import { Signup } from '@/features/signup/ui/Signup'
 import { Info } from '../info/Info'
-
+// style
 import { pannel, toggleAuthContainer, content } from './toggleauth.css'
-
+// hook
 import { useState } from 'react'
-import { PositionForm } from '@/features/signup/ui/UserDetails/PositionForm'
 
 export const ToggleAuth = () => {
     const [isToggleLeft, setIsToggleLeft] = useState(true)
@@ -38,7 +39,7 @@ export const ToggleAuth = () => {
                 </Button>
             </Box>
             <Box className={isToggleLeft ? content.right : content.left}>
-                {isToggleLeft ? <Login /> : <PositionForm />}
+                {isToggleLeft ? <Login /> : <Signup />}
             </Box>
         </Box>
     )
