@@ -1,4 +1,4 @@
-import { ReactNode, ReactElement } from "react"
+import { ReactNode, ReactElement } from 'react'
 
 export interface IStepComponent {
     onBack?: () => void
