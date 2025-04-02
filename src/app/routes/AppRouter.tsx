@@ -4,13 +4,15 @@ import { ProtectedRoute } from './ProtectedRoute'
 // layout
 import { Layout } from '../layout'
 // pages
-import { Home } from '@/pages/home'
-import { Analysis } from '@/pages/analysis'
-import { Tracking } from '@/pages/tracking'
-import { Insight } from '@/pages/insight'
-import { Management } from '@/pages/management'
-import { Community } from '@/pages/community'
-
+import {
+    Auth,
+    Community,
+    Home,
+    Analysis,
+    Tracking,
+    Insight,
+    Management,
+} from '@/pages'
 // v7 부터 변경될 내용으로 추후 해결 필요
 export default function AppRouter() {
     const isAuth = true
@@ -65,6 +67,7 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route path={route.AUTH} element={<Auth />}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>

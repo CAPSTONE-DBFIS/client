@@ -1,4 +1,4 @@
-import { style, styleVariants } from '@vanilla-extract/css'
+import { keyframes, style, styleVariants } from '@vanilla-extract/css'
 
 const popupDefault = style({
     position: 'absolute',
@@ -52,4 +52,20 @@ export const popupArrow = styleVariants({
         },
     ],
     none: [popupDefault, bottomShadow],
+})
+
+const popupKeyframes = keyframes({
+    '0%': {
+        transform: 'scale(0.5)',
+    },
+    '50%': {
+        transform: 'scale(1.05)',
+    },
+    '100%': {
+        transform: 'scale(1)',
+    },
+})
+
+export const popupAnimation = style({
+    animation: `${popupKeyframes} 0.5s ease forwards`,
 })

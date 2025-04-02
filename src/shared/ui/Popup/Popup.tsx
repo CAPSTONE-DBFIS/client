@@ -3,7 +3,7 @@ import { useEffect, useRef, forwardRef } from 'react'
 // component
 import { Box } from '../Box'
 // css
-import { popupArrow } from './popup.css'
+import { popupAnimation, popupArrow } from './popup.css'
 // type
 import { PopupProps } from '@/shared/types/popup.types'
 
@@ -37,7 +37,7 @@ export const Popup = forwardRef<HTMLDivElement, PopupProps>(
         return (
             <Box style={{ position: 'relative' }} ref={ref}>
                 <Box
-                    className={popupArrow[config.arrow]}
+                    className={`${popupArrow[config.arrow]} ${popupAnimation}`}
                     style={{ top: `${TOP}px`, left: `${LEFT}px` }}
                 >
                     {children}
