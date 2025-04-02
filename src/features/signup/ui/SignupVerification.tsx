@@ -19,6 +19,24 @@ export const SignupVerification = ({ onNext }: IStepComponent) => {
             target.value = target.value.slice(0, 1)
         }
     }
+
+    const renderInputFields = () => {
+        return Array.from({ length: 4 }, (_, index) => (
+            <TextInput
+                key={index}
+                type="text"
+                maxLength={1}
+                onInput={onHandleInput}
+                placeholder=""
+                size="large"
+                height="64px"
+                width="24px"
+                textAlignment="center"
+                required={true}
+            />
+        ))
+    }
+
     return (
         <Box
             as="div"
@@ -39,56 +57,12 @@ export const SignupVerification = ({ onNext }: IStepComponent) => {
                     해당 이메일로 전송된 인증번호 4자리를 입력해주세요.
                 </Text>
             </Box>
-
             <Box
                 display="flex"
                 justifyContent="space-around"
                 style={{ gap: '8px' }}
             >
-                <TextInput
-                    type="text"
-                    maxLength={1}
-                    onInput={onHandleInput}
-                    placeholder=""
-                    size="large"
-                    height="64px"
-                    width="24px"
-                    textAlignment="center"
-                    required={true}
-                />
-                <TextInput
-                    type="text"
-                    maxLength={1}
-                    onInput={onHandleInput}
-                    placeholder=""
-                    size="large"
-                    height="64px"
-                    width="24px"
-                    textAlignment="center"
-                    required={true}
-                />
-                <TextInput
-                    type="text"
-                    maxLength={1}
-                    onInput={onHandleInput}
-                    placeholder=""
-                    size="large"
-                    height="64px"
-                    width="24px"
-                    textAlignment="center"
-                    required={true}
-                />
-                <TextInput
-                    type="text"
-                    maxLength={1}
-                    onInput={onHandleInput}
-                    placeholder=""
-                    size="large"
-                    height="64px"
-                    width="24px"
-                    textAlignment="center"
-                    required={true}
-                />
+                {renderInputFields()}
             </Box>
             <Button type="primary" size="medium" onClickFunc={onNext}>
                 인증하기
