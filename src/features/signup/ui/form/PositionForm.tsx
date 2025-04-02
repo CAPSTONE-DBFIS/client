@@ -42,7 +42,7 @@ export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
             <Box display="flex" flexDirection="column" style={{ gap: '6px' }}>
                 {positions.map((pos) => {
                     return (
-                        <Box display="flex" style={{ gap: '8px' }}>
+                        <Box display="flex" style={{ gap: '8px' }} key={pos.id}>
                             <Text fontSize="title3" color="green-100">
                                 {pos.type}
                             </Text>
