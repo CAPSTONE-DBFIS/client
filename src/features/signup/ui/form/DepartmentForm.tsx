@@ -51,6 +51,7 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                             display="flex"
                             flexDirection="column"
                             style={{ gap: '8px' }}
+                            key={item.id}
                         >
                             <Text
                                 fontSize="title2"
@@ -66,6 +67,11 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                                             display="flex"
                                             style={{ gap: '8px' }}
                                             alignItems="center"
+                                            key={
+                                                item.id +
+                                                ':' +
+                                                department.department
+                                            }
                                         >
                                             <Text
                                                 fontSize="title3"
@@ -80,7 +86,16 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                                                 {department.children.map(
                                                     (child) => {
                                                         return (
-                                                            <Text color="neutral-90">
+                                                            <Text
+                                                                color="neutral-90"
+                                                                key={
+                                                                    item.id +
+                                                                    ':' +
+                                                                    department.department +
+                                                                    ':' +
+                                                                    child.department
+                                                                }
+                                                            >
                                                                 {
                                                                     child.department
                                                                 }
