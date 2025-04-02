@@ -1,6 +1,6 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './styles/dashboard.css'
-import { Calender } from './Calender'
+import { Calendar } from './Calendar'
 import { List } from './List'
 interface IDashboard {
     activeView: string
@@ -40,7 +40,7 @@ export const Dashboard = ({ activeView }: IDashboard) => {
         <Box className={style.layout}>
             {activeView === 'calendar' ? (
                 // 캘린더 뷰 컴포넌트
-                <Calender />
+                <Calendar />
             ) : (
                 // 리스트 뷰 컴포넌트
                 <Box>
