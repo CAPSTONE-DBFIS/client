@@ -2,7 +2,7 @@
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 //css
-import * as style from './styles/List.css'
+import * as style from './styles/list.css'
 //icon
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
 interface ITaskdata {

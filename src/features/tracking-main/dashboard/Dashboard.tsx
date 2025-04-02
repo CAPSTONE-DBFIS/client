@@ -1,5 +1,5 @@
 import { Box } from '@/shared/ui/Box'
-import * as style from './styles/Dashboard.css'
+import * as style from './styles/dashboard.css'
 import { Calender } from './Calender'
 import { List } from './List'
 interface IDashboard {
