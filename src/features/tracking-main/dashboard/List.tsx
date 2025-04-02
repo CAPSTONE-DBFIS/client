@@ -1,22 +1,46 @@
+//components
 import { Box } from '@/shared/ui/Box'
-import * as style from './styles/List.css'
 import { Text } from '@/shared/ui/Text'
+//css
+import * as style from './styles/List.css'
+//icon
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
+interface ITaskdata {
+    id: string
+    title: string
+    keywords: number
+    dataPoints: number
+    percentage: number
+    startDate: string
+    endDate: string
+    tags: string[]
+}
+
 /**
  * 대시보드 중 리스트
+ * @param {string} id - 프로젝트 고유 식별자
+ * @param {string} title - 제목
+ * @param {number} keywords - 키워드(=태그) 수
+ * @param {number} dataPoints - 데이터 포인트
+ * @param {number} percentage - 진행률(%)
+ * @param {string} startDate - 시작 날짜
+ * @param {string} endDate - 예상 종료 날짜
+ * @param {string[]} tags - 태그
  *
  * @returns {JSX.Element}
  */
-export const List: React.FC = () => {
+
+export const List: React.FC<{ task: ITaskdata }> = ({ task }) => {
     return (
         <Box className={style.layout} background={'white'}>
+            {/* 헤더: 제목 및 메뉴 버튼 */}
             <Box
                 display="flex"
                 justifyContent="space-between"
                 className={style.header}
             >
                 <Text fontSize="title2" fontWeight="medium">
-                    00전자 분석
+                    {task.title}
                 </Text>
                 <Menu />
             </Box>
@@ -27,7 +51,7 @@ export const List: React.FC = () => {
                     alignItems="center"
                     className={style.mainData}
                 >
-                    <Text fontSize="title1">16</Text>
+                    <Text fontSize="title1">{task.keywords}</Text>
                     <Text fontSize="body" color="neutral-90">
                         키워드
                     </Text>
@@ -38,7 +62,10 @@ export const List: React.FC = () => {
                     alignItems="center"
                     className={style.mainData}
                 >
-                    <Text fontSize="title1">9,345</Text>
+                    <Text fontSize="title1">
+                        {/* 숫자 구분자 */}
+                        {task.dataPoints.toLocaleString()}{' '}
+                    </Text>
                     <Text fontSize="body" color="neutral-90">
                         데이터 포인트
                     </Text>
@@ -49,7 +76,7 @@ export const List: React.FC = () => {
                     alignItems="center"
                     className={style.mainData}
                 >
-                    <Text fontSize="title1">25%</Text>
+                    <Text fontSize="title1">{task.percentage}%</Text>
                     <Text fontSize="body" color="neutral-90">
                         진행률
                     </Text>
@@ -69,7 +96,7 @@ export const List: React.FC = () => {
                     <Box className={style.progressBarContainer}>
                         <Box
                             className={style.progressBar}
-                            style={{ width: '25%' }}
+                            style={{ width: `${task.percentage}%` }}
                         />
                     </Box>
                     <Box
@@ -82,23 +109,24 @@ export const List: React.FC = () => {
                             fontWeight="bold"
                             color="neutral-90"
                         >
-                            시작: 2025.03.10
+                            시작: {task.startDate}
                         </Text>
                         <Text
                             fontSize="headline"
                             fontWeight="bold"
                             color="neutral-90"
                         >
-                            예상 완료: 2025.03.10
+                            예상 완료: {task.endDate}
                         </Text>
                     </Box>
                 </Box>
 
                 <Box>
-                    <Text className={style.tag}>폴더블</Text>
-                    <Text className={style.tag}>폴더블</Text>
-                    <Text className={style.tag}>폴더블</Text>
-                    <Text className={style.tag}>폴더블</Text>
+                    {task.tags.map((tag) => (
+                        <Text key={tag} className={style.tag}>
+                            {tag}
+                        </Text>
+                    ))}
                 </Box>
             </Box>
         </Box>
