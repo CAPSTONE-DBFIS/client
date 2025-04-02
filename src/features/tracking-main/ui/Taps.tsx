@@ -1,6 +1,8 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './styles/taps.css'
 import { Text } from '@/shared/ui/Text'
+import { useState } from 'react'
+import { AddTask } from './AddTask'
 interface ITaps {
     selectedTaps: string
     onTapsChange: (view: string) => void
@@ -12,10 +14,13 @@ interface ITaps {
  * @returns {JSX.Element}
  */
 
-const handleTaskBtnClick = () => {
-    console.log('taskBtn')
-}
 export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
+    // 작업 추가 모달에 대한 상태
+    const [showAddTask, setShowAddTask] = useState(false)
+    //작업 추가 버튼
+    const handleTaskBtnClick = () => {
+        setShowAddTask(true)
+    }
     return (
         <Box
             display="flex"
@@ -30,7 +35,7 @@ export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
                     onClick={() => onTapsChange('calendar')}
                 >
                     <Text fontSize="title3" fontWeight="semibold">
-                        켈린더
+                        캘린더
                     </Text>
                 </Box>
 
@@ -56,6 +61,8 @@ export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
                     작업 추가
                 </Text>
             </Box>
+            {/* 작업추가모달 */}
+            {showAddTask && <AddTask />}
         </Box>
     )
 }
