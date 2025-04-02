@@ -49,7 +49,12 @@ export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
                             <Box display="flex" style={{ gap: '12px' }}>
                                 {pos.children.map((item) => {
                                     return (
-                                        <Text color="neutral-90">{item}</Text>
+                                        <Text
+                                            color="neutral-90"
+                                            key={pos.id + ':' + item}
+                                        >
+                                            {item}
+                                        </Text>
                                     )
                                 })}
                             </Box>
