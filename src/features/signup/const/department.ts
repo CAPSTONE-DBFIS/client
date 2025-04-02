@@ -9,9 +9,7 @@ const commonDepartments = [
     },
     {
         department: '기술',
-        children: [
-            { department: '품질관리' },
-        ],
+        children: [{ department: '품질관리' }],
     },
     {
         department: '생산',
@@ -23,10 +21,7 @@ const commonDepartments = [
     },
     {
         department: '영업',
-        children: [
-            { department: '국내' },
-            { department: '해외' },
-        ],
+        children: [{ department: '국내' }, { department: '해외' }],
     },
     {
         department: '개발',
@@ -37,7 +32,7 @@ const commonDepartments = [
             { department: '통신' },
         ],
     },
-];
+]
 
 export const DEPARTMENT_LIST = [
     {
@@ -50,4 +45,4 @@ export const DEPARTMENT_LIST = [
         companyName: 'DB.inc',
         departments: commonDepartments,
     },
-] as const;
+] as const
