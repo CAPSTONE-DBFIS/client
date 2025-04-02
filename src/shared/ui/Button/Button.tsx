@@ -9,6 +9,8 @@ interface IButton {
     type: 'primary' | 'secondary' | 'tertiary'
     fontSize?: keyof typeof fontSizes
     disabled?: boolean
+    width?: string
+    height?: string
 }
 
 /**
@@ -19,6 +21,8 @@ interface IButton {
  * @param {string} size 버튼 크기 - small | medium | large(required)
  * @param {string} type 버튼 유형 - primary | secondary | tertiary(required)
  * @param {boolean} disabled disabled 속성(optional)
+ * @param {string} width 버튼 넓이(optional)
+ * @param {string} height 버튼 높이(optional)
  * @returns {JsxElement}
  */
 
@@ -29,6 +33,8 @@ export const Button: React.FC<IButton> = ({
     size,
     type,
     disabled = false,
+    width,
+    height,
 }) => {
     return (
         <Box
@@ -40,6 +46,10 @@ export const Button: React.FC<IButton> = ({
                 size: size,
             })}
             disabled={disabled}
+            style={{
+                width,
+                height,
+            }}
         >
             {children}
         </Box>
