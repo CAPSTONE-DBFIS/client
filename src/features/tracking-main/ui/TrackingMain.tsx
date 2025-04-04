@@ -2,7 +2,7 @@
 import { Box } from '@/shared/ui/Box'
 import { Title } from './Title'
 import { Taps } from './Taps'
-import { Dashboard } from '../dashboard/index'
+import { Dashboard } from './dashboard/index'
 
 //css
 import * as style from './styles/trackingmain.css'

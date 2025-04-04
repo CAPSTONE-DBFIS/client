@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
+//model
+import { useAddTask } from '../model/useAddTask'
 //css
 import * as style from './styles/addtask.css'
 import { colors } from '@/app/token'
@@ -25,27 +27,17 @@ interface IAddTask {
  * - 보고서 생성 주기를 선택하고 시작일과 종료일을 설정할 수 있습니다.
  */
 
-export const AddTask = ({ onClose }: IAddTask): React.ReactElement => {
-    const [selectedPeriod, setSelectedPeriod] = useState('일주일마다 (기본)') //기간 선택
-    const [isOpen, setIsOpen] = React.useState<boolean>(false) // 드롭다운 열림/닫힘 상태
-    const [inputValue, setInputValue] = useState('') // 태그 입력 필드 값
-    const [tags, setTags] = useState<string[]>([]) // 태그 리스트
-
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault() // 기본 폼 제출 동작 방지
-        console.log('submit')
-    } //폼 제출
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value) // 입력 값 업데이트
-    }
-
-    const onToggle = () => setIsOpen(!isOpen) //드롭다운 열림/닫힘 함수
-
-    const onOptionClicked = (value: string) => () => {
-        setSelectedPeriod(value) //선택된 옵션
-        setIsOpen(false) //드롭다운 닫기
-    }
+export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
+    const {
+        inputValue,
+        tags,
+        selectedPeriod,
+        isOpen,
+        handleInputChange,
+        onToggle,
+        onOptionClicked,
+        onSubmit,
+    } = useAddTask()
 
     return (
         <Box background={'white'} className={style.layout}>
