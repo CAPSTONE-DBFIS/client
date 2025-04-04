@@ -1,8 +1,9 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './styles/taps.css'
 import { Text } from '@/shared/ui/Text'
-import { useState } from 'react'
 import { AddTask } from './AddTask'
+import Modal from '@/shared/ui/Modal/Modal'
+import { useModal } from '@/shared/lib/hooks/useModal'
 interface ITaps {
     selectedTaps: string
     onTapsChange: (view: string) => void
@@ -16,11 +17,8 @@ interface ITaps {
 
 export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
     // 작업 추가 모달에 대한 상태
-    const [showAddTask, setShowAddTask] = useState(false)
-    //작업 추가 버튼
-    const handleTaskBtnClick = () => {
-        setShowAddTask(true)
-    }
+    const { modalConfig, toggleModal } = useModal()
+
     return (
         <Box
             display="flex"
@@ -55,14 +53,17 @@ export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
                 alignItems="center"
                 background={'neutral-900'}
                 className={style.taskBtn}
-                onClick={() => handleTaskBtnClick()}
+                onClick={toggleModal}
             >
                 <Text color="white" fontSize="title3" fontWeight="semibold">
                     작업 추가
                 </Text>
             </Box>
+
             {/* 작업추가모달 */}
-            {showAddTask && <AddTask />}
+            <Modal modalConfig={modalConfig}>
+                <AddTask onClose={toggleModal} />
+            </Modal>
         </Box>
     )
 }
