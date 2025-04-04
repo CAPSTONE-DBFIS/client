@@ -14,7 +14,7 @@ interface IDashboard {
 
 const tasks = [
     {
-        id: '1',
+        id: 'task1',
         title: 'OO전자 분석',
         keywords: 16,
         dataPoints: 9345,
@@ -24,7 +24,17 @@ const tasks = [
         tags: ['폴더블', '프리미엄 시장', '반도체', '스마트폰'],
     },
     {
-        id: '2',
+        id: 'task2',
+        title: '양자컴퓨팅 연구',
+        keywords: 10,
+        dataPoints: 6251,
+        percentage: 85,
+        startDate: '2025.02.25',
+        endDate: '2025.03.15',
+        tags: ['IBM', '양자암호화', '양자우위', '구글'],
+    },
+    {
+        id: 'task3',
         title: '양자컴퓨팅 연구',
         keywords: 10,
         dataPoints: 6251,

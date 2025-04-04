@@ -6,6 +6,7 @@ export const layout = style({
     border: `1.5px solid ${colors['neutral-10']}`,
     borderRadius: '5px',
     padding: '16px 0',
+    marginBottom: '25px',
 })
 export const header = style({
     padding: '0px 20px 16px 20px',
