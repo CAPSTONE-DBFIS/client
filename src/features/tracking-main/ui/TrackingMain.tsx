@@ -22,12 +22,9 @@ export const TrackingMain = ({ projectName, projectPath }: IProject) => {
 
     return (
         <Box className={style.layout}>
-            <Title projectName={projectName} projectPath={projectPath}></Title>
-            <Taps
-                selectedTaps={selectedTaps}
-                onTapsChange={setSelectedTaps}
-            ></Taps>
-            <Dashboard activeView={selectedTaps}></Dashboard>
+            <Title projectName={projectName} projectPath={projectPath} />
+            <Taps selectedTaps={selectedTaps} onTapsChange={setSelectedTaps} />
+            <Dashboard activeView={selectedTaps} />
         </Box>
     )
 }
