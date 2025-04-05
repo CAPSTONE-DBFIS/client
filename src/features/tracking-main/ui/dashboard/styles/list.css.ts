@@ -42,6 +42,3 @@ export const progressBar = style({
     backgroundColor: colors['neutral-900'],
     borderRadius: '4px',
 })
-
-// export const layout = style({
-// })
