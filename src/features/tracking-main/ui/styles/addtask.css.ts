@@ -36,7 +36,6 @@ export const keywoard = style({
     width: '100%',
     height: '58px',
     padding: '0 18px',
-    marginBottom: '8px',
     fontSize: `${fontSizes['title2']}`,
     border: '1px solid #B3B9C4',
     borderRadius: '12px',
@@ -52,6 +51,10 @@ export const keywoard = style({
             color: '#6B788E',
         },
     },
+})
+
+export const tagContainer = style({
+    flexWrap: 'wrap',
 })
 
 export const twoinput = style({
@@ -71,6 +74,7 @@ export const tag = style({
     backgroundColor: colors['blue-50'],
     borderRadius: '16px',
     marginRight: '12px',
+    marginTop: '8px',
 })
 
 export const btn = style({

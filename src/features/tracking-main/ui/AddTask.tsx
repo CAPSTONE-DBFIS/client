@@ -85,7 +85,7 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                             required
                         />
 
-                        <Box display="flex">
+                        <Box display="flex" className={style.tagContainer}>
                             {tags.map((tag) => (
                                 <Text
                                     key={tag}
