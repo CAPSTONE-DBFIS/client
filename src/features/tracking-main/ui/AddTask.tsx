@@ -74,15 +74,14 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                             </Text>
                         </Box>
 
-                        <input
+                        <Box
+                            as={'input'}
                             className={style.keywoard}
-                            name="keywoard"
                             placeholder="분석할 키워드를 입력하세요."
                             type="text"
                             value={inputValue}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
-                            required
                         />
 
                         <Box display="flex" className={style.tagContainer}>
@@ -99,6 +98,13 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                         fill={colors['neutral-100']}
                                         style={{ marginLeft: '6px' }}
                                         onClick={() => handleDel(tag)}
+                                    />
+                                    {/* 태그 값 받기 위한 숨긴 input필드 */}
+                                    <Box
+                                        as={'input'}
+                                        type="hidden"
+                                        name="keywoard"
+                                        value={JSON.stringify(tags)}
                                     />
                                 </Text>
                             ))}
