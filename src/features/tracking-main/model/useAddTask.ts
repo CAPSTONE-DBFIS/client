@@ -15,7 +15,7 @@ export const useAddTask = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('일주일마다 (기본)') //기간 선택
     const [isOpen, setIsOpen] = React.useState<boolean>(false) // 드롭다운 열림/닫힘 상태
     const [inputValue, setInputValue] = useState('') // 태그 입력 필드 값
-    const [tags] = useState<string[]>([]) // 태그 리스트
+    const [tags, setTags] = useState<string[]>([]) // 태그 리스트
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault() // 기본 폼 제출 동작 방지
@@ -24,6 +24,18 @@ export const useAddTask = () => {
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value) // 입력 값 업데이트
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && inputValue.trim() !== '') {
+            event.preventDefault() //기본 엔터 동작 방지
+            setTags((tag) => [...tag, inputValue.trim()]) //태그 추가
+            setInputValue('') //초기화화
+        }
+    }
+
+    const handleDel = (tagToDelete: string) => {
+        setTags((prevTags) => prevTags.filter((tag) => tag !== tagToDelete)) // 태그 삭제
     }
 
     const onToggle = () => setIsOpen(!isOpen) //드롭다운 열림/닫힘 함수
@@ -42,5 +54,7 @@ export const useAddTask = () => {
         onToggle,
         onOptionClicked,
         onSubmit,
+        handleKeyDown,
+        handleDel,
     }
 }

@@ -11,7 +11,7 @@ import { colors } from '@/app/token'
 // svg
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
 import Calendar from '@/shared/asset/icon/calendar.svg?react'
-import X from '@/shared/asset/icon/X.svg?react'
+import X from '@/shared/asset/icon/x 2.svg?react'
 
 interface IAddTask {
     onClose: () => void
@@ -37,6 +37,8 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
         onToggle,
         onOptionClicked,
         onSubmit,
+        handleKeyDown,
+        handleDel,
     } = useAddTask()
 
     return (
@@ -71,21 +73,33 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                 트렌드 키워드 입력
                             </Text>
                         </Box>
-                        <TextInput
+
+                        <input
+                            className={style.keywoard}
                             name="keywoard"
-                            size="large"
-                            width="100%"
                             placeholder="분석할 키워드를 입력하세요."
-                            height="58px"
+                            type="text"
                             value={inputValue}
                             onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
                             required
                         />
-                        <Box display="flex" style={{ gap: '8px' }}>
+
+                        <Box display="flex">
                             {tags.map((tag) => (
-                                <Text key={tag} className={style.tag}>
+                                <Text
+                                    key={tag}
+                                    className={style.tag}
+                                    fontSize="title3"
+                                >
                                     {tag}
-                                    <X />
+                                    <X
+                                        width={12}
+                                        height={12}
+                                        fill={colors['neutral-100']}
+                                        style={{ marginLeft: '6px' }}
+                                        onClick={() => handleDel(tag)}
+                                    />
                                 </Text>
                             ))}
                         </Box>
