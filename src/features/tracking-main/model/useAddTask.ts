@@ -4,6 +4,7 @@ import React, { useState } from 'react'
  * @param {string} inputValue - 태그 입력 필드의 현재 값
  * @param {function} handleInputChange - 입력 필드 값 변경 핸들러
  * @param {string[]} tags - 추가된 태그 리스트
+ * @param {function} handleDel - 태그 삭제
  * @param {boolean} isOpen - 드롭다운 열림/닫힘 상태
  * @param {function} onToggle - 드롭다운 열림/닫힘 상태를 토글하는 함수
  * @param {function} onOptionClicked - 드롭다운 옵션 선택 핸들러
