@@ -6,9 +6,16 @@ import Cloud from '@/shared/asset/image/cloud.png'
 import Gpt from '@/shared/asset/image/gpt.png'
 import Insight from '@/shared/asset/image/insight.png'
 
+import * as S from './Widget.css'
+
 export const HomeWidget = () => {
     return (
-        <Box display="flex" justifyContent="center" style={{ gap: '16px' }}>
+        <Box
+            display="flex"
+            justifyContent="center"
+            style={{ gap: '16px' }}
+            className={S.homeWidget}
+        >
             <Widget
                 title="뉴스 스크래핑"
                 description="뉴스(SNS)에서<br/> 다양한 유형의 정보를 스크래핑"

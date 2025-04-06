@@ -7,6 +7,11 @@ export const header = style({
     width: '1024px',
     gap: '12px',
     paddingBottom: '24px',
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
 })
 
 const slideLeft = keyframes({
@@ -21,9 +26,14 @@ const slideRight = keyframes({
 
 export const sliderWrapper = style({
     overflow: 'hidden',
-    width: '100%',
+    width: '1024px',
     height: '120px',
     backgroundColor: '#fff',
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
 })
 
 export const slideTrack = style({

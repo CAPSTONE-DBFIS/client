@@ -26,6 +26,12 @@ export const openedContainer = style({
     padding: '6px 0px',
     animation: `${growHeight} 0.5s ease-out forwards`,
     overflow: 'hidden',
+
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
 })
 
 export const input = style({

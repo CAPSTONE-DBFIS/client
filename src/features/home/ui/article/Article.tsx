@@ -19,7 +19,12 @@ import news12 from '@/shared/asset/image/news/news12.png'
 
 export const Article = () => {
     return (
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            style={{ width: '100%' }}
+        >
             <Box
                 display="flex"
                 flexDirection="column"

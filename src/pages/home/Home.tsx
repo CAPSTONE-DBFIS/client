@@ -10,11 +10,11 @@ export function Home() {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            style={{ gap: '64px', padding: '36px' }}
+            style={{ gap: '64px', padding: '36px 0px' }}
         >
             <HomeWidget />
-            <Article />
             <Analysis />
+            <Article />
             <Insight />
         </Box>
     )

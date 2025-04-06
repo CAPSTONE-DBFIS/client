@@ -1,6 +1,6 @@
 import { Box } from '@/shared/ui/Box'
 import * as S from './Article.css'
-import { FC } from 'react'
+import { FC, useId } from 'react'
 
 interface IArticleSlider {
     type: 'left' | 'right'
@@ -9,12 +9,16 @@ interface IArticleSlider {
 
 export const ArticleSlider: FC<IArticleSlider> = ({ imgs, type }) => {
     const duplicateImg = [...imgs, ...imgs]
+    const id = useId()
     return (
         <Box className={S.sliderWrapper}>
             <Box className={S.slideTrackType[type]}>
                 {duplicateImg.map((src, index) => {
                     return (
-                        <Box className={S.slideItem}>
+                        <Box
+                            className={S.slideItem}
+                            key={id + ':newslide:' + index}
+                        >
                             <Box
                                 as={'img'}
                                 src={src}

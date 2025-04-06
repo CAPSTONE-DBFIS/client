@@ -12,6 +12,12 @@ export const container = style({
     borderRadius: '20px',
 
     padding: '24px 82px',
+
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
 })
 
 export const logoSpan = style({

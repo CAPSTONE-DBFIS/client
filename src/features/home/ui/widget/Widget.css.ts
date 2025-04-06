@@ -12,6 +12,15 @@ export const container = style({
         transform: 'scale(1.05)',
     },
 })
+
+export const homeWidget = style({
+    '@media': {
+        'screen and (max-width: 1024px)': {
+            width: '100%',
+        },
+    },
+})
+
 export const description = style({
     whiteSpace: 'pre-wrap',
 })
