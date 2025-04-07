@@ -16,21 +16,20 @@ export const Calendar = () => {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
 
-    // 현재 달의 첫 날
-    const firstDayOfMonth = new Date(year, month, 1)
     // 달력 시작 날짜를 현재 달의 첫 날의 주의 일요일로 설정
-    const startDay = new Date(firstDayOfMonth)
-    startDay.setDate(1 - firstDayOfMonth.getDay())
+    const startDay = new Date(
+        year,
+        month,
+        1 - new Date(year, month, 1).getDay()
+    )
 
     // 현재 달의 마지막 날
-    const lastDayOfMonth = new Date(year, month + 1, 0)
-
-    // 달력 끝 날짜를 현재 달의 마지막 날의 주의 토요일로 설정
     const endDay = new Date(
-        new Date(lastDayOfMonth).setDate(
-            lastDayOfMonth.getDate() + (6 - lastDayOfMonth.getDay())
-        )
+        year,
+        month + 1,
+        6 - new Date(year, month, 1).getDay()
     )
+
     // 달 이동 함수
     const handleMonth = (date: number) => {
         setCurrentDate(
@@ -68,8 +67,8 @@ export const Calendar = () => {
             <Box as={'button'} onClick={() => handleMonth(-1)}>
                 <Right />
             </Box>
-            <Box>{firstDayOfMonth.toDateString()}</Box>
-            <Box>{lastDayOfMonth.toDateString()}</Box>
+            <Box>{startDay.toDateString()}</Box>
+            <Box>{endDay.toDateString()}</Box>
         </Box>
     )
 }
