@@ -2,6 +2,7 @@ import { Box } from '@/shared/ui/Box'
 import * as style from './styles/dashboard.css'
 import { Calendar } from './Calendar'
 import { List } from './List'
+import { tasks } from '../../const/tasks'
 interface IDashboard {
     activeView: string
 }
@@ -11,39 +12,6 @@ interface IDashboard {
  * @param {string} activeView - 현재 활성화된 뷰 ('calendar' 또는 'list')
  * @returns {JSX.Element}
  */
-
-const tasks = [
-    {
-        id: 'task1',
-        title: 'OO전자 분석',
-        keywords: 16,
-        dataPoints: 9345,
-        percentage: 25,
-        startDate: '2025.03.10',
-        endDate: '2025.03.25',
-        tags: ['폴더블', '프리미엄 시장', '반도체', '스마트폰'],
-    },
-    {
-        id: 'task2',
-        title: '양자컴퓨팅 연구',
-        keywords: 10,
-        dataPoints: 6251,
-        percentage: 85,
-        startDate: '2025.02.25',
-        endDate: '2025.03.15',
-        tags: ['IBM', '양자암호화', '양자우위', '구글'],
-    },
-    {
-        id: 'task3',
-        title: '양자컴퓨팅 연구',
-        keywords: 10,
-        dataPoints: 6251,
-        percentage: 85,
-        startDate: '2025.02.25',
-        endDate: '2025.03.15',
-        tags: ['IBM', '양자암호화', '양자우위', '구글'],
-    },
-]
 
 export const Dashboard = ({ activeView }: IDashboard) => {
     return (

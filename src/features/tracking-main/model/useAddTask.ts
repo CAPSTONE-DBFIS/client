@@ -14,7 +14,7 @@ import React, { useState } from 'react'
  */
 export const useAddTask = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('일주일마다 (기본)') //기간 선택
-    const [isOpen, setIsOpen] = React.useState<boolean>(false) // 드롭다운 열림/닫힘 상태
+    const [isOpen, setIsOpen] = useState<boolean>(false) // 드롭다운 열림/닫힘 상태
     const [inputValue, setInputValue] = useState('') // 태그 입력 필드 값
     const [tags, setTags] = useState<string[]>([]) // 태그 리스트
 
