@@ -51,7 +51,7 @@ export const showMenu = style({
     top: '50px',
     right: '8px',
     transition: 'max-height 0.5s ease-in-out',
-    zIndex: '10',
+    zIndex: '0',
     border: '1px solid #B3B9C4',
     borderRadius: '10px',
     overflow: 'hidden',
@@ -66,11 +66,10 @@ export const listItem = style({
     ':last-child': {
         border: 'none',
     },
-    ':hover': {
-        background: colors['teal-500'],
-    },
-    ':active': {
-        background: colors['teal-500'],
+    selectors: {
+        '&:hover, &:active': {
+            backgroundColor: colors['teal-500'],
+        },
     },
 })
 

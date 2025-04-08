@@ -16,10 +16,13 @@ interface ITaskdata {
     endDate: string
     tags: string[]
 }
-
+interface IListProps {
+    task: ITaskdata
+    handleDeleteTask: (id: string) => void // 삭제 함수
+}
 /**
  * 대시보드 중 리스트
- * @param {string} id - 프로젝트 고유 식별자
+ * @param {string} id - 작업 고유 식별자
  * @param {string} title - 제목
  * @param {number} keywords - 키워드(=태그) 수
  * @param {number} dataPoints - 데이터 포인트
@@ -27,11 +30,12 @@ interface ITaskdata {
  * @param {string} startDate - 시작 날짜
  * @param {string} endDate - 예상 종료 날짜
  * @param {string[]} tags - 태그
+ * @param {function} handleDeleteTask - 작업삭제핸들러
  *
  * @returns {JSX.Element}
  */
 
-export const List: React.FC<{ task: ITaskdata }> = ({ task }) => {
+export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     // 메뉴 열림, 닫힘 상태
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -43,11 +47,13 @@ export const List: React.FC<{ task: ITaskdata }> = ({ task }) => {
     // 제목 수정 핸들러
     const handleEditTitle = () => {
         console.log('제목 수정')
+        setMenuOpen(false)
     }
 
-    // 작업 삭제 핸들러러
-    const handleDeleteTask = () => {
-        console.log('작업 삭제')
+    // 작업 삭제 핸들러
+    const handleDelete = () => {
+        handleDeleteTask(task.id) // 삭제 함수 호출
+        setMenuOpen(false) // 메뉴 닫기
     }
 
     return (
@@ -151,6 +157,7 @@ export const List: React.FC<{ task: ITaskdata }> = ({ task }) => {
                     </Box>
                 </Box>
             </Box>
+            {/* 메뉴 */}
             <Box
                 className={menuOpen ? style.showMenu : style.hideMenu}
                 as={'ul'}
@@ -158,7 +165,7 @@ export const List: React.FC<{ task: ITaskdata }> = ({ task }) => {
                 <Box
                     as={'li'}
                     className={style.listItem}
-                    onClick={handleDeleteTask}
+                    onClick={handleDelete}
                 >
                     <Text fontSize="title3" className={style.listItemText}>
                         작업 삭제
