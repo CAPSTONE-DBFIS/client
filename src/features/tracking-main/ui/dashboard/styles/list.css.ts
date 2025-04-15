@@ -42,3 +42,46 @@ export const progressBar = style({
     backgroundColor: colors['neutral-900'],
     borderRadius: '4px',
 })
+
+export const showMenu = style({
+    width: '90px',
+    height: 'auto',
+    maxHeight: '200px',
+    position: 'absolute',
+    top: '50px',
+    right: '8px',
+    transition: 'max-height 0.5s ease-in-out',
+    zIndex: '0',
+    border: '1px solid #B3B9C4',
+    borderRadius: '10px',
+    overflow: 'hidden',
+})
+
+export const listItem = style({
+    padding: '11px 15px',
+    borderBottom: '1px solid #B3B9C4',
+    background: colors['neutral-20'],
+    fontWeight: '600',
+
+    ':last-child': {
+        border: 'none',
+    },
+    selectors: {
+        '&:hover, &:active': {
+            backgroundColor: colors['teal-500'],
+        },
+    },
+})
+
+export const listItemText = style({
+    selectors: {
+        [`${listItem}:hover &, ${listItem}:active &`]: {
+            color: colors['white'], // 호버 및 클릭 시 텍스트 색상 변경
+        },
+    },
+})
+
+export const hideMenu = style({
+    maxHeight: '0px',
+    overflow: 'hidden',
+})
