@@ -17,12 +17,12 @@ import { useState } from 'react'
  * @param {string} projectPath - 프로젝트 경로(개인/프로젝트)
  * @returns {JSX.Element}
  */
-export const TrackingMain = ({ projectName, projectPath }: IProject) => {
+export const TrackingMain = ({ projectName }: IProject) => {
     const [selectedTaps, setSelectedTaps] = useState('calendar') //현재 선택된 탭(캘린더/리스트)을 관리
 
     return (
         <Box className={style.layout}>
-            <Title projectName={projectName} projectPath={projectPath} />
+            <Title projectName={projectName} />
             <Taps selectedTaps={selectedTaps} onTapsChange={setSelectedTaps} />
             <Dashboard activeView={selectedTaps} />
         </Box>

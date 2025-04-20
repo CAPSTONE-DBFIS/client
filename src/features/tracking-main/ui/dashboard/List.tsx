@@ -31,6 +31,7 @@ interface IListProps {
  * @param {string} endDate - 예상 종료 날짜
  * @param {string[]} tags - 태그
  * @param {function} handleDeleteTask - 작업삭제핸들러
+ * @param {function} handleClickOutside - 메뉴 외부 클릭감지
  *
  * @returns {JSX.Element}
  */
