@@ -44,9 +44,9 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
         setMenuOpen((prev) => !prev)
     }
 
-    // 제목 수정 핸들러
+    // 작업 수정 핸들러
     const handleEditTitle = () => {
-        console.log('제목 수정')
+        console.log('작업 수정')
         setMenuOpen(false)
     }
 
@@ -80,7 +80,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                     >
                         <Text fontSize="title1">{task.keywords}</Text>
                         <Text fontSize="body" color="neutral-90">
-                            키워드
+                            연관 키워드
                         </Text>
                     </Box>
                     <Box
@@ -177,7 +177,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                     onClick={handleEditTitle}
                 >
                     <Text fontSize="title3" className={style.listItemText}>
-                        제목 수정
+                        작업 수정
                     </Text>
                 </Box>
             </Box>
