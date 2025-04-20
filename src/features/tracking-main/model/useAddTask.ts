@@ -31,7 +31,7 @@ export const useAddTask = () => {
         if (event.key === 'Enter' && inputValue.trim() !== '') {
             event.preventDefault() //기본 엔터 동작 방지
             setTags((tag) => [...tag, inputValue.trim()]) //태그 추가
-            setInputValue('') //초기화화
+            setInputValue('') //초기화
         }
     }
 

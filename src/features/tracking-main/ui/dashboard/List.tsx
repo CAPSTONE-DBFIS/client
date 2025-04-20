@@ -5,7 +5,7 @@ import { Text } from '@/shared/ui/Text'
 import * as style from './styles/list.css'
 //icon
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 interface ITaskdata {
     id: string
     title: string
@@ -38,6 +38,8 @@ interface IListProps {
 export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     // 메뉴 열림, 닫힘 상태
     const [menuOpen, setMenuOpen] = useState(false)
+    // 메뉴 영역 감지용 ref
+    const menuRef = useRef<HTMLDivElement>(null)
 
     // 메뉴 클릭시 상태 변경경
     const toggleMenu = () => {
@@ -56,8 +58,25 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
         setMenuOpen(false) // 메뉴 닫기
     }
 
+    // 메뉴 외부 클릭 감지
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(e.target as Node)
+            ) {
+                setMenuOpen(false) // 메뉴 닫기
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
     return (
-        <Box style={{ position: 'relative' }}>
+        <Box style={{ position: 'relative', zIndex: '1' }}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
@@ -159,6 +178,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
             </Box>
             {/* 메뉴 */}
             <Box
+                ref={menuRef}
                 className={menuOpen ? style.showMenu : style.hideMenu}
                 as={'ul'}
             >

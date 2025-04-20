@@ -15,7 +15,7 @@ interface IDashboard {
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
  * @param {string} activeView - 현재 활성화된 뷰 ('calendar' 또는 'list')
  * @param {function} handleDeleteTask - 작업 삭제 핸들러
- * @param {function} openDeleteModal - 작업 삭제 재확인 모달 함수수
+ * @param {function} openDeleteModal - 작업 삭제 재확인 모달 함수
  *
  * @returns {JSX.Element}
  */
