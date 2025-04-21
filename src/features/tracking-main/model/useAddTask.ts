@@ -20,7 +20,7 @@ export const useAddTask = () => {
 
         const formData = new FormData(event.currentTarget)
         const startDate = formData.get('startDate') as string
-        const endDate = formData.get('endtDate') as string
+        const endDate = formData.get('endDate') as string
 
         if (startDate && endDate) {
             //시작일이 종료일보다 큰 경우 메시지 출력
@@ -30,7 +30,9 @@ export const useAddTask = () => {
             }
         }
 
-        console.log('submit')
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`)
+        }
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

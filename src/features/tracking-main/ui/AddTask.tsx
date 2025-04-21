@@ -10,7 +10,6 @@ import * as style from './styles/addtask.css'
 import { colors } from '@/app/token'
 // svg
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import Calendar from '@/shared/asset/icon/calendar.svg?react'
 
 interface IAddTask {
     onClose: () => void
@@ -198,7 +197,6 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                         width="100%"
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
-                                        rightIcon={<Calendar />}
                                         required
                                     />
                                 </Box>
@@ -218,12 +216,11 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                     </Box>
                                     <TextInput
                                         type="date"
-                                        name="endtDate"
+                                        name="endDate"
                                         size="large"
                                         width="100%"
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
-                                        rightIcon={<Calendar />}
                                         required
                                     />
                                 </Box>
