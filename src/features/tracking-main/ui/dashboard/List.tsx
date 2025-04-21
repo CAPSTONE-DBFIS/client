@@ -63,7 +63,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     }
 
     return (
-        <Box style={{ position: 'relative', zIndex: '1' }}>
+        <Box style={{ position: 'relative', zIndex: '0' }}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
