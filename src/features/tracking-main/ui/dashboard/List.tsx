@@ -5,7 +5,8 @@ import { Text } from '@/shared/ui/Text'
 import * as style from './styles/list.css'
 //icon
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 interface ITaskdata {
     id: string
     title: string
@@ -42,7 +43,9 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     // 메뉴 영역 감지용 ref
     const menuRef = useRef<HTMLDivElement>(null)
 
-    // 메뉴 클릭시 상태 변경경
+    useClickOutside(menuRef, () => setMenuOpen(false))
+
+    // 메뉴 클릭시 상태 변경
     const toggleMenu = () => {
         setMenuOpen((prev) => !prev)
     }
@@ -58,23 +61,6 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
         handleDeleteTask(task.id) // 삭제 함수 호출
         setMenuOpen(false) // 메뉴 닫기
     }
-
-    // 메뉴 외부 클릭 감지
-    useEffect(() => {
-        function handleClickOutside(e: MouseEvent): void {
-            if (
-                menuRef.current &&
-                !menuRef.current.contains(e.target as Node)
-            ) {
-                setMenuOpen(false) // 메뉴 닫기
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [])
 
     return (
         <Box style={{ position: 'relative', zIndex: '1' }}>
