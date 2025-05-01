@@ -129,11 +129,11 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                             type="button"
                                             className={style.dropdownOption}
                                             onClick={onOptionClicked(
-                                                '일주일마다 (기본)'
+                                                '일주일마다'
                                             )}
                                         >
                                             <Text fontSize="title2">
-                                                일주일마다 (기본)
+                                                일주일마다
                                             </Text>
                                         </Box>
                                         <Box
