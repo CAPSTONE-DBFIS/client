@@ -5,7 +5,8 @@ import { Text } from '@/shared/ui/Text'
 import * as style from './styles/list.css'
 //icon
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 interface ITaskdata {
     id: string
     title: string
@@ -31,6 +32,7 @@ interface IListProps {
  * @param {string} endDate - 예상 종료 날짜
  * @param {string[]} tags - 태그
  * @param {function} handleDeleteTask - 작업삭제핸들러
+ * @param {function} handleClickOutside - 메뉴 외부 클릭감지
  *
  * @returns {JSX.Element}
  */
@@ -38,15 +40,19 @@ interface IListProps {
 export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     // 메뉴 열림, 닫힘 상태
     const [menuOpen, setMenuOpen] = useState(false)
+    // 메뉴 영역 감지용 ref
+    const menuRef = useRef<HTMLDivElement>(null)
 
-    // 메뉴 클릭시 상태 변경경
+    useClickOutside(menuRef, () => setMenuOpen(false))
+
+    // 메뉴 클릭시 상태 변경
     const toggleMenu = () => {
         setMenuOpen((prev) => !prev)
     }
 
-    // 제목 수정 핸들러
+    // 작업 수정 핸들러
     const handleEditTitle = () => {
-        console.log('제목 수정')
+        console.log('작업 수정')
         setMenuOpen(false)
     }
 
@@ -57,7 +63,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     }
 
     return (
-        <Box style={{ position: 'relative' }}>
+        <Box style={{ position: 'relative', zIndex: '0' }}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
@@ -80,7 +86,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                     >
                         <Text fontSize="title1">{task.keywords}</Text>
                         <Text fontSize="body" color="neutral-90">
-                            키워드
+                            연관 키워드
                         </Text>
                     </Box>
                     <Box
@@ -159,6 +165,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
             </Box>
             {/* 메뉴 */}
             <Box
+                ref={menuRef}
                 className={menuOpen ? style.showMenu : style.hideMenu}
                 as={'ul'}
             >
@@ -177,7 +184,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                     onClick={handleEditTitle}
                 >
                     <Text fontSize="title3" className={style.listItemText}>
-                        제목 수정
+                        작업 수정
                     </Text>
                 </Box>
             </Box>

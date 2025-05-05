@@ -51,7 +51,6 @@ export const showMenu = style({
     top: '50px',
     right: '8px',
     transition: 'max-height 0.5s ease-in-out',
-    zIndex: '0',
     border: '1px solid #B3B9C4',
     borderRadius: '10px',
     overflow: 'hidden',

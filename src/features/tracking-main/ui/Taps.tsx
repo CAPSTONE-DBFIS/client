@@ -58,12 +58,13 @@ export const Taps = ({ selectedTaps, onTapsChange }: ITaps) => {
                 <Text color="white" fontSize="title3" fontWeight="semibold">
                     작업 추가
                 </Text>
+                {/* 작업추가모달 */}
+                <Box style={{ zIndex: '10' }}>
+                    <Modal modalConfig={modalConfig}>
+                        <AddTask onClose={toggleModal} />
+                    </Modal>
+                </Box>
             </Box>
-
-            {/* 작업추가모달 */}
-            <Modal modalConfig={modalConfig}>
-                <AddTask onClose={toggleModal} />
-            </Modal>
         </Box>
     )
 }

@@ -10,8 +10,6 @@ import * as style from './styles/addtask.css'
 import { colors } from '@/app/token'
 // svg
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import Calendar from '@/shared/asset/icon/calendar.svg?react'
-import X from '@/shared/asset/icon/x 2.svg?react'
 
 interface IAddTask {
     onClose: () => void
@@ -30,15 +28,12 @@ interface IAddTask {
 export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
     const {
         inputValue,
-        tags,
         selectedPeriod,
         isOpen,
         handleInputChange,
         onToggle,
         onOptionClicked,
         onSubmit,
-        handleKeyDown,
-        handleDel,
     } = useAddTask()
 
     return (
@@ -79,36 +74,10 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                             className={style.keywoard}
                             placeholder="분석할 키워드를 입력하세요."
                             type="text"
+                            name="keyword"
                             value={inputValue}
                             onChange={handleInputChange}
-                            onKeyDown={handleKeyDown}
                         />
-
-                        <Box display="flex" className={style.tagContainer}>
-                            {tags.map((tag) => (
-                                <Text
-                                    key={tag}
-                                    className={style.tag}
-                                    fontSize="title3"
-                                >
-                                    {tag}
-                                    <X
-                                        width={12}
-                                        height={12}
-                                        fill={colors['neutral-100']}
-                                        style={{ marginLeft: '6px' }}
-                                        onClick={() => handleDel(tag)}
-                                    />
-                                    {/* 태그 값 받기 위한 숨긴 input필드 */}
-                                    <Box
-                                        as={'input'}
-                                        type="hidden"
-                                        name="keywoard"
-                                        value={JSON.stringify(tags)}
-                                    />
-                                </Text>
-                            ))}
-                        </Box>
                     </Box>
                 </Box>
 
@@ -160,11 +129,11 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                             type="button"
                                             className={style.dropdownOption}
                                             onClick={onOptionClicked(
-                                                '일주일마다 (기본)'
+                                                '일주일마다'
                                             )}
                                         >
                                             <Text fontSize="title2">
-                                                일주일마다 (기본)
+                                                일주일마다
                                             </Text>
                                         </Box>
                                         <Box
@@ -228,7 +197,6 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                         width="100%"
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
-                                        rightIcon={<Calendar />}
                                         required
                                     />
                                 </Box>
@@ -248,12 +216,11 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                     </Box>
                                     <TextInput
                                         type="date"
-                                        name="endtDate"
+                                        name="endDate"
                                         size="large"
                                         width="100%"
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
-                                        rightIcon={<Calendar />}
                                         required
                                     />
                                 </Box>
