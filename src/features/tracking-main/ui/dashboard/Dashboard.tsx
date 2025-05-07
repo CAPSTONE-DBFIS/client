@@ -48,7 +48,7 @@ export const Dashboard = ({ activeView }: IDashboard) => {
         <Box className={style.layout}>
             {activeView === 'calendar' ? (
                 // 캘린더 뷰 컴포넌트
-                <Calendar />
+                <Calendar tasks={tasks} />
             ) : (
                 // 리스트 뷰 컴포넌트
                 <Box>
