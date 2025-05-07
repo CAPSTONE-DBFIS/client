@@ -20,7 +20,8 @@ import Cog from '@/shared/asset/icon/cog.svg?react'
 import Call from '@/shared/asset/icon/phone.svg?react'
 import Guide from '@/shared/asset/icon/color-swatch.svg?react'
 import Logout from '@/shared/asset/icon/logout.svg?react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/entities/user/stores/AuthStore'
 
 export const ProfileOption = () => {
     const { config, togglePopup, hidePopup } = usePopup({ arrow: 'none' })
@@ -68,6 +69,13 @@ const menu_list = [
 ]
 
 export const ProfileOptionMenu = () => {
+    const navigate = useNavigate()
+    const logout = useAuthStore.getState().logout
+    const handleLogOut = () => {
+        logout()
+        navigate('/')
+        window.location.reload()
+    }
     return (
         <Box as={'ul'} className={profileOptionMenu}>
             {menu_list.map((menu) => (
@@ -82,6 +90,7 @@ export const ProfileOptionMenu = () => {
                 as={'li'}
                 className={profileOptionMenuCell}
                 key={'nav:po:logout'}
+                onClick={handleLogOut}
             >
                 <Logout />
                 <Text fontSize="subHeadline">로그아웃</Text>
