@@ -7,7 +7,7 @@ export const calendarBox = style({
     alignItems: 'center',
     justifyContent: 'center',
     gap: '7px',
-    marginBottom: '22px',
+    marginBottom: '20px',
 })
 
 export const Btn = style({
@@ -56,4 +56,44 @@ globalStyle('.fc-direction-ltr .fc-daygrid-event.fc-event-start', {
 
 globalStyle('.fc-direction-ltr .fc-daygrid-event.fc-event-end', {
     marginRight: '0px',
+})
+
+globalStyle('.fc .fc-col-header-cell-cushion', {
+    color: '#666666',
+    fontSize: `${fontSizes.body.fontSize}px`,
+    padding: '0',
+})
+
+//보더제거
+globalStyle('.fc .fc-scrollgrid, .fc .fc-scrollgrid-sync-table', {
+    border: 'none !important',
+})
+
+globalStyle('.fc .fc-col-header-cell', {
+    borderBottom: 'none !important',
+    borderTop: 'none !important',
+    borderLeft: 'none !important',
+    borderRight: 'none !important',
+    background: colors['neutral-10'],
+})
+
+globalStyle('.fc .fc-daygrid-body td:nth-child(7)', {
+    borderRight: '0 !important',
+})
+
+globalStyle('.fc .fc-scrollgrid-sync-table', {
+    borderCollapse: 'collapse',
+})
+
+globalStyle('.fc .fc-scrollgrid thead th[role="presentation"]', {
+    borderRight: 'none !important',
+})
+
+globalStyle(' td[role="presentation"]', {
+    borderBottom: 'none !important',
+})
+globalStyle('.fc .fc-col-header-cell-cushion', {
+    backgroundColor: colors['neutral-10'],
+    width: '100px',
+    height: '41px',
 })
