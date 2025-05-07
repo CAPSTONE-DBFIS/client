@@ -27,24 +27,35 @@ export const Calendar: React.FC<{
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState(new Date())
 
-    //2025.03.03 -> 2025-03-03
-    const parseDate = (dateStr: string, offset: number): string => {
-        const parts = dateStr.split('.').map((s) => parseInt(s, 10))
-        const date = new Date(parts[0], parts[1] - 1, parts[2])
-        date.setDate(date.getDate() + offset)
-        return date.toISOString().split('T')[0]
-    }
-
     const COLORS = [`#E6F0FF`, '#f9c9c9', '#EBEDF0', '#f9e0c9', '#DBE7E9']
 
-    //FullCalendar에 전달할 데이터 생성
-    const events = tasks.map((task, index) => ({
-        id: task.id,
-        title: ' ',
-        start: parseDate(task.startDate, +1),
-        end: parseDate(task.endDate, +2),
-        color: COLORS[index % COLORS.length],
-    }))
+    const expandToDailyEvents = (
+        task: { id: string; startDate: string; endDate: string },
+        color: string
+    ) => {
+        const start = new Date(task.startDate.split('.').map(Number).join('-'))
+        start.setDate(start.getDate() + 1)
+
+        const end = new Date(task.endDate.split('.').map(Number).join('-'))
+        end.setDate(end.getDate() + 1)
+
+        const events = []
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            events.push({
+                id: `${task.id}-${d.toISOString().split('T')[0]}`,
+                title: ' ',
+                start: d.toISOString().split('T')[0],
+                allDay: true,
+                color,
+            })
+        }
+
+        return events
+    }
+
+    const events = tasks.flatMap((task, index) =>
+        expandToDailyEvents(task, COLORS[index % COLORS.length])
+    )
 
     const formatYearMonth = (date: Date): string => {
         const year = date.getFullYear()
@@ -90,12 +101,10 @@ export const Calendar: React.FC<{
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
                 events={events}
-                eventDisplay="block"
-                height="auto"
-                dayMaxEventRows
+                dayMaxEventRows={true}
                 fixedWeekCount={false}
                 headerToolbar={false}
-                dayMaxEvents={3}
+                contentHeight={560}
             />
         </Box>
     )

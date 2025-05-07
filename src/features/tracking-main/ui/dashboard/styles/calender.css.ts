@@ -22,6 +22,7 @@ globalStyle('.fc-daygrid-day-frame', {
     textAlign: 'left',
     backgroundColor: colors.white,
     border: '#E0E0E0',
+    overflow: 'hidden',
 })
 
 globalStyle('.fc .fc-daygrid-day-top', {
@@ -96,4 +97,18 @@ globalStyle('.fc .fc-col-header-cell-cushion', {
     backgroundColor: colors['neutral-10'],
     width: '100px',
     height: '41px',
+})
+
+globalStyle('.fc .fc-more-link', {
+    fontSize: `${fontSizes.body.fontSize}px`,
+
+    display: 'inline-block',
+    padding: '2px 6px',
+    color: colors['neutral-70'],
+    borderRadius: '4px',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    lineHeight: '1.4',
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
 })

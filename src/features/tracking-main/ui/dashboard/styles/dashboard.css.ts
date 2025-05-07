@@ -2,7 +2,6 @@ import { colors, shadows } from '@/app/token'
 import { style } from '@vanilla-extract/css'
 
 export const layout = style({
-    height: 'calc(100vh - 300px)',
     marginTop: '30px',
     overflowY: 'auto',
 })
