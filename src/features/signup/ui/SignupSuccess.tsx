@@ -6,12 +6,14 @@ import { Button } from '@/shared/ui/Button'
 import { colors } from '@/app/token'
 // svg
 import Check from '@/shared/asset/icon/check.svg?react'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * 회원가입 완료 컴포넌트
  * @returns {jsxElement}
  */
 export const SignupSuccess = () => {
+    const navigate = useNavigate();
     return (
         <Box
             display="flex"
@@ -75,7 +77,7 @@ export const SignupSuccess = () => {
                         </Text>
                     </Box>
                     <Box display="flex" style={{ gap: '24px' }}>
-                        <Button size="medium" type="tertiary" width="140px">
+                        <Button size="medium" type="tertiary" width="140px" onClickFunc={() => navigate('/')}>
                             홈으로
                         </Button>
                     </Box>

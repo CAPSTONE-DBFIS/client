@@ -1,3 +1,4 @@
+import { useState } from 'react'
 // shared component
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
@@ -6,19 +7,51 @@ import { Button } from '@/shared/ui/Button'
 // svg
 import UserName from '@/shared/asset/icon/user.svg?react'
 import NickName from '@/shared/asset/icon/tag.svg?react'
-import Birth from '@/shared/asset/icon/calendar.svg?react'
 import Mail from '@/shared/asset/icon/mail.svg?react'
 // color token
 import { colors } from '@/app/token'
 // Step interface
-import { IStepComponent } from '@/features/signup/type/funnel.type'
+import { IJoin } from '@/entities/user/join.type'
+import { validForm } from '@/shared/lib/validForm'
 
 /**
  * 회원가입 시작을 위한 사용자 인증 정보 입력 컴포넌트
  * @param {() => void} onNext 다음 스텝으로 이동하기 위한 함수
  * @returns {JsxElement}
  */
-export const SignupAttempt = ({ onNext }: IStepComponent) => {
+export const SignupAttempt = ({
+    onNext,
+    formData,
+    setFormData,
+}: {
+    onNext: () => void
+    formData: IJoin
+    setFormData: (formData: IJoin) => void
+}) => {
+    const [currentFormData, setCurrentFormData] = useState<IJoin>(formData)
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        key: keyof IJoin,
+        type: 'text' | 'number' | 'all'
+    ) => {
+        let { value } = e.target
+
+        if (type === 'number') {
+            value = value.replace(/[^0-9]/g, '')
+        } else if (type === 'text') {
+            value = value.replace(/[^a-zA-Z가-힣\s]/g, '')
+        }
+        setCurrentFormData({
+            ...currentFormData,
+            [key]: value,
+        })
+    }
+
+    const handleSubmit = () => {
+        setFormData(currentFormData)
+        onNext()
+    }
+
     return (
         <Box>
             <Box
@@ -26,6 +59,7 @@ export const SignupAttempt = ({ onNext }: IStepComponent) => {
                 display="flex"
                 flexDirection="column"
                 style={{ gap: '33px' }}
+                onSubmit={handleSubmit}
             >
                 <Box display="flex" justifyContent="center">
                     <Text
@@ -60,8 +94,10 @@ export const SignupAttempt = ({ onNext }: IStepComponent) => {
                             />
                         }
                         width="280px"
-                        name="auth-singup-username"
+                        name="username"
                         required={true}
+                        value={currentFormData.name}
+                        onChange={(e) => handleInputChange(e, 'name', 'text')}
                     />
                 </Box>
                 <Box
@@ -84,33 +120,10 @@ export const SignupAttempt = ({ onNext }: IStepComponent) => {
                             />
                         }
                         width="280px"
-                        name="auth-singup-username"
+                        name="nickname"
                         required={true}
-                    />
-                </Box>
-                <Box
-                    htmlFor="auth-singup-username"
-                    display="flex"
-                    flexDirection="column"
-                    style={{ gap: '6px' }}
-                >
-                    <Text fontSize="title3">생년월일</Text>
-                    <Text fontSize="caption" color="neutral-90">
-                        본인의 출생 생년월일을 입력해주세요
-                    </Text>
-                    <TextInput
-                        placeholder="생년월일"
-                        type="date"
-                        leftIcon={
-                            <Birth
-                                width={20}
-                                height={20}
-                                fill={colors['teal-500']}
-                            />
-                        }
-                        width="280px"
-                        name="auth-singup-username"
-                        required={true}
+                        value={currentFormData.nickname}
+                        onChange={(e) => handleInputChange(e, 'nickname', 'all')}
                     />
                 </Box>
                 <Box
@@ -133,12 +146,53 @@ export const SignupAttempt = ({ onNext }: IStepComponent) => {
                             />
                         }
                         width="280px"
-                        name="auth-singup-username"
+                        name="email"
                         type="email"
                         required={true}
+                        value={currentFormData.email}
+                        onChange={(e) => handleInputChange(e, 'email', 'all')}
                     />
                 </Box>
-                <Button type="primary" size="medium" onClickFunc={onNext}>
+                <Box
+                    htmlFor="auth-singup-username"
+                    display="flex"
+                    flexDirection="column"
+                    style={{ gap: '6px' }}
+                >
+                    <Text fontSize="title3">아이디</Text>
+                    <Text fontSize="caption" color="neutral-90">
+                        본인의 아이디를 입력해주세요.
+                    </Text>
+                    <TextInput
+                        placeholder="아이디"
+                        leftIcon={
+                            <Mail
+                                width={20}
+                                height={20}
+                                fill={colors['teal-500']}
+                            />
+                        }
+                        width="280px"
+                        name="email"
+                        type="email"
+                        required={true}
+                        value={currentFormData.id}
+                        onChange={(e) => handleInputChange(e, 'id', 'all')}
+                    />
+                </Box>
+                <Button
+                    type="primary"
+                    size="medium"
+                    onClickFunc={() => handleSubmit()}
+                    disabled={
+                        !validForm(currentFormData, [
+                            'name',
+                            'nickname',
+                            'email',
+                            'id',
+                        ])
+                    }
+                >
                     회원가입
                 </Button>
             </Box>

@@ -8,13 +8,22 @@ import Department from '@/shared/asset/icon/office-building.svg?react'
 // const
 import { DEPARTMENT_LIST } from '@/features/signup/const/department'
 import { colors } from '@/app/token'
-import { IStepComponent } from '@/features/signup/type/funnel.type'
+import { IJoin } from '@/entities/user/join.type'
+import { useState } from 'react'
 
 /**
  * 부서 설정 컴포넌트
  * @returns {jsxElement}
  */
-export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
+export const DepartmentForm = ({ onNext, onBack, formData, setFormData }: {onNext: () => void, onBack: () => void, formData: IJoin, setFormData: (formData: IJoin) => void}) => {
+    const [department, setDepartment] = useState<string>('')
+    const handleSubmit = () => {
+        setFormData({   
+            ...formData,
+            department: department
+        })
+        onNext()
+    }
     return (
         <Box
             as={'form'}
@@ -41,6 +50,7 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                         />
                     }
                     width="200px"
+                    value={department}
                 />
             </Box>
 
@@ -86,8 +96,7 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                                                 {department.children.map(
                                                     (child) => {
                                                         return (
-                                                            <Text
-                                                                color="neutral-90"
+                                                            <Box
                                                                 key={
                                                                     item.id +
                                                                     ':' +
@@ -95,11 +104,18 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                                                                     ':' +
                                                                     child.department
                                                                 }
-                                                            >
-                                                                {
-                                                                    child.department
+                                                                onClick={() =>
+                                                                    setDepartment(
+                                                                        child.department
+                                                                    )
                                                                 }
-                                                            </Text>
+                                                            >
+                                                                <Text color="neutral-90">
+                                                                    {
+                                                                        child.department
+                                                                    }
+                                                                </Text>
+                                                            </Box>
                                                         )
                                                     }
                                                 )}
@@ -125,7 +141,8 @@ export const DepartmentForm = ({ onNext, onBack }: IStepComponent) => {
                     size="medium"
                     type="primary"
                     width="140px"
-                    onClickFunc={onNext}
+                    onClickFunc={handleSubmit}
+                    disabled={department === ''}
                 >
                     계속하기
                 </Button>

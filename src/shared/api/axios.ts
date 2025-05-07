@@ -2,8 +2,9 @@ import axios from 'axios'
 
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 5000,
+    withCredentials: true, // CORS 요청 시 쿠키를 포함
     headers: {
         'Content-Type': 'application/json',
     },
@@ -33,6 +34,7 @@ axiosInstance.interceptors.response.use(
         if (error.response?.status === 401) {
             // 토큰이 만료되었거나 유효하지 않은 경우
             localStorage.removeItem('token')
+            console.log('토큰 만료')
             window.location.href = '/auth'
         }
         return Promise.reject(error)

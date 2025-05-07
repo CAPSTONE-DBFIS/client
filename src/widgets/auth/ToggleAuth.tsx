@@ -9,10 +9,29 @@ import { Info } from '../info/Info'
 // style
 import { pannel, toggleAuthContainer, content } from './toggleauth.css'
 // hook
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 export const ToggleAuth = () => {
     const [isToggleLeft, setIsToggleLeft] = useState(true)
+    const location = useLocation();
+    const [params, setParams] = useSearchParams()
+    useEffect(() => {
+        const {mode} = location.state;
+        if(mode === 'signup') setIsToggleLeft(false);
+    }, [location])
+
+    const handleToggle = () => {
+        if (params.size !== 0) {
+            const result = confirm(
+                '정말 전환하시겠습니까? - 기존 데이터는 모두 사라집니다.'
+            )
+            if (result === true) {
+                setIsToggleLeft((prev) => !prev)
+                setParams({}) // params 초기화
+            }
+        } else setIsToggleLeft((prev) => !prev)
+    }
     return (
         <Box className={toggleAuthContainer}>
             <Box className={isToggleLeft ? pannel.left : pannel.right}>
@@ -31,7 +50,7 @@ export const ToggleAuth = () => {
                 <Button
                     size="medium"
                     type="secondary"
-                    onClickFunc={() => setIsToggleLeft((prev) => !prev)}
+                    onClickFunc={handleToggle}
                 >
                     <Box style={{ width: '204px', textAlign: 'center' }}>
                         {isToggleLeft ? '회원가입' : '로그인'}
