@@ -27,7 +27,7 @@ export const Calendar: React.FC<{
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState(new Date())
 
-    const COLORS = [`#E6F0FF`, '#f9c9c9', '#EBEDF0', '#f9e0c9', '#DBE7E9']
+    const COLORS = [`#E6F0FF`, '#F9E9E6', '#E5F3F5', '#F5E5F3', '#f9e0c9']
 
     const expandToDailyEvents = (
         task: { id: string; startDate: string; endDate: string },
