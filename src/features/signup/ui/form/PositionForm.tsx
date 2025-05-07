@@ -8,13 +8,49 @@ import Pos from '@/shared/asset/icon/briefcase.svg?react'
 // const
 import { positions } from '@/features/signup/const/position'
 import { colors } from '@/app/token'
-import { IStepComponent } from '@/features/signup/type/funnel.type'
+import { IJoin } from '@/entities/user/join.type'
+import { useState } from 'react'
+import { join } from '@/entities/user/api/join'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * 직무 설정 폼
  * @returns {jsxElement}
  */
-export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
+export const PositionForm = ({
+    onNext,
+    onBack,
+    formData,
+    setFormData,
+}: {
+    onNext: () => void
+    onBack: () => void
+    formData: IJoin
+    setFormData: (formData: IJoin) => void
+}) => {
+    const [position, setPosition] = useState<string>('')
+    const navigate = useNavigate()
+    const handleSubmit = async () => {
+        await setFormData({
+            ...formData,
+            role: position,
+        })
+
+        try {
+            const response = await join(formData)
+            if (response.status == 201) {
+                onNext()
+            } else {
+                alert('잘못된 유저 정보입니다.')
+                navigate('/auth')
+            }
+        } catch (e) {
+            console.log(e)
+            alert('잘못된 유저 정보입니다.')
+            navigate('/auth')
+        }
+    }
+
     return (
         <Box
             as={'form'}
@@ -33,6 +69,7 @@ export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
                 <TextInput
                     placeholder="직무"
                     readonly={true}
+                    value={position}
                     leftIcon={
                         <Pos width={20} height={20} fill={colors['teal-500']} />
                     }
@@ -49,12 +86,14 @@ export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
                             <Box display="flex" style={{ gap: '12px' }}>
                                 {pos.children.map((item) => {
                                     return (
-                                        <Text
-                                            color="neutral-90"
+                                        <Box
                                             key={pos.id + ':' + item}
+                                            onClick={() => setPosition(item)}
                                         >
-                                            {item}
-                                        </Text>
+                                            <Text color="neutral-90">
+                                                {item}
+                                            </Text>
+                                        </Box>
                                     )
                                 })}
                             </Box>
@@ -75,9 +114,9 @@ export const PositionForm = ({ onNext, onBack }: IStepComponent) => {
                     size="medium"
                     type="primary"
                     width="140px"
-                    onClickFunc={onNext}
+                    onClickFunc={handleSubmit}
                 >
-                    가입완료
+                    인증하기
                 </Button>
             </Box>
         </Box>

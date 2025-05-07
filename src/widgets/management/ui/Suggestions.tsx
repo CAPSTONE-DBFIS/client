@@ -11,16 +11,16 @@ export default function Suggestions() {
                     <Text fontSize="body">제안</Text>
                     <SuggestionIcon width={12} height={12} />
                 </Box>
-                <Text fontSize="body" color='neutral-100'>
+                <Text fontSize="body" color="neutral-100">
                     TRENDB에서 자주 사용되는 파일들을 모아놓았습니다.
                 </Text>
             </Box>
             <Box display="flex" style={{ gap: '32px', overflowX: 'auto' }}>
-                <SuggestionItem/>
-                <SuggestionItem/>
-                <SuggestionItem/>
-                <SuggestionItem/>
-                <SuggestionItem/>
+                <SuggestionItem />
+                <SuggestionItem />
+                <SuggestionItem />
+                <SuggestionItem />
+                <SuggestionItem />
             </Box>
         </Box>
     )

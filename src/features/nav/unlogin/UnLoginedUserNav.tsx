@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 export const UnLoginedUserNav: React.FC = () => {
     return (
         <Box display="flex" className={btnBox} alignItems="center">
-            <Link to={'/auth'}>
+            <Link to={'/auth'} state={{ mode: 'login' }}>
                 <Button size="small" type="primary" fontSize="body">
                     로그인
                 </Button>
             </Link>
-            <Link to={'/auth'}>
+            <Link to={'/auth'} state={{ mode: 'signup' }}>
                 <Button size="small" type="tertiary">
                     회원가입
                 </Button>

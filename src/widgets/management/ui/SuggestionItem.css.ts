@@ -1,5 +1,5 @@
-import { colors } from "@/app/token";
-import { style } from "@vanilla-extract/css";
+import { colors } from '@/app/token'
+import { style } from '@vanilla-extract/css'
 
 export const Icon = style({
     display: 'flex',
@@ -13,7 +13,5 @@ export const Icon = style({
     alignSelf: 'stretch',
 
     borderRadius: '12px',
-    background: colors["neutral-30"],
-
+    background: colors['neutral-30'],
 })
-
