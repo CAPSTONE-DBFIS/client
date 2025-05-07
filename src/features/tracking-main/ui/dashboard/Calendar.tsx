@@ -100,6 +100,7 @@ export const Calendar: React.FC<{
                 dayMaxEventRows
                 fixedWeekCount={false}
                 headerToolbar={false}
+                dayMaxEvents={3}
             />
         </Box>
     )
