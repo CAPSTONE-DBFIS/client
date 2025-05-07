@@ -28,15 +28,10 @@ export const Calendar: React.FC<{
     const [currentDate, setCurrentDate] = useState(new Date())
 
     //2025.03.03 -> 2025-03-03
-    const parseDate = (dateStr: string) => {
+    const parseDate = (dateStr: string, offset: number): string => {
         const parts = dateStr.split('.').map((s) => parseInt(s, 10))
         const date = new Date(parts[0], parts[1] - 1, parts[2])
-        return date.toISOString().split('T')[0]
-    }
-    //endDate 날짜 포함
-    const addOneDay = (dateStr: string) => {
-        const date = new Date(dateStr)
-        date.setDate(date.getDate() + 1)
+        date.setDate(date.getDate() + offset)
         return date.toISOString().split('T')[0]
     }
 
@@ -46,8 +41,8 @@ export const Calendar: React.FC<{
     const events = tasks.map((task, index) => ({
         id: task.id,
         title: ' ',
-        start: parseDate(task.startDate),
-        end: addOneDay(parseDate(task.endDate)),
+        start: parseDate(task.startDate, +1),
+        end: parseDate(task.endDate, +2),
         color: COLORS[index % COLORS.length],
     }))
 
