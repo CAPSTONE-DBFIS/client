@@ -33,10 +33,10 @@ export const Calendar: React.FC<{
         task: { id: string; startDate: string; endDate: string },
         color: string
     ) => {
-        const start = new Date(task.startDate.split('.').map(Number).join('-'))
+        const start = new Date(task.startDate)
         start.setDate(start.getDate() + 1)
 
-        const end = new Date(task.endDate.split('.').map(Number).join('-'))
+        const end = new Date(task.endDate)
         end.setDate(end.getDate() + 1)
 
         const events = []
