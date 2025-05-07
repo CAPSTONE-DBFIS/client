@@ -9,6 +9,7 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import * as style from './styles/calender.css'
 import { colors } from '@/app/token'
+import { ITask } from '../../types/task.type'
 /**
  * 대시보드 중 캘린더
  * @param {string} dateStr - 변환하려는 날짜
@@ -22,7 +23,7 @@ import { colors } from '@/app/token'
  */
 
 export const Calendar: React.FC<{
-    tasks: { id: string; startDate: string; endDate: string }[]
+    tasks: ITask[]
 }> = ({ tasks }) => {
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState(new Date())
