@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style } from '@vanilla-extract/css'
 
 export const HeaderSection = style({
     display: 'flex',
@@ -6,9 +6,7 @@ export const HeaderSection = style({
     alignItems: 'center',
 })
 
-export const HeaderTeam = style({
-
-})
+export const HeaderTeam = style({})
 
 export const layout = style({
     width: '1024px',
@@ -25,5 +23,5 @@ export const layout = style({
 })
 
 export const main = style({
-    width: '710px'
+    width: '710px',
 })

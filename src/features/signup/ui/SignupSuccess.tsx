@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
  * @returns {jsxElement}
  */
 export const SignupSuccess = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     return (
         <Box
             display="flex"
@@ -77,7 +77,12 @@ export const SignupSuccess = () => {
                         </Text>
                     </Box>
                     <Box display="flex" style={{ gap: '24px' }}>
-                        <Button size="medium" type="tertiary" width="140px" onClickFunc={() => navigate('/')}>
+                        <Button
+                            size="medium"
+                            type="tertiary"
+                            width="140px"
+                            onClickFunc={() => navigate('/')}
+                        >
                             홈으로
                         </Button>
                     </Box>

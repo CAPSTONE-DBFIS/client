@@ -123,7 +123,9 @@ export const SignupAttempt = ({
                         name="nickname"
                         required={true}
                         value={currentFormData.nickname}
-                        onChange={(e) => handleInputChange(e, 'nickname', 'all')}
+                        onChange={(e) =>
+                            handleInputChange(e, 'nickname', 'all')
+                        }
                     />
                 </Box>
                 <Box

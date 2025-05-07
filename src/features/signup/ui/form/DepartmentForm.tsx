@@ -15,12 +15,22 @@ import { useState } from 'react'
  * 부서 설정 컴포넌트
  * @returns {jsxElement}
  */
-export const DepartmentForm = ({ onNext, onBack, formData, setFormData }: {onNext: () => void, onBack: () => void, formData: IJoin, setFormData: (formData: IJoin) => void}) => {
+export const DepartmentForm = ({
+    onNext,
+    onBack,
+    formData,
+    setFormData,
+}: {
+    onNext: () => void
+    onBack: () => void
+    formData: IJoin
+    setFormData: (formData: IJoin) => void
+}) => {
     const [department, setDepartment] = useState<string>('')
     const handleSubmit = () => {
-        setFormData({   
+        setFormData({
             ...formData,
-            department: department
+            department: department,
         })
         onNext()
     }

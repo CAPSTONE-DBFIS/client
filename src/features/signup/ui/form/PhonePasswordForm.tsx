@@ -33,9 +33,9 @@ export const PhonePasswordForm = ({
         let { value } = e.target
 
         if (type === 'number') {
-            value = value.replace(/[^0-9]/g, '') 
+            value = value.replace(/[^0-9]/g, '')
         } else if (type === 'text') {
-            value = value.replace(/[^a-zA-Z가-힣\s]/g, '') 
+            value = value.replace(/[^a-zA-Z가-힣\s]/g, '')
         }
         setCurrentFormData({
             ...currentFormData,
@@ -110,7 +110,9 @@ export const PhonePasswordForm = ({
                         required={true}
                         type="password"
                         value={currentFormData.password}
-                        onChange={(e) => handleInputChange(e, 'password', 'all')}
+                        onChange={(e) =>
+                            handleInputChange(e, 'password', 'all')
+                        }
                     />
                 </Box>
                 <Box

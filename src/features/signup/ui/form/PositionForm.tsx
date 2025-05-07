@@ -44,7 +44,7 @@ export const PositionForm = ({
                 alert('잘못된 유저 정보입니다.')
                 navigate('/auth')
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e)
             alert('잘못된 유저 정보입니다.')
             navigate('/auth')

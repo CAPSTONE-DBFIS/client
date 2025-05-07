@@ -21,7 +21,7 @@ export const ChatLists = forwardRef<HTMLDivElement>((_, ref) => {
                 { title: '제목', content: '내용내용' },
             ],
         }) // data fetching
-    }, [])
+    }, [setCurrentChat])
 
     return (
         <Box className={S.lists} ref={ref}>

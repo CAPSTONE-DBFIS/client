@@ -21,18 +21,29 @@ export const Signup = () => {
         phone: '',
         password: '',
         department: '',
-        role: ''
+        role: '',
     })
     return (
         <Funnel>
             <Step name="attemp">
-                <SignupAttempt onNext={() => setFunnel('register')} formData={formData} setFormData={setFormData} />
+                <SignupAttempt
+                    onNext={() => setFunnel('register')}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </Step>
             <Step name="register">
-                <SignupRegister onSuccess={() => setFunnel('verification')} formData={formData} setFormData={setFormData} />
+                <SignupRegister
+                    onSuccess={() => setFunnel('verification')}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </Step>
             <Step name="verification">
-                <SignupVerification onNext={() => setFunnel('success')} id={formData.id}/>
+                <SignupVerification
+                    onNext={() => setFunnel('success')}
+                    id={formData.id}
+                />
             </Step>
             <Step name="success">
                 <SignupSuccess />

@@ -14,11 +14,11 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 
 export const ToggleAuth = () => {
     const [isToggleLeft, setIsToggleLeft] = useState(true)
-    const location = useLocation();
+    const location = useLocation()
     const [params, setParams] = useSearchParams()
     useEffect(() => {
-        const {mode} = location.state;
-        if(mode === 'signup') setIsToggleLeft(false);
+        const { mode } = location.state
+        if (mode === 'signup') setIsToggleLeft(false)
     }, [location])
 
     const handleToggle = () => {

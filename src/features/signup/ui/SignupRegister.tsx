@@ -11,17 +11,29 @@ import { IJoin } from '@/entities/user/join.type'
  * @param {() => void} onSuccess 회원가입 유저 정보 등록 성공 시 실행 함수
  * @returns
  */
-export const SignupRegister = ({ onSuccess, formData, setFormData }: {onSuccess: () => void, formData: IJoin, setFormData: (formData: IJoin) => void}) => {
+export const SignupRegister = ({
+    onSuccess,
+    formData,
+    setFormData,
+}: {
+    onSuccess: () => void
+    formData: IJoin
+    setFormData: (formData: IJoin) => void
+}) => {
     const [Funnel, setFunnel] = useFunnel(
         ['phone-and-pwd', 'department', 'position'] as const,
         'phone-and-pwd',
         'register'
     )
- 
+
     return (
         <Funnel>
             <Step name="phone-and-pwd">
-                <PhonePasswordForm onNext={() => setFunnel('department')} formData={formData} setFormData={setFormData} />
+                <PhonePasswordForm
+                    onNext={() => setFunnel('department')}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </Step>
             <Step name="department">
                 <DepartmentForm

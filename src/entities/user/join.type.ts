@@ -9,4 +9,4 @@ export interface IJoin {
     role: string
 }
 
-export type JoinKey = keyof IJoin;
+export type JoinKey = keyof IJoin

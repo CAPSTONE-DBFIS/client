@@ -1,5 +1,5 @@
-import { colors } from "@/app/token";
-import { style } from "@vanilla-extract/css";
+import { colors } from '@/app/token'
+import { style } from '@vanilla-extract/css'
 
 export const fileTable = style({
     display: 'grid',
