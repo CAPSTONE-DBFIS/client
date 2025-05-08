@@ -4,11 +4,14 @@ import { Text } from '@/shared/ui/Text'
 // style
 import { notSelect, profileContainer, profileTextBox } from './profile.css'
 import { ProfileOption } from './ProfileOption'
+import { useAuthStore } from '@/entities/user/stores/AuthStore'
 /**
  * navigate 오른쪽 사용자 전용 navigate 컴포넌트
  * @returns {JsxElement}
  */
 export const Profile = () => {
+    const userData = useAuthStore.getState().userData
+
     return (
         <Box display="flex" alignItems="center" className={profileContainer}>
             <Box
@@ -22,10 +25,10 @@ export const Profile = () => {
                     fontWeight="bold"
                     className={notSelect}
                 >
-                    김세현
+                    {userData.name}
                 </Text>
                 <Text fontWeight="regular" className={notSelect}>
-                    트렌드 챗봇 설계팀
+                    {userData.department}
                 </Text>
             </Box>
             <ProfileOption />

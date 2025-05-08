@@ -10,6 +10,10 @@ import Password from '@/shared/asset/icon/lock-closed.svg?react'
 import { colors } from '@/app/token'
 // hooks
 import { useState } from 'react'
+import { login } from '@/entities/user/api/login'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/entities/user/stores/AuthStore'
 
 /**
  * 로그인 컴포넌트
@@ -19,10 +23,36 @@ export const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+    const navigate = useNavigate()
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        try {
+            const response = await login({ id: email, password: password })
+            if (response.status === 200) {
+                console.log(response.data)
+                useAuthStore.setState((prev) => ({
+                    isLoggedIn: true,
+                    userData: {
+                        ...prev.userData,
+                        memberId: email,
+                        accessToken: response.data.accessToken,
+                        refreshToken: response.data.refreshToken,
+                        name: response.data.name,
+                        department: response.data.department,
+                    },
+                }))
+                navigate('/')
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log(error.response?.data) // ✅ 여기서 받아짐
+                console.log(error.response?.data.message) // → "사용자를 찾을 수 없습니다."
+                setError(error.response?.data.message)
+            } else {
+                console.error(error)
+            }
+        }
     }
-    console.log(setError)
     return (
         <Box
             display="flex"
@@ -48,7 +78,7 @@ export const Login = () => {
                             fill={colors['teal-500']}
                         />
                     }
-                    placeholder="이메일"
+                    placeholder="아이디"
                     type="email"
                     required={true}
                     value={email}
@@ -68,13 +98,15 @@ export const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {error && (
-                    <Text color="red-300" fontSize="caption">
-                        {error}
-                    </Text>
-                )}
-                <Box style={{ marginBottom: '20px', cursor: 'pointer' }}>
-                    <Text color="neutral-200">아이디/비밀번호 찾기</Text>
+                <Box>
+                    {error && (
+                        <Text color="red-300" fontSize="caption">
+                            {error}
+                        </Text>
+                    )}
+                    <Box style={{ marginBottom: '20px', cursor: 'pointer' }}>
+                        <Text color="neutral-200">아이디/비밀번호 찾기</Text>
+                    </Box>
                 </Box>
                 <Button type="primary" size="medium">
                     로그인
