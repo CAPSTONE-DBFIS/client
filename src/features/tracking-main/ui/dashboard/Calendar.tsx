@@ -94,7 +94,7 @@ export const Calendar: React.FC<{
                 </Box>
             </Box>
             {/* FullCalendar */}
-            <Box style={{ position: 'relative' }}>
+            <Box style={{ position: 'relative' }} onMouseLeave={hidePopup}>
                 <FullCalendar
                     ref={(calendar) => {
                         if (calendar) {
