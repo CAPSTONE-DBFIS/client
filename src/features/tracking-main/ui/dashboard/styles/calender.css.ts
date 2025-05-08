@@ -112,3 +112,7 @@ globalStyle('.fc .fc-more-link', {
     textAlign: 'center',
     whiteSpace: 'nowrap',
 })
+
+globalStyle(' .fc-daygrid-block-event .fc-event-title', {
+    display: 'none',
+})

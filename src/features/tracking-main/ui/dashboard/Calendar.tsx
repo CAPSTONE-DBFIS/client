@@ -10,6 +10,17 @@ import { Text } from '@/shared/ui/Text'
 import * as style from './styles/calender.css'
 import { colors } from '@/app/token'
 import { ITask } from '../../types/task.type'
+import { Popup } from '@/shared/ui/Popup'
+import { CalendarPopup } from './CalendarPopup'
+import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
+import { usePopup } from '@/shared/lib/hooks/usePopup'
+import { IPopupConfig } from '@/shared/types/popup.types'
+import { createPortal } from 'react-dom'
+
+interface PopupConfig extends IPopupConfig {
+    content?: React.ReactNode
+}
+
 /**
  * 대시보드 중 캘린더
  * @param {string} dateStr - 변환하려는 날짜
@@ -26,28 +37,37 @@ export const Calendar: React.FC<{
     tasks: ITask[]
 }> = ({ tasks }) => {
     const calendarRef = useRef<FullCalendar | null>(null)
-    const [currentDate, setCurrentDate] = useState(new Date())
+    const [currentDate, setCurrentDate] = useState(new Date()) //날짜 저장
+    const { config, hidePopup, updatePopupConfig } = usePopup()
+    const ref = useRef<HTMLButtonElement>(null)
+    useClickOutside(ref, hidePopup) // 팝업 외부 클릭시 팝업 닫기
 
     const COLORS = [`#E6F0FF`, '#F9E9E6', '#E5F3F5', '#F5E5F3', '#f9e0c9']
 
+    //task 날짜 쪼개기
     const expandToDailyEvents = (
-        task: { id: string; startDate: string; endDate: string },
+        task: { id: string; startDate: string; endDate: string; title: string },
         color: string
     ) => {
         const start = new Date(task.startDate)
-        start.setDate(start.getDate() + 1)
+        start.setDate(start.getDate())
 
         const end = new Date(task.endDate)
-        end.setDate(end.getDate() + 1)
+        end.setDate(end.getDate())
 
         const events = []
         for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
             events.push({
                 id: `${task.id}-${d.toISOString().split('T')[0]}`,
-                title: ' ',
+                title: task.title,
                 start: d.toISOString().split('T')[0],
+                end: d.toISOString().split('T')[0],
                 allDay: true,
                 color,
+                extendedProps: {
+                    originalStartDate: task.startDate,
+                    originalEndDate: task.endDate,
+                },
             })
         }
 
@@ -58,12 +78,14 @@ export const Calendar: React.FC<{
         expandToDailyEvents(task, COLORS[index % COLORS.length])
     )
 
+    //달력 헤더
     const formatYearMonth = (date: Date): string => {
         const year = date.getFullYear()
         const month = String(date.getMonth() + 1).padStart(2, '0')
         return `${year}.${month}`
     }
 
+    //좌우 넘기기
     const handlePrev = () => {
         const api = calendarRef.current?.getApi()
         api?.prev()
@@ -93,20 +115,72 @@ export const Calendar: React.FC<{
                     <Next width={24} height={24} fill={colors['neutral-600']} />
                 </Box>
             </Box>
-            <FullCalendar
-                ref={(calendar) => {
-                    if (calendar) {
-                        calendarRef.current = calendar
-                    }
-                }}
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                events={events}
-                dayMaxEventRows={true}
-                fixedWeekCount={false}
-                headerToolbar={false}
-                contentHeight={560}
-            />
+            <Box style={{ position: 'relative' }}>
+                <FullCalendar
+                    ref={(calendar) => {
+                        if (calendar) {
+                            calendarRef.current = calendar
+                        }
+                    }}
+                    plugins={[dayGridPlugin, interactionPlugin]}
+                    initialView="dayGridMonth"
+                    events={events}
+                    dayMaxEventRows={true}
+                    fixedWeekCount={false}
+                    headerToolbar={false}
+                    contentHeight={560}
+                    //팝업 수정필요
+                    eventMouseEnter={(info) => {
+                        console.log(info.event)
+                        const mouseX = info.jsEvent.clientX
+                        const mouseY = info.jsEvent.clientY
+                        const scrollY = window.scrollY
+                        const scrollX = window.scrollX
+
+                        const popupWidth = 200
+                        const popupHeight = 120
+                        const offsetX = 12
+                        const offsetY = 12
+
+                        // 진짜 마우스 위치 기준 위치 계산
+                        let top = mouseY + scrollY + offsetY - 1170
+                        let left = mouseX + scrollX + offsetX
+
+                        // 오른쪽/아래로 넘치면 반대로 띄우기
+                        if (left + popupWidth > window.innerWidth + scrollX) {
+                            left = mouseX + scrollX - popupWidth - offsetX
+                        }
+                        if (top + popupHeight > window.innerHeight + scrollY) {
+                            top = mouseY + scrollY - popupHeight - offsetY
+                        }
+                        const originalStartDate =
+                            info.event.extendedProps.originalStartDate
+                        const originalEndDate =
+                            info.event.extendedProps.originalEndDate
+
+                        updatePopupConfig({
+                            open: true,
+                            type: 'default',
+                            content: (
+                                <Popup config={config} TOP={top} LEFT={left}>
+                                    <CalendarPopup
+                                        id={info.event.id}
+                                        title={info.event.title}
+                                        startDate={originalStartDate}
+                                        endDate={originalEndDate}
+                                    />
+                                </Popup>
+                            ),
+                        } as unknown as Partial<IPopupConfig>)
+                    }}
+                />
+                {/* 캘린더 내부X 화면에 띄우기 */}
+                {config.open &&
+                    createPortal(
+                        (config as PopupConfig).content,
+                        document.body
+                    )}
+            </Box>
         </Box>
     )
 }
