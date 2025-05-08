@@ -1,13 +1,19 @@
 import { colors } from '@/app/token'
-import { styleVariants, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-const Iicon = style({
-    width: '6px',
-    height: '6px',
-    borderRadius: '50%',
+export const progressSection = style({
+    marginBottom: '16px',
 })
 
-export const iIconTypes = styleVariants({
-    end: [Iicon, { backgroundColor: colors['red-75'] }],
-    now: [Iicon, { backgroundColor: colors['blue-100'] }],
+export const progressBarContainer = style({
+    height: '10px',
+    backgroundColor: colors['neutral-30'],
+    borderRadius: '100px',
+    overflow: 'hidden',
+})
+
+export const progressBar = style({
+    height: '100%',
+    backgroundColor: colors['neutral-900'],
+    borderRadius: '4px',
 })
