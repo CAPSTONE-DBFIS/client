@@ -1,21 +1,32 @@
+import { useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+
+//library
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+//style
 import '@/features/tracking-main/ui/dashboard/styles/calender.css'
+import * as style from './styles/calender.css'
+
+//icons
 import Prev from '@/shared/asset/icon/cheveron-left.svg?react'
 import Next from '@/shared/asset/icon/cheveron-right.svg?react'
-import { useRef, useState } from 'react'
+//components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
-import * as style from './styles/calender.css'
 import { colors } from '@/app/token'
-import { ITask } from '../../types/task.type'
-import { Popup } from '@/shared/ui/Popup'
 import { CalendarPopup } from './CalendarPopup'
+
+//interface
+import { IPopupConfig } from '@/shared/types/popup.types'
+import { ITask } from '../../types/task.type'
+
+//popup
+import { Popup } from '@/shared/ui/Popup'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { usePopup } from '@/shared/lib/hooks/usePopup'
-import { IPopupConfig } from '@/shared/types/popup.types'
-import { createPortal } from 'react-dom'
+import { expandToDailyEvents } from '../../model/expandToDailyEvents'
 
 interface PopupConfig extends IPopupConfig {
     content?: React.ReactNode
@@ -23,13 +34,7 @@ interface PopupConfig extends IPopupConfig {
 
 /**
  * 대시보드 중 캘린더
- * @param {string} dateStr - 변환하려는 날짜
- * @constant {string[]} COLORS - 작업 색상 배열
- * @property {string} events[].id - 작업 ID
- * @property {string} events[].title - 제목
- * @property {string} events[].start - 시작 날짜
- * @property {string} events[].end - 종료 날짜
- * @property {string} events[].color - 이벤트 색상
+ * @param {Array<ITask>} props.tasks - 렌더링할 작업
  * @returns {JSX.Element}
  */
 
@@ -43,36 +48,6 @@ export const Calendar: React.FC<{
     useClickOutside(ref, hidePopup) // 팝업 외부 클릭시 팝업 닫기
 
     const COLORS = [`#E6F0FF`, '#F9E9E6', '#E5F3F5', '#F5E5F3', '#f9e0c9']
-
-    //task 날짜 쪼개기
-    const expandToDailyEvents = (
-        task: { id: string; startDate: string; endDate: string; title: string },
-        color: string
-    ) => {
-        const start = new Date(task.startDate)
-        start.setDate(start.getDate())
-
-        const end = new Date(task.endDate)
-        end.setDate(end.getDate())
-
-        const events = []
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            events.push({
-                id: `${task.id}-${d.toISOString().split('T')[0]}`,
-                title: task.title,
-                start: d.toISOString().split('T')[0],
-                end: d.toISOString().split('T')[0],
-                allDay: true,
-                color,
-                extendedProps: {
-                    originalStartDate: task.startDate,
-                    originalEndDate: task.endDate,
-                },
-            })
-        }
-
-        return events
-    }
 
     const events = tasks.flatMap((task, index) =>
         expandToDailyEvents(task, COLORS[index % COLORS.length])
@@ -100,6 +75,7 @@ export const Calendar: React.FC<{
 
     return (
         <Box>
+            {/* 캘린더 헤더 */}
             <Box className={style.calendarBox}>
                 <Box as={'button'} onClick={handlePrev} className={style.Btn}>
                     <Prev width={24} height={24} fill={colors['neutral-600']} />
@@ -115,6 +91,7 @@ export const Calendar: React.FC<{
                     <Next width={24} height={24} fill={colors['neutral-600']} />
                 </Box>
             </Box>
+            {/* FullCalendar */}
             <Box style={{ position: 'relative' }}>
                 <FullCalendar
                     ref={(calendar) => {
@@ -131,7 +108,6 @@ export const Calendar: React.FC<{
                     contentHeight={560}
                     //팝업 수정필요
                     eventMouseEnter={(info) => {
-                        console.log(info.event)
                         const mouseX = info.jsEvent.clientX
                         const mouseY = info.jsEvent.clientY
                         const scrollY = window.scrollY

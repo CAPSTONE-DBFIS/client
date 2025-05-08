@@ -3,9 +3,9 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { ITask } from '../../types/task.type'
 import * as style from './styles/calendarPopup.css'
-import { calculatePercentage } from '../../model/calulatePercentage'
+import { calculatePercentage } from '../../lib/calulatePercentage'
 /**
- * Navigation -> UserNav -> CalendarPopup 컴포넌트
+ * Calendar내 이벤트 튤팁
  * @returns {JsxElement}
  */
 
