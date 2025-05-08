@@ -12,9 +12,10 @@ import { colors } from '@/app/token'
  * 프로젝트 헤더 컴포넌트
  * 프로젝트 제목과 경로 표시 & 관련 메뉴(수정,삭제)를 표시하는 컴포넌트입니다.
  * @param {string} projectName - 프로젝트 제목
+ * @param {string} projectPath - 프로젝트 경로
  * @returns {JSX.Element}
  */
-export const Title = ({ projectName }: IProject) => {
+export const Title = ({ projectName, projectPath }: IProject) => {
     return (
         <Box display="flex" flexDirection="column" className={style.layout}>
             <Box display="flex" flexDirection="column">
@@ -60,7 +61,7 @@ export const Title = ({ projectName }: IProject) => {
                                 fill={colors['neutral-60']}
                             />
                             <Text fontSize="body" color={'neutral-60'}>
-                                00프로젝트
+                                {projectPath}
                             </Text>
                         </Box>
                     </Box>
