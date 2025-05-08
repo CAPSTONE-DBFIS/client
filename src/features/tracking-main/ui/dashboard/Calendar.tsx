@@ -12,6 +12,7 @@ import * as style from './styles/calender.css'
 //icons
 import Prev from '@/shared/asset/icon/cheveron-left.svg?react'
 import Next from '@/shared/asset/icon/cheveron-right.svg?react'
+
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
@@ -27,6 +28,7 @@ import { Popup } from '@/shared/ui/Popup'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { usePopup } from '@/shared/lib/hooks/usePopup'
 import { expandToDailyEvents } from '../../model/expandToDailyEvents'
+import { eventMouseEnter } from '../../model/handleEventMouseEnter'
 
 interface PopupConfig extends IPopupConfig {
     content?: React.ReactNode
@@ -108,27 +110,7 @@ export const Calendar: React.FC<{
                     contentHeight={800}
                     //팝업 수정필요
                     eventMouseEnter={(info) => {
-                        const mouseX = info.jsEvent.clientX
-                        const mouseY = info.jsEvent.clientY
-                        const scrollY = window.scrollY
-                        const scrollX = window.scrollX
-
-                        const popupWidth = 250
-                        const popupHeight = 120
-                        const offsetX = 12
-                        const offsetY = -1320
-
-                        // 진짜 마우스 위치 기준 위치 계산
-                        let top = mouseY + scrollY + offsetY
-                        let left = mouseX + scrollX + offsetX
-
-                        // 오른쪽/아래로 넘치면 반대로 띄우기
-                        if (left + popupWidth > window.innerWidth + scrollX) {
-                            left = mouseX + scrollX - popupWidth - offsetX
-                        }
-                        if (top + popupHeight > window.innerHeight + scrollY) {
-                            top = mouseY + scrollY - popupHeight - offsetY
-                        }
+                        const { top, left } = eventMouseEnter({ info })
                         const originalStartDate =
                             info.event.extendedProps.originalStartDate
                         const originalEndDate =
