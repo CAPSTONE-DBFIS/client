@@ -30,7 +30,7 @@ globalStyle('.fc .fc-daygrid-day-top', {
 })
 
 globalStyle('.fc-event-title-container ', {
-    height: '10px',
+    height: '12px',
 })
 
 // 오늘 날짜 강조
@@ -47,7 +47,7 @@ globalStyle('.fc-daygrid-day-number', {
 })
 
 globalStyle('.fc-event', {
-    marginBottom: '4px',
+    margin: '4px',
     borderRadius: '1px',
 })
 
