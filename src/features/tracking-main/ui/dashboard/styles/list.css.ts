@@ -19,11 +19,14 @@ export const mainData = style({
 })
 
 export const tag = style({
-    height: '22px',
     padding: '4px 8px',
     backgroundColor: colors['blue-50'],
     borderRadius: '10px',
     marginRight: '8px',
+})
+
+export const tagBox = style({
+    height: '36px',
 })
 
 export const progressSection = style({

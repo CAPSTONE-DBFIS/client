@@ -105,7 +105,7 @@ export const Calendar: React.FC<{
                     dayMaxEventRows={true}
                     fixedWeekCount={false}
                     headerToolbar={false}
-                    contentHeight={560}
+                    contentHeight={800}
                     //팝업 수정필요
                     eventMouseEnter={(info) => {
                         const mouseX = info.jsEvent.clientX
@@ -119,7 +119,7 @@ export const Calendar: React.FC<{
                         const offsetY = 12
 
                         // 진짜 마우스 위치 기준 위치 계산
-                        let top = mouseY + scrollY + offsetY - 1170
+                        let top = mouseY + scrollY + offsetY - 1340
                         let left = mouseX + scrollX + offsetX
 
                         // 오른쪽/아래로 넘치면 반대로 띄우기

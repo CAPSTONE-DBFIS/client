@@ -154,7 +154,11 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                         </Box>
                     </Box>
 
-                    <Box>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        className={style.tagBox}
+                    >
                         {task.tags.map((tag) => (
                             <Text key={tag} className={style.tag}>
                                 {tag}
