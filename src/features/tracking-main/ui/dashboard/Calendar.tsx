@@ -113,13 +113,13 @@ export const Calendar: React.FC<{
                         const scrollY = window.scrollY
                         const scrollX = window.scrollX
 
-                        const popupWidth = 200
+                        const popupWidth = 250
                         const popupHeight = 120
                         const offsetX = 12
-                        const offsetY = 12
+                        const offsetY = -1320
 
                         // 진짜 마우스 위치 기준 위치 계산
-                        let top = mouseY + scrollY + offsetY - 1340
+                        let top = mouseY + scrollY + offsetY
                         let left = mouseX + scrollX + offsetX
 
                         // 오른쪽/아래로 넘치면 반대로 띄우기
