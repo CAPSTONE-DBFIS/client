@@ -21,19 +21,35 @@ export const eventMouseEnter = ({ info }: { info: EventInfo }) => {
 
     const popupWidth = 250
     const popupHeight = 120
-    const offsetX = 12
+    const offsetX = 250
+
     const offsetY = -1320
 
-    // 진짜 마우스 위치 기준 위치 계산
-    let top = mouseY + scrollY + offsetY
-    let left = mouseX + scrollX + offsetX
+    // 초기 위치 계산
+    let top = mouseY - popupHeight + offsetY
+    let left = mouseX - popupWidth + offsetX
 
-    // 오른쪽/아래로 넘치면 반대로 띄우기
-    if (left + popupWidth > window.innerWidth + scrollX) {
-        left = mouseX + scrollX - popupWidth - offsetX
+    // 화면 크기와 스크롤을 반영하여 위치 조정
+    const viewportWidth = window.innerWidth + scrollX
+    const viewportHeight = window.innerHeight + scrollY + offsetY
+
+    // 오른쪽으로 넘칠 경우
+    if (left + popupWidth > viewportWidth) {
+        left = mouseX - offsetX
     }
-    if (top + popupHeight > window.innerHeight + scrollY) {
-        top = mouseY + scrollY - popupHeight - offsetY
+    // 왼쪽으로 넘칠 경우
+    if (left < scrollX) {
+        left = mouseX + offsetX
     }
+
+    // 아래로 넘칠 경우
+    if (top + popupHeight > viewportHeight) {
+        top = mouseY - popupHeight - offsetY
+    }
+    // 위로 넘칠 경우
+    if (top < scrollY) {
+        top = mouseY + offsetY
+    }
+
     return { top, left }
 }
