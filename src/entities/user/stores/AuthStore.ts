@@ -1,22 +1,15 @@
-import { createStore } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type UserType = {
+type AuthType = {
     memberId: string
     name: string
     department: string
     accessToken: string
     refreshToken: string
-}
-
-type AuthType = {
-    userData: UserType
     isLoggedIn: boolean
     login: () => void
     logout: () => void
-}
-
-type AuthAction = {
     setMemberId: (id: string) => void
     setAccessToken: (token: string) => void
     setRefreshToken: (token: string) => void
@@ -24,56 +17,32 @@ type AuthAction = {
     setName: (name: string) => void
     setDepartment: (department: string) => void
 }
-
-export const useAuthStore = createStore(
-    persist<AuthType & AuthAction>(
+export const useAuthStore = create(
+    persist<AuthType>(
         (set) => ({
             isLoggedIn: false,
-            userData: {
-                memberId: '',
-                accessToken: '',
-                refreshToken: '',
-                name: '',
-                department: '',
-            },
+            memberId: '',
+            name: '',
+            department: '',
+            accessToken: '',
+            refreshToken: '',
             login: () => set({ isLoggedIn: true }),
             logout: () =>
                 set({
                     isLoggedIn: false,
-                    userData: {
-                        memberId: '',
-                        accessToken: '',
-                        refreshToken: '',
-                        department: '',
-                        name: '',
-                    },
+                    memberId: '',
+                    name: '',
+                    department: '',
+                    accessToken: '',
+                    refreshToken: '',
                 }),
-            accessToken: '',
-            refreshToken: '',
-            setMemberId: (id) =>
-                set((state) => ({
-                    userData: { ...state.userData, memberId: id },
-                })),
-            setAccessToken: (token) =>
-                set((state) => ({
-                    userData: { ...state.userData, accessToken: token },
-                })),
-            setRefreshToken: (token) =>
-                set((state) => ({
-                    userData: { ...state.userData, refreshToken: token },
-                })),
+            setMemberId: (id) => set({ memberId: id }),
+            setAccessToken: (token) => set({ accessToken: token }),
+            setRefreshToken: (token) => set({ refreshToken: token }),
             setToken: (accessToken, refreshToken) =>
-                set((state) => ({
-                    userData: { ...state.userData, accessToken, refreshToken },
-                })),
-            setName: (name) =>
-                set((state) => ({
-                    userData: { ...state.userData, name },
-                })),
-            setDepartment: (department) =>
-                set((state) => ({
-                    userData: { ...state.userData, department },
-                })),
+                set({ accessToken, refreshToken }),
+            setName: (name) => set({ name }),
+            setDepartment: (department) => set({ department }),
         }),
         {
             name: 'userInfoStorage',

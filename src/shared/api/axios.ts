@@ -1,3 +1,4 @@
+import { refreshToken } from '@/entities/user/api/login'
 import axios from 'axios'
 
 // axios 인스턴스 생성
@@ -14,9 +15,14 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         // 로컬 스토리지에서 토큰 가져오기
-        const token = localStorage.getItem('token')
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`
+        const user = localStorage.getItem('userInfoStorage')
+        if (user) {
+            const parsedUser = JSON.parse(user)
+            const accessToken = parsedUser.state?.accessToken
+
+            if (accessToken) {
+                config.headers.Authorization = `Bearer ${accessToken}`
+            }
         }
         return config
     },
@@ -32,10 +38,7 @@ axiosInstance.interceptors.response.use(
     },
     (error) => {
         if (error.response?.status === 401) {
-            // 토큰이 만료되었거나 유효하지 않은 경우
-            localStorage.removeItem('token')
-            console.log('토큰 만료')
-            window.location.href = '/auth'
+            refreshToken()
         }
         return Promise.reject(error)
     }
