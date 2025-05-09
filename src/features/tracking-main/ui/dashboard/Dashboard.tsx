@@ -13,6 +13,7 @@ import Down from '@/shared/asset/icon/cheveron-down.svg?react'
 
 interface IDashboard {
     activeView: string
+    onReportSelect: (id: string) => void // 리스트 클릭 시 호출되는 함수
 }
 
 /**
@@ -26,7 +27,7 @@ interface IDashboard {
  * @returns {JSX.Element}
  */
 
-export const Dashboard = ({ activeView }: IDashboard) => {
+export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
 
@@ -95,6 +96,7 @@ export const Dashboard = ({ activeView }: IDashboard) => {
                             task={task}
                             handleDeleteTask={() => openDeleteModal(task.id)}
                             handleEditTask={() => openEditModal(task.id)}
+                            onClick={() => onReportSelect(task.id)}
                         />
                     ))}
                 </Box>

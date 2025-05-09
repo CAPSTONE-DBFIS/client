@@ -21,6 +21,7 @@ interface IListProps {
     task: ITaskdata
     handleDeleteTask: (id: string) => void // 삭제 함수
     handleEditTask: (id: string) => void // 수정 함수
+    onClick: () => void // 리스트 클릭 이벤트
 }
 /**
  * 대시보드 중 리스트
@@ -42,6 +43,7 @@ export const List: React.FC<IListProps> = ({
     task,
     handleDeleteTask,
     handleEditTask,
+    onClick,
 }) => {
     // 메뉴 열림, 닫힘 상태
     const [menuOpen, setMenuOpen] = useState(false)
@@ -68,7 +70,7 @@ export const List: React.FC<IListProps> = ({
     }
 
     return (
-        <Box style={{ position: 'relative', zIndex: '0' }}>
+        <Box style={{ position: 'relative', zIndex: '0' }} onClick={onClick}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
