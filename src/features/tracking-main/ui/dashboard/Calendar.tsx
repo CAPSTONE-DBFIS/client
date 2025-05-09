@@ -54,7 +54,6 @@ export const Calendar: React.FC<{
     const events = tasks.flatMap((task, index) =>
         expandToDailyEvents(task, COLORS[index % COLORS.length])
     )
-
     //달력 헤더
     const formatYearMonth = (date: Date): string => {
         const year = date.getFullYear()
@@ -94,7 +93,11 @@ export const Calendar: React.FC<{
                 </Box>
             </Box>
             {/* FullCalendar */}
-            <Box style={{ position: 'relative' }} onMouseLeave={hidePopup}>
+            <Box
+                id="calendar-container"
+                style={{ position: 'relative', overflow: 'visible' }}
+                onMouseLeave={hidePopup}
+            >
                 <FullCalendar
                     ref={(calendar) => {
                         if (calendar) {
@@ -132,13 +135,25 @@ export const Calendar: React.FC<{
                         } as unknown as Partial<IPopupConfig>)
                     }}
                 />
-                {/* 캘린더 내부X 화면에 띄우기 */}
-                {config.open &&
-                    createPortal(
-                        (config as PopupConfig).content,
-                        document.body
-                    )}
             </Box>
+            {/* 캘린더 내부X 화면에 띄우기 */}
+            {config.open &&
+                createPortal(
+                    <Box
+                        style={{
+                            position: 'fixed',
+                            zIndex: 1,
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        {(config as PopupConfig).content}
+                    </Box>,
+                    document.body
+                )}
         </Box>
     )
 }

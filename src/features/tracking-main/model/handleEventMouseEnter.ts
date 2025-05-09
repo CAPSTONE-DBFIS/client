@@ -16,39 +16,23 @@ interface EventInfo {
 export const eventMouseEnter = ({ info }: { info: EventInfo }) => {
     const mouseX = info.jsEvent.clientX
     const mouseY = info.jsEvent.clientY
-    const scrollY = window.scrollY
-    const scrollX = window.scrollX
 
+    // 팝업 크기
     const popupWidth = 250
     const popupHeight = 120
-    const offsetX = 250
+    const offsetX = 0
+    const offsetY = 16
 
-    const offsetY = -1320
+    let top = mouseY + offsetY
+    let left = mouseX + offsetX
 
-    // 초기 위치 계산
-    let top = mouseY - popupHeight + offsetY
-    let left = mouseX - popupWidth + offsetX
-
-    // 화면 크기와 스크롤을 반영하여 위치 조정
-    const viewportWidth = window.innerWidth + scrollX
-    const viewportHeight = window.innerHeight + scrollY + offsetY
-
-    // 오른쪽으로 넘칠 경우
-    if (left + popupWidth > viewportWidth) {
-        left = mouseX - offsetX
-    }
-    // 왼쪽으로 넘칠 경우
-    if (left < scrollX) {
-        left = mouseX + offsetX
+    // 화면 밖으로 나가는지 확인
+    if (mouseX + offsetX + popupWidth > window.innerWidth) {
+        left = mouseX - popupWidth - offsetX
     }
 
-    // 아래로 넘칠 경우
-    if (top + popupHeight > viewportHeight) {
+    if (mouseY + offsetY + popupHeight > window.innerHeight) {
         top = mouseY - popupHeight - offsetY
-    }
-    // 위로 넘칠 경우
-    if (top < scrollY) {
-        top = mouseY + offsetY
     }
 
     return { top, left }
