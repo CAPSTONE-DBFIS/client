@@ -1,12 +1,7 @@
 import { Box } from '@/shared/ui/Box'
 import * as style from './styles/tracking-sidebar.css'
-import Plus from '@/shared/asset/icon/plus-sm.svg?react'
-import { Text } from '@/shared/ui/Text'
 import { useState } from 'react'
-import { colors } from '@/app/token'
-import { TextInput } from '@/shared/ui/Input/TextInput'
-import Trash from '@/shared/asset/icon/trash.svg?react'
-import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
+import { TeamSection } from './TeamSection'
 
 interface Project {
     id: number
@@ -52,15 +47,11 @@ export const TrackingSidebar = () => {
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
     const [teamData, setTeamData] = useState(teams)
-    const projectTaskClick = (taskId: number) => {
-        setSelectedTask(taskId)
-    }
 
     const handleInput = (teamId: number) => {
         setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
     }
 
-    //프로젝트 추가
     const handleAddProject = (teamId: number) => {
         const name = inProject[teamId]
         if (!name) return
@@ -85,6 +76,15 @@ export const TrackingSidebar = () => {
         setInProject((prev) => ({ ...prev, [teamId]: '' }))
         setAddProject((prev) => ({ ...prev, [teamId]: false }))
     }
+
+    const handleInputChange = (teamId: number, value: string) => {
+        setInProject((prev) => ({ ...prev, [teamId]: value }))
+    }
+
+    const handleProjectClick = (taskId: number) => {
+        setSelectedTask(taskId)
+    }
+
     return (
         <Box
             display="flex"
@@ -93,104 +93,17 @@ export const TrackingSidebar = () => {
             className={style.layout}
         >
             {teamData.map((team) => (
-                <Box key={team.id}>
-                    {/* 팀 이름 */}
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        style={{ padding: '0 8px 12px 8px' }}
-                    >
-                        <Text color="neutral-900" fontSize="subHeadline">
-                            {team.name}
-                        </Text>
-                        {addProject[team.id] ? (
-                            <Box
-                                display="flex"
-                                alignItems="center"
-                                as={'button'}
-                                onClick={() => handleAddProject(team.id)}
-                                style={{
-                                    textDecoration: 'underline',
-                                    cursor: 'pointer',
-                                    color: '#98A1B0',
-                                }}
-                            >
-                                <Text color="neutral-80" fontSize="subHeadline">
-                                    추가
-                                </Text>{' '}
-                            </Box>
-                        ) : (
-                            <Box onClick={() => handleInput(team.id)}>
-                                <Plus
-                                    width={15}
-                                    height={15}
-                                    fill={colors['neutral-100']}
-                                />
-                            </Box>
-                        )}
-                    </Box>
-                    {/* 팀의 프로젝트 리스트 */}
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        style={{ gap: '6px' }}
-                    >
-                        {addProject[team.id] && (
-                            <Box display="flex" justifyContent="center">
-                                <TextInput
-                                    placeholder="프로젝트 이름을 입력해주세요."
-                                    size="small"
-                                    width="200px"
-                                    onChange={(e) =>
-                                        setInProject((prev) => ({
-                                            ...prev,
-                                            [team.id]: e.target.value,
-                                        }))
-                                    }
-                                />
-                            </Box>
-                        )}
-                        {team.projects.map((project) => (
-                            <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                fontSize="body"
-                                key={project.id}
-                                className={`
-                                ${style.taskItem} 
-                                ${style.menuItemClick[selectedTask === project.id ? 'selected' : 'default']}
-                            `}
-                                onClick={() => projectTaskClick(project.id)}
-                            >
-                                <Box
-                                    display="flex"
-                                    flexDirection="row"
-                                    alignItems="center"
-                                    style={{ gap: '16px' }}
-                                >
-                                    <Text
-                                        align="left"
-                                        fontSize="body"
-                                        className={`${style.taskIcon} ${selectedTask === project.id ? style.selectedTaskIcon : ''}`}
-                                    >
-                                        {project.name.charAt(0)}
-                                    </Text>
-                                    <Text>{project.name}</Text>
-                                </Box>
-
-                                {selectedTask === project.id && (
-                                    <Box className={style.selectedEdit}>
-                                        <Box className={style.slidingContent}>
-                                            <Trash width={16} height={16} />
-                                            <Edit width={16} height={16} />
-                                        </Box>
-                                    </Box>
-                                )}
-                            </Box>
-                        ))}
-                    </Box>
-                </Box>
+                <TeamSection
+                    key={team.id}
+                    team={team}
+                    addProject={addProject[team.id] || false}
+                    inProject={inProject[team.id] || ''}
+                    onAddProject={handleAddProject}
+                    onInputChange={handleInputChange}
+                    onToggleInput={handleInput}
+                    selectedTask={selectedTask}
+                    onProjectClick={handleProjectClick}
+                />
             ))}
         </Box>
     )
