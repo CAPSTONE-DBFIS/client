@@ -4,6 +4,7 @@ import Plus from '@/shared/asset/icon/plus-sm.svg?react'
 import { Text } from '@/shared/ui/Text'
 import { useState } from 'react'
 import { colors } from '@/app/token'
+import { TextInput } from '@/shared/ui/Input/TextInput'
 interface Project {
     id: number
     name: string
@@ -45,9 +46,41 @@ const teams: Team[] = [
 
 export const TrackingSidebar = () => {
     const [selectedTask, setSelectedTask] = useState<number | null>(null)
-
+    const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
+    const [inProject, setInProject] = useState<{ [key: number]: string }>({})
+    const [teamData, setTeamData] = useState(teams)
     const projectTaskClick = (taskId: number) => {
         setSelectedTask(taskId)
+    }
+
+    const handleInput = (teamId: number) => {
+        setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
+    }
+
+    //프로젝트 추가
+    const handleAddProject = (teamId: number) => {
+        const name = inProject[teamId]
+        if (!name) return
+
+        setTeamData((prev) =>
+            prev.map((team) => {
+                if (team.id !== teamId) return team
+
+                const nextId = team.projects.length
+                    ? Math.max(...team.projects.map((p) => p.id)) + 1
+                    : 1
+
+                const newProject = { id: nextId, name }
+
+                return {
+                    ...team,
+                    projects: [...team.projects, newProject],
+                }
+            })
+        )
+
+        setInProject((prev) => ({ ...prev, [teamId]: '' }))
+        setAddProject((prev) => ({ ...prev, [teamId]: false }))
     }
     return (
         <Box
@@ -56,22 +89,43 @@ export const TrackingSidebar = () => {
             justifyContent="center"
             className={style.layout}
         >
-            {teams.map((team) => (
+            {teamData.map((team) => (
                 <Box key={team.id}>
                     {/* 팀 이름 */}
                     <Box
                         display="flex"
                         justifyContent="space-between"
+                        alignItems="center"
                         style={{ padding: '0 8px 12px 8px' }}
                     >
                         <Text color="neutral-900" fontSize="subHeadline">
                             {team.name}
                         </Text>
-                        <Plus
-                            width={15}
-                            height={15}
-                            fill={colors['neutral-100']}
-                        />
+                        {addProject[team.id] ? (
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                as={'button'}
+                                onClick={() => handleAddProject(team.id)}
+                                style={{
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer',
+                                    color: '#98A1B0',
+                                }}
+                            >
+                                <Text color="neutral-80" fontSize="subHeadline">
+                                    추가
+                                </Text>{' '}
+                            </Box>
+                        ) : (
+                            <Box onClick={() => handleInput(team.id)}>
+                                <Plus
+                                    width={15}
+                                    height={15}
+                                    fill={colors['neutral-100']}
+                                />
+                            </Box>
+                        )}
                     </Box>
                     {/* 팀의 프로젝트 리스트 */}
                     <Box
@@ -79,6 +133,21 @@ export const TrackingSidebar = () => {
                         flexDirection="column"
                         style={{ gap: '6px' }}
                     >
+                        {addProject[team.id] && (
+                            <Box display="flex" justifyContent="center">
+                                <TextInput
+                                    placeholder="프로젝트 이름을 입력해주세요."
+                                    size="small"
+                                    width="200px"
+                                    onChange={(e) =>
+                                        setInProject((prev) => ({
+                                            ...prev,
+                                            [team.id]: e.target.value,
+                                        }))
+                                    }
+                                />
+                            </Box>
+                        )}
                         {team.projects.map((project) => (
                             <Box
                                 display="flex"
