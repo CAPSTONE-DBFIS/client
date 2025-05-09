@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 export const layout = style({
-    width: '1024px',
+    width: '1600px',
     padding: '36px 0px',
 
     '@media': {

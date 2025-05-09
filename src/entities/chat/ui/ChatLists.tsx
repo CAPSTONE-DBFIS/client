@@ -1,40 +1,30 @@
-import { useCurrentChat } from '@/entities/chat/model/useCurrentChat'
 import { ChatListItem } from '@/entities/chat/ui/ChatListItem'
 import { Box } from '@/shared/ui/Box'
-import { forwardRef, useEffect } from 'react'
-
-import { MOCK_MESSAGE } from '@/entities/chat/const/mock'
-
+import { forwardRef } from 'react'
 import * as S from './Chat.css'
+import { messagesType } from '@/entities/chat/type/chat.type'
+import { NoneChatList } from '@/entities/chat/ui/NoneChatList'
+interface ChatListsProps {
+    messages: messagesType[]
+    id: number
+}
 
-export const ChatLists = forwardRef<HTMLDivElement>((_, ref) => {
-    const currentChat = useCurrentChat((state) => state.currentChat)
-    const setCurrentChat = useCurrentChat((state) => state.setCurrentChat)
-    useEffect(() => {
-        setCurrentChat({
-            id: 'a',
-            title: '제목',
-            messages: [
-                { title: '제목', content: '내용내용' },
-                { title: '제목', content: '내용내용' },
-                { title: '제목', content: '내용내용' },
-                { title: '제목', content: '내용내용' },
-            ],
-        }) // data fetching
-    }, [setCurrentChat])
-
-    return (
-        <Box className={S.lists} ref={ref}>
-            {currentChat?.messages.map((message, index) => {
-                console.log(message)
-                return (
-                    <ChatListItem
-                        key={currentChat.id + ':' + index}
-                        title={MOCK_MESSAGE.title}
-                        content={MOCK_MESSAGE.content}
-                    />
-                )
-            })}
-        </Box>
-    )
-})
+export const ChatLists = forwardRef<HTMLDivElement, ChatListsProps>(
+    ({ messages, id }, ref) => {
+        if (messages.length === 0 || id === -1) {
+            return <NoneChatList />
+        }
+        return (
+            <Box className={S.listContainer}>
+                <Box className={S.lists} ref={ref}>
+                    {messages?.map((message) => {
+                        return (
+                            <ChatListItem key={message.id} message={message} />
+                        )
+                    })}
+                    <Box className={S.bottomPadding} />
+                </Box>
+            </Box>
+        )
+    }
+)

@@ -13,9 +13,10 @@ import {
     Insight,
     Management,
 } from '@/pages'
+import { useAuthStore } from '@/entities/user/stores/AuthStore'
 // v7 부터 변경될 내용으로 추후 해결 필요
 export default function AppRouter() {
-    const isAuth = true
+    const isLoggined = useAuthStore((state) => state.isLoggedIn)
     return (
         <BrowserRouter future={{ v7_startTransition: false }}>
             <Routes>
@@ -26,7 +27,7 @@ export default function AppRouter() {
                     <Route
                         path={route.ANALYSIS}
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute isAuth={isLoggined}>
                                 <Analysis />
                             </ProtectedRoute>
                         }
@@ -35,7 +36,7 @@ export default function AppRouter() {
                     <Route
                         path={route.TRACKING}
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute isAuth={isLoggined}>
                                 <Tracking />
                             </ProtectedRoute>
                         }
@@ -44,7 +45,7 @@ export default function AppRouter() {
                     <Route
                         path={route.INSIGHT}
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute isAuth={isLoggined}>
                                 <Insight />
                             </ProtectedRoute>
                         }
@@ -53,7 +54,7 @@ export default function AppRouter() {
                     <Route
                         path={route.COMMUNITY}
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute isAuth={isLoggined}>
                                 <Community />
                             </ProtectedRoute>
                         }
@@ -62,7 +63,7 @@ export default function AppRouter() {
                     <Route
                         path={route.MANAGEMENT}
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute isAuth={isLoggined}>
                                 <Management />
                             </ProtectedRoute>
                         }

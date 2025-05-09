@@ -1,5 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css'
 import * as layers from '../layer/layers.css'
+import { response } from '@/entities/chat/ui/Chat.css'
 /**
  * 'display' 속성만 제외한 모든 "User-Agent-StyleSheet" 스타일을 제거합니다.
  * - "symbol *" 부분은 Firefox에서 발생하는 SVG 스프라이트 버그를 해결하기 위한 것입니다.
@@ -183,4 +184,94 @@ globalStyle('html:focus-within', {
             scrollBehavior: 'smooth',
         },
     },
+})
+
+globalStyle(`${response} h1`, {
+    fontSize: '24px',
+    fontWeight: '700',
+    lineHeight: '32px',
+    color: '#091E42',
+})
+globalStyle(`${response} h2`, {
+    fontSize: '22px',
+    fontWeight: '700',
+    lineHeight: '26px',
+    color: '#091E42',
+    marginTop: '24px',
+})
+globalStyle(`${response} h3`, {
+    fontSize: '17px',
+    fontWeight: '700',
+    lineHeight: '22px',
+    color: '#243757',
+    marginTop: '24px',
+})
+globalStyle(`${response} p`, {
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '16px',
+    color: '#5d6b82',
+})
+
+globalStyle(`${response} ul`, {
+    listStyle: 'inside',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+})
+
+globalStyle(`${response} li`, {
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    color: '#5d6b82',
+})
+
+globalStyle(`${response} table`, {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '12px',
+    marginBottom: '12px',
+    border: '1px solid #e4e7ec',
+    borderRadius: '8px',
+})
+
+globalStyle(`${response} th`, {
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '16px',
+    color: '#5d6b82',
+    padding: '8px 0',
+
+    borderBottom: '1px solid #e4e7ec',
+})
+globalStyle(`${response} td`, {
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '16px',
+    color: '#5d6b82',
+    padding: '8px 0',
+
+    borderBottom: '1px solid #e4e7ec',
+})
+
+globalStyle(`${response} td > img`, {
+    width: '300px',
+})
+
+globalStyle(`${response} a`, {
+    backgroundColor: '#2ba0b5',
+    padding: '0px 8px 0px 1px',
+    borderRadius: '4px',
+    color: '#fff',
+
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '2px',
+})
+
+globalStyle(`${response} img`, {
+    width: '700px',
+    marginTop: '12px',
 })

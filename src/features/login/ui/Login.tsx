@@ -31,22 +31,21 @@ export const Login = () => {
             if (response.status === 200) {
                 console.log(response.data)
                 useAuthStore.setState((prev) => ({
+                    ...prev,
                     isLoggedIn: true,
-                    userData: {
-                        ...prev.userData,
-                        memberId: email,
-                        accessToken: response.data.accessToken,
-                        refreshToken: response.data.refreshToken,
-                        name: response.data.name,
-                        department: response.data.department,
-                    },
+                    memberId: email,
+                    accessToken: response.data.accessToken,
+                    refreshToken: response.data.refreshToken,
+                    name: response.data.name,
+                    department: response.data.department,
                 }))
                 navigate('/')
+                window.location.reload()
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.log(error.response?.data) // ✅ 여기서 받아짐
-                console.log(error.response?.data.message) // → "사용자를 찾을 수 없습니다."
+                console.log(error.response?.data)
+                console.log(error.response?.data.message) 
                 setError(error.response?.data.message)
             } else {
                 console.error(error)

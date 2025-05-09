@@ -17,7 +17,7 @@ export const ToggleAuth = () => {
     const location = useLocation()
     const [params, setParams] = useSearchParams()
     useEffect(() => {
-        const { mode } = location.state
+        const mode = location.state?.mode
         if (mode === 'signup') setIsToggleLeft(false)
     }, [location])
 
