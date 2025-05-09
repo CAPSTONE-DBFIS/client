@@ -20,6 +20,8 @@ interface IDashboard {
  * @param {string} activeView - 현재 활성화된 뷰 ('calendar' 또는 'list')
  * @param {function} handleDeleteTask - 작업 삭제 핸들러
  * @param {function} openDeleteModal - 작업 삭제 재확인 모달 함수
+ * @param {function} handleEditTask - 작업 수정 핸들러
+ * @param {function} openEditModal - 작업 수정정 모달 함수
  *
  * @returns {JSX.Element}
  */
@@ -32,8 +34,11 @@ export const Dashboard = ({ activeView }: IDashboard) => {
     const [taskArray, setTaskArray] = useState(tasks)
     // 작업 추가 모달에 대한 상태
     const { modalConfig, toggleModal } = useModal()
-    //삭제,수정할 작업 ID 저장
+    //삭제/수정할 작업 ID 저장
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+
+    // 수정 모달의 초기값 상태
+    const [editEndDate, setEditEndDate] = useState<string>('')
 
     // 작업 삭제 핸들러
     const handleDeleteTask = () => {
@@ -47,7 +52,19 @@ export const Dashboard = ({ activeView }: IDashboard) => {
     }
 
     // 작업 수정 핸들러
-    const handleEeditTask = () => {}
+    const handleEeditTask = () => {
+        if (selectedTaskId) {
+            setTaskArray((prev) =>
+                prev.map((task) =>
+                    task.id === selectedTaskId
+                        ? { ...task, endDate: editEndDate }
+                        : task
+                )
+            )
+            setSelectedTaskId(null) // 수정 후 선택된 작업 ID 초기화
+            toggleModal() // 모달 닫기
+        }
+    }
 
     // 삭제 확인 모달 열기
     const openDeleteModal = (id: string) => {
@@ -55,8 +72,13 @@ export const Dashboard = ({ activeView }: IDashboard) => {
         toggleModal() // 모달 열기
     }
 
+    // 수정 모달 열기
     const openEditModal = (id: string) => {
-        setSelectedTaskId(id) // 수정할 작업 ID 저장
+        setSelectedTaskId(id)
+        const taskToEdit = taskArray.find((task) => task.id === id)
+        if (taskToEdit) {
+            setEditEndDate(taskToEdit.endDate)
+        }
         toggleModal() // 모달 열기
     }
     return (
@@ -128,7 +150,7 @@ export const Dashboard = ({ activeView }: IDashboard) => {
             )}
 
             {/* 수정 모달 */}
-            {modalConfig.open && (
+            {modalConfig.open && selectedTaskId && (
                 <Modal modalConfig={modalConfig}>
                     <Box
                         as={'form'}
@@ -237,6 +259,10 @@ export const Dashboard = ({ activeView }: IDashboard) => {
                                         width="100%"
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="36px"
+                                        value={editEndDate}
+                                        onChange={(e) =>
+                                            setEditEndDate(e.target.value)
+                                        }
                                         required
                                     />
                                 </Box>

@@ -5,8 +5,8 @@ export const tasks = [
         keywords: 16,
         dataPoints: 9345,
         percentage: 25,
-        startDate: '2025-05-1',
-        endDate: '2025-05-8',
+        startDate: '2025-05-01',
+        endDate: '2025-05-08',
         tags: ['폴더블', '프리미엄 시장', '반도체', '스마트폰'],
     },
     {
