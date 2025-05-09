@@ -26,7 +26,7 @@ export const Title = ({ projectName, projectPath }: IProject) => {
                     style={{ gap: '8px', fontWeight: '500' }}
                 >
                     <Text fontSize="title1" fontWeight="semibold">
-                        {projectName}
+                        {projectPath}
                     </Text>
                 </Box>
                 <Box>
@@ -47,7 +47,7 @@ export const Title = ({ projectName, projectPath }: IProject) => {
                                 fill={colors['neutral-60']}
                             />
                             <Text fontSize="body" color={'neutral-60'}>
-                                00팀
+                                {projectName}
                             </Text>
                         </Box>
                         <Box

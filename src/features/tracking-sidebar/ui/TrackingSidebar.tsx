@@ -4,8 +4,9 @@ import * as style from './styles/tracking-sidebar.css'
 //components
 import { Box } from '@/shared/ui/Box'
 import { TeamSection } from './TeamSection'
-//interface
-import { ITeam } from '../types/team.types'
+//constant
+import { teams } from '@/pages/tracking/const/teams'
+import { IProject, ITeam, TrackingSidebarProps } from '../types/team.types'
 
 /**
  * TrackingSidebar
@@ -26,35 +27,10 @@ import { ITeam } from '../types/team.types'
  * @returns {JSX.Element}
  */
 
-const teams: ITeam[] = [
-    {
-        id: 1,
-        name: '1팀',
-        projects: [
-            { id: 1, name: '00프로젝트' },
-            { id: 2, name: '**프로젝트' },
-            { id: 3, name: '$$프로젝트' },
-        ],
-    },
-    {
-        id: 2,
-        name: '2팀',
-        projects: [
-            { id: 4, name: 'Alpha 프로젝트' },
-            { id: 5, name: 'Beta 프로젝트' },
-        ],
-    },
-    {
-        id: 3,
-        name: '3팀',
-        projects: [
-            { id: 6, name: 'Gamma 프로젝트' },
-            { id: 7, name: 'Delta 프로젝트' },
-        ],
-    },
-]
-
-export const TrackingSidebar = () => {
+export const TrackingSidebar: React.FC<TrackingSidebarProps> = ({
+    onTeamSelect,
+    onProjectSelect,
+}) => {
     const [selectedTask, setSelectedTask] = useState<number | null>(null)
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
@@ -93,8 +69,10 @@ export const TrackingSidebar = () => {
         setInProject((prev) => ({ ...prev, [teamId]: value }))
     }
 
-    const handleProjectClick = (taskId: number) => {
-        setSelectedTask(taskId)
+    const handleProjectClick = (team: ITeam, project: IProject) => {
+        setSelectedTask(project.id)
+        onTeamSelect(team) // 선택된 팀 전달
+        onProjectSelect(project) // 선택된 프로젝트 전달
     }
 
     return (
@@ -114,7 +92,14 @@ export const TrackingSidebar = () => {
                     onInputChange={handleInputChange}
                     onToggleInput={handleInput}
                     selectedTask={selectedTask}
-                    onProjectClick={handleProjectClick}
+                    onProjectClick={(projectId) => {
+                        const project = team.projects.find(
+                            (p) => p.id === projectId
+                        )
+                        if (project) {
+                            handleProjectClick(team, project)
+                        }
+                    }}
                 />
             ))}
         </Box>

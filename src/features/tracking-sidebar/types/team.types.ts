@@ -44,3 +44,8 @@ export interface ITeamSection {
     selectedTask: number | null
     onProjectClick: (taskId: number) => void
 }
+
+export interface TrackingSidebarProps {
+    onTeamSelect: (team: ITeam) => void
+    onProjectSelect: (project: IProject) => void
+}
