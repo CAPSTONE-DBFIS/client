@@ -14,6 +14,13 @@ interface IReportProps {
     id: string // 선택된 리스트 ID
 }
 
+/**
+ * Report 컴포넌트
+ * 요약 대시보드와 키워드 분석을 표시
+ * @param {string} id - 선택된 리스트 id
+ * @returns {JSX.Element}
+ */
+
 export const Report: React.FC<IReportProps> = ({ id }) => {
     const [selectedTaps, setSelctedTaps] = useState(false)
     const onTapsChange = () => {
