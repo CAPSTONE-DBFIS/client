@@ -3,16 +3,22 @@ import { style } from '@vanilla-extract/css'
 
 export const cell = style({
     width: '100%',
-    padding: '24px 0px',
+    padding: '12px 0px',
     borderBottom: `1px solid ${colors['neutral-10']}`,
 
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
 })
+export const listContainer = style({
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    gap: '18px',
+})
 
 export const chatList = style({
-    height: '180px',
+    maxHeight: '150px',
     overflowY: 'auto',
     position: 'relative',
 })
@@ -34,7 +40,7 @@ export const selectedEdit = style({
     backgroundColor: colors['neutral-20'],
 
     position: 'absolute',
-    right: '0',
+    right: '0px',
     bottom: '0',
     width: '80px',
     height: '100%',

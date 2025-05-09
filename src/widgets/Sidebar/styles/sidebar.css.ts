@@ -8,9 +8,8 @@ export const sidebarContainer = style({
     // border: '1px solid black',
     borderRadius: '20px',
     position: 'relative',
-    top: '30px',
     marginBottom: '37px',
-    height: 'calc(100vh - 80px)',
+    minHeight: 'calc(100vh - 80px)',
 })
 
 export const header = style({
@@ -23,5 +22,5 @@ export const header = style({
 })
 
 export const main = style({
-    padding: '12px 10px ',
+    width: '100%',
 })

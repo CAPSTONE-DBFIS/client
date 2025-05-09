@@ -5,7 +5,7 @@ export const headerContainer = style({
 })
 
 export const headerWrapper = style({
-    width: '1024px',
+    width: '1600px',
     '@media': {
         'screen and (max-width: 1024px)': {
             width: '100%',

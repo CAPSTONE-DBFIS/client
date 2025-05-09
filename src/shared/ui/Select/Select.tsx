@@ -12,6 +12,7 @@ interface ISelect<T extends readonly string[]> {
     options: T
     setValue: (value: T[number]) => void
     Icon?: ReactElement
+    width?: string
 }
 
 /**
@@ -20,6 +21,7 @@ interface ISelect<T extends readonly string[]> {
  * @param {(value : string) => void} setValue [_, setvalue] = useState("") 해당하는 값
  * @param {string[]} options <option>에 해당하는 값들의 배열
  * @param {ReactElement} Icon Icon svg 컴포넌트
+ * @param {string} width 선택 박스의 너비
  * @returns {ReactElement}
  */
 export const Select = <T extends readonly string[]>({
@@ -27,6 +29,7 @@ export const Select = <T extends readonly string[]>({
     options,
     setValue,
     Icon,
+    width,
 }: ISelect<T>) => {
     const id = useId()
     const [isSelect, setIsSelect] = useState(false)
@@ -42,7 +45,7 @@ export const Select = <T extends readonly string[]>({
     }
 
     return (
-        <Box className={S.container}>
+        <Box className={S.container} style={{ width: width }}>
             <Box ref={ref} className={S.wrapper}>
                 <Box
                     as={'label'}

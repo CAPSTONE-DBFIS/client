@@ -1,7 +1,7 @@
-import { Message } from '@/entities/message/type/message.type'
-
-export interface Chat<T extends string> {
-    id: T
-    title: T
-    messages: Message[]
+export type messagesType = {
+    id: number
+    message: string
+    createdAt: string
+    response: string
+    sender: string
 }

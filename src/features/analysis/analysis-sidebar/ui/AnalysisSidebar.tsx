@@ -9,10 +9,80 @@ import Trash from '@/shared/asset/icon/trash.svg?react'
 import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
 import { colors } from '@/app/token'
 import * as S from './AnalysisSidebar.css'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import {
+    addChat,
+    chatList,
+    deleteChat,
+    patchFavoriteChat,
+    renameChat,
+} from '@/features/chat/api/chat'
+import { ChatType } from '@/features/chat/type/chat.type'
 
-export const AnalysisSidebar = () => {
-    const [index, setIndex] = useState(0)
+export const AnalysisSidebar = ({
+    id,
+    setId,
+    userAnalysisStart,
+}: {
+    id: number
+    setId: (id: number) => void
+    userAnalysisStart: boolean
+}) => {
+    const [userChatList, setUserChatList] = useState<ChatType[]>([])
+    const [teamChatList, setTeamChatList] = useState<ChatType[]>([])
+    const [edit, setEdit] = useState(false)
+    const [editId, setEditId] = useState(-1)
+
+    const fetchChatList = useCallback(async () => {
+        const response = await chatList()
+        if (response.status === 200) {
+            setUserChatList(response.data?.personalChatrooms)
+            if (Object.keys(response.data?.projectChatrooms).length === 0) {
+                setTeamChatList([])
+            } else {
+                setTeamChatList(response.data?.projectChatrooms)
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        fetchChatList()
+    }, [fetchChatList])
+
+    useEffect(() => {
+        if (userAnalysisStart) {
+            fetchChatList()
+        }
+    }, [userAnalysisStart, fetchChatList])
+
+    const postAddChat = async () => {
+        const response = await addChat()
+        if (response.status === 201) {
+            await fetchChatList()
+            setId(response.data.id)
+        }
+    }
+
+    const delChat = async (id: number) => {
+        await deleteChat(id)
+        await fetchChatList()
+        setId(-1)
+    }
+
+    const favoriteChat = async (id: number, value: boolean) => {
+        const response = await patchFavoriteChat(id, value)
+        if( response.status === 204) {
+            await fetchChatList()
+        }
+        return response
+    }
+
+    const editChat = async (id: number, name: string) => {
+        const response = await renameChat(id, name)
+        if (response.status === 204) {
+            await fetchChatList()
+        }
+    }
     return (
         <Box
             style={{ width: '100%' }}
@@ -21,129 +91,215 @@ export const AnalysisSidebar = () => {
             alignItems="center"
         >
             <Box className={S.cell} style={{ padding: '24px 16px' }}>
-                <Button size="medium" type="primary" width="225px">
+                <Button
+                    size="medium"
+                    type="primary"
+                    width="225px"
+                    onClickFunc={postAddChat}
+                >
                     <Plus fill={colors.white} width={20} height={20} />
                     <Text color="white">채팅 추가</Text>
                 </Button>
             </Box>
-            <Box className={S.cell} style={{ padding: '24px 16px' }}>
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    style={{ width: '100%' }}
-                >
-                    <Text fontSize="subHeadline" color="neutral-60">
-                        채팅 내역 지우기
-                    </Text>
-                    <Box as={'button'}>
-                        <Text fontSize="subHeadline" color="teal-500">
-                            Clear All
-                        </Text>
-                    </Box>
-                </Box>
-            </Box>
-            <Box className={`${S.cell} ${S.chatList}`}>
-                <Box
-                    as="button"
-                    style={{ gap: '6px' }}
-                    className={`${S.chat} ${index === 0 ? S.selectedChat : ''}`}
-                >
-                    <Chat
-                        width={16}
-                        height={16}
-                        fill={
-                            index === 0
-                                ? colors['teal-500']
-                                : colors['neutral-900']
-                        }
-                    />
-                    <Text
-                        className={S.chatName}
-                        color={index === 0 ? 'teal-500' : 'neutral-900'}
-                    >
-                        내용내용내용내용내용내용내용내용내용내용내용내용
-                    </Text>
-                    <Box className={S.selectedEdit}>
-                        <Star width={16} height={16} />
-                        <Trash width={16} height={16} />
-                        <Edit width={16} height={16} />
-                    </Box>
-                </Box>
-                <Box
-                    as="button"
-                    style={{ gap: '6px' }}
-                    className={`${S.chat} ${index !== 0 ? S.selectedChat : ''}`}
-                    onClick={() => setIndex(1)}
-                >
-                    <Chat
-                        width={16}
-                        height={16}
-                        fill={
-                            index !== 0
-                                ? colors['teal-500']
-                                : colors['neutral-900']
-                        }
-                    />
-                    <Text
-                        className={S.chatName}
-                        color={index !== 0 ? 'teal-500' : 'neutral-900'}
-                    >
-                        내용내용내용내용내용내용내용내용내용내용내용내용
-                    </Text>
-                    {index !== 0 && (
-                        <Box className={S.selectedEdit}>
-                            <Star width={16} height={16} />
-                            <Trash width={16} height={16} />
-                            <Edit width={16} height={16} />
+            <Box className={S.listContainer}>
+                <Box>
+                    <Box className={S.cell}>
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            style={{ width: '100%', padding: '0 16px' }}
+                        >
+                            <Text fontSize="subHeadline" color="neutral-60">
+                                팀 채팅
+                            </Text>
                         </Box>
-                    )}
+                    </Box>
+                    <Box className={`${S.cell} ${S.chatList}`}>
+                        {teamChatList?.map((value) => {
+                            return (
+                                <Box
+                                    key={value.id}
+                                    as="button"
+                                    style={{ gap: '6px' }}
+                                    className={`${S.chat} ${id === value.id ? S.selectedChat : ''}`}
+                                    onClick={() => setId(value.id)}
+                                >
+                                    <Chat
+                                        width={16}
+                                        height={16}
+                                        fill={
+                                            id === value.id
+                                                ? colors['teal-500']
+                                                : colors['neutral-900']
+                                        }
+                                    />
+                                    <Text
+                                        className={S.chatName}
+                                        color={
+                                            id === value.id
+                                                ? 'teal-500'
+                                                : 'neutral-900'
+                                        }
+                                    >
+                                        {value.name}
+                                    </Text>
+                                </Box>
+                            )
+                        })}
+                    </Box>
                 </Box>
-                <Box
-                    as="button"
-                    style={{ gap: '6px' }}
-                    className={`${S.chat} ${index !== 0 ? S.selectedChat : ''}`}
-                >
-                    <Chat
-                        width={16}
-                        height={16}
-                        fill={
-                            index !== 0
-                                ? colors['teal-500']
-                                : colors['neutral-900']
-                        }
-                    />
-                    <Text
-                        className={S.chatName}
-                        color={index !== 0 ? 'teal-500' : 'neutral-900'}
-                    >
-                        내용내용내용내용내용내용내용내용내용내용내용내용
-                    </Text>
-                    {index !== 0 && (
-                        <Box className={S.selectedEdit}>
-                            <Star width={16} height={16} />
-                            <Trash width={16} height={16} />
-                            <Edit width={16} height={16} />
+                <Box>
+                    <Box className={S.cell}>
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            style={{ width: '100%', padding: '0 16px' }}
+                        >
+                            <Text fontSize="subHeadline" color="neutral-60">
+                                개인 채팅
+                            </Text>
                         </Box>
-                    )}
+                    </Box>
+                    <Box className={`${S.cell} ${S.chatList}`}>
+                        {userChatList.map((value) => {
+                            return (
+                                <Box
+                                    key={value.id}
+                                    as="button"
+                                    style={{ gap: '6px' }}
+                                    className={`${S.chat} ${id === value.id ? S.selectedChat : ''}`}
+                                    onClick={() => setId(value.id)}
+                                >
+                                    <Chat
+                                        width={16}
+                                        height={16}
+                                        fill={
+                                            id === value.id
+                                                ? colors['teal-500']
+                                                : colors['neutral-900']
+                                        }
+                                    />
+                                    {edit && value.id === editId ? (
+                                        <input
+                                            type="text"
+                                            defaultValue={value.name}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    const newName =
+                                                        e.currentTarget.value
+                                                    if (
+                                                        newName !== value.name
+                                                    ) {
+                                                        editChat(
+                                                            value.id,
+                                                            newName
+                                                        )
+                                                    }
+                                                    setEdit(false)
+                                                }
+                                            }}
+                                        />
+                                    ) : (
+                                        <Text
+                                            className={S.chatName}
+                                            color={
+                                                id === value.id
+                                                    ? 'teal-500'
+                                                    : 'neutral-900'
+                                            }
+                                        >
+                                            {value.name}
+                                        </Text>
+                                    )}
+
+                                    {id === value.id && (
+                                        <Box className={S.selectedEdit}>
+                                            <Star
+                                                width={16}
+                                                height={16}
+                                                fill={
+                                                    value.favorite
+                                                        ? colors['neutral-50']
+                                                        : colors['neutral-900']
+                                                }
+                                                onClick={() =>
+                                                    favoriteChat(
+                                                        value.id,
+                                                        !value.favorite
+                                                    )
+                                                }
+                                            />
+                                            <Trash
+                                                width={16}
+                                                height={16}
+                                                onClick={() =>
+                                                    delChat(value.id)
+                                                }
+                                            />
+                                            <Edit
+                                                width={16}
+                                                height={16}
+                                                onClick={() => {
+                                                    setEdit(true)
+                                                    setEditId(value.id)
+                                                }}
+                                            />
+                                        </Box>
+                                    )}
+                                </Box>
+                            )
+                        })}
+                    </Box>
                 </Box>
-            </Box>
-            <Box className={S.cell} style={{ padding: '24px 16px' }}>
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    style={{ width: '100%' }}
-                >
-                    <Text fontSize="subHeadline" color="neutral-60">
-                        즐겨 찾기
-                    </Text>
-                    <Box as={'button'}>
-                        <Text fontSize="subHeadline" color="teal-500">
-                            Clear All
-                        </Text>
+                <Box>
+                    <Box className={S.cell}>
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            style={{ width: '100%', padding: '0 16px' }}
+                        >
+                            <Text fontSize="subHeadline" color="neutral-60">
+                                즐겨 찾기
+                            </Text>
+                        </Box>
+                        <Box className={`${S.cell} ${S.chatList}`}>
+                            {userChatList
+                                .filter((value) => value.favorite === true)
+                                .map((value) => {
+                                    return (
+                                        <Box
+                                            key={value.id}
+                                            as="button"
+                                            style={{ gap: '6px' }}
+                                            className={`${S.chat} ${id === value.id ? S.selectedChat : ''}`}
+                                            onClick={() => setId(value.id)}
+                                        >
+                                            <Chat
+                                                width={16}
+                                                height={16}
+                                                fill={
+                                                    id === value.id
+                                                        ? colors['teal-500']
+                                                        : colors['neutral-900']
+                                                }
+                                            />
+                                            <Text
+                                                className={S.chatName}
+                                                color={
+                                                    id === value.id
+                                                        ? 'teal-500'
+                                                        : 'neutral-900'
+                                                }
+                                            >
+                                                {value.name}
+                                            </Text>
+                                        </Box>
+                                    )
+                                })}
+                        </Box>
                     </Box>
                 </Box>
             </Box>
-            <Box className={`${S.cell} ${S.chatList}`}></Box>
         </Box>
     )
 }
