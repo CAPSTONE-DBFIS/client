@@ -5,7 +5,6 @@ import { colors } from '@/app/token'
 import { TrackingMain } from '@/features/tracking-main/index'
 import { useState } from 'react'
 import { IProject, ITeam } from './types/team.types'
-import { teams } from './const/teams'
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
