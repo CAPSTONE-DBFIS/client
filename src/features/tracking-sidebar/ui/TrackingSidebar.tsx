@@ -5,6 +5,9 @@ import { Text } from '@/shared/ui/Text'
 import { useState } from 'react'
 import { colors } from '@/app/token'
 import { TextInput } from '@/shared/ui/Input/TextInput'
+import Trash from '@/shared/asset/icon/trash.svg?react'
+import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
+
 interface Project {
     id: number
     name: string
@@ -151,6 +154,7 @@ export const TrackingSidebar = () => {
                         {team.projects.map((project) => (
                             <Box
                                 display="flex"
+                                justifyContent="space-between"
                                 fontSize="body"
                                 key={project.id}
                                 className={`
@@ -159,13 +163,30 @@ export const TrackingSidebar = () => {
                             `}
                                 onClick={() => projectTaskClick(project.id)}
                             >
-                                <Text
-                                    fontSize="body"
-                                    className={`${style.taskIcon} ${selectedTask === project.id ? style.selectedTaskIcon : ''}`}
+                                <Box
+                                    display="flex"
+                                    flexDirection="row"
+                                    alignItems="center"
+                                    style={{ gap: '16px' }}
                                 >
-                                    {project.name.charAt(0)}
-                                </Text>
-                                <Text>{project.name}</Text>
+                                    <Text
+                                        align="left"
+                                        fontSize="body"
+                                        className={`${style.taskIcon} ${selectedTask === project.id ? style.selectedTaskIcon : ''}`}
+                                    >
+                                        {project.name.charAt(0)}
+                                    </Text>
+                                    <Text>{project.name}</Text>
+                                </Box>
+
+                                {selectedTask === project.id && (
+                                    <Box className={style.selectedEdit}>
+                                        <Box className={style.slidingContent}>
+                                            <Trash width={16} height={16} />
+                                            <Edit width={16} height={16} />
+                                        </Box>
+                                    </Box>
+                                )}
                             </Box>
                         ))}
                     </Box>

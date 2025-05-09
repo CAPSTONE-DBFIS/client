@@ -1,5 +1,5 @@
 import { colors } from '@/app/token'
-import { style, styleVariants } from '@vanilla-extract/css'
+import { keyframes, style, styleVariants } from '@vanilla-extract/css'
 
 export const layout = style({
     width: '240px',
@@ -70,7 +70,7 @@ export const taskItem = style({
     alignItems: 'center',
     padding: '5.5px 12px',
     borderRadius: '10px',
-    gap: '16px',
+    position: 'relative',
 
     ':hover': {
         backgroundColor: `${colors['neutral-10']}`,
@@ -107,4 +107,35 @@ export const selectedTaskIcon = style({
     borderRadius: '8px',
     backgroundColor: `${colors['neutral-40']}`,
     color: `${colors['neutral-900']}`,
+})
+
+const slideInFromRight = keyframes({
+    from: {
+        transform: 'translateX(100%)',
+        opacity: 0,
+    },
+    to: {
+        transform: 'translateX(0)',
+        opacity: 1,
+    },
+})
+
+export const selectedEdit = style({
+    borderRadius: '20px 0px 0px 20px',
+    backgroundColor: colors['neutral-20'],
+    position: 'absolute',
+    right: '0',
+    width: '50px',
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+})
+
+export const slidingContent = style({
+    animation: `${slideInFromRight} 0.3s ease-out`,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
 })
