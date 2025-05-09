@@ -109,59 +109,57 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                     주기 선택
                                 </Text>
                             </Box>
-                            <Box className={style.dropdownContainer}>
-                                <Box
-                                    onClick={onToggle}
-                                    className={style.select}
-                                    display="flex"
-                                    justifyContent="space-between"
-                                >
-                                    <Text fontSize="title2">
-                                        {selectedPeriod}
-                                    </Text>
-                                    <Down />
+                            <Box style={{ position: 'relative' }}>
+                                <Box>
+                                    <Box className={style.dropdownContainer}>
+                                        <Box
+                                            onClick={onToggle}
+                                            className={style.select}
+                                            display="flex"
+                                            justifyContent="space-between"
+                                        >
+                                            <Text fontSize="title2">
+                                                {selectedPeriod}
+                                            </Text>
+                                            <Down />
+                                        </Box>
+
+                                        {isOpen && (
+                                            <Box>
+                                                {[
+                                                    '일주일마다',
+                                                    '2주일마다',
+                                                    '1개월마다',
+                                                ].map((option) => (
+                                                    <Box
+                                                        as={'button'}
+                                                        type="button"
+                                                        key={option}
+                                                        className={
+                                                            style.dropdownOption
+                                                        }
+                                                        onClick={onOptionClicked(
+                                                            option
+                                                        )}
+                                                    >
+                                                        <Text
+                                                            fontSize="title2"
+                                                            color={
+                                                                option ===
+                                                                selectedPeriod
+                                                                    ? 'neutral-900'
+                                                                    : 'neutral-100'
+                                                            }
+                                                        >
+                                                            {option}
+                                                        </Text>
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        )}
+                                    </Box>
                                 </Box>
 
-                                {isOpen && (
-                                    <Box>
-                                        <Box
-                                            as={'button'}
-                                            type="button"
-                                            className={style.dropdownOption}
-                                            onClick={onOptionClicked(
-                                                '일주일마다'
-                                            )}
-                                        >
-                                            <Text fontSize="title2">
-                                                일주일마다
-                                            </Text>
-                                        </Box>
-                                        <Box
-                                            as={'button'}
-                                            type="button"
-                                            className={style.dropdownOption}
-                                            onClick={onOptionClicked(
-                                                '2주일마다'
-                                            )}
-                                        >
-                                            <Text fontSize="title2">
-                                                2주일마다
-                                            </Text>
-                                        </Box>
-                                        <Box
-                                            as={'button'}
-                                            type="button"
-                                            className={style.dropdownOption}
-                                            onClick={onOptionClicked(
-                                                '1개월마다'
-                                            )}
-                                        >
-                                            <Text fontSize="title2">
-                                                1개월마다
-                                            </Text>
-                                        </Box>
-                                    </Box>
-                                )}
                                 {/* 주가선택 값 받기 위한 숨긴 input필드 */}
                                 <Box
                                     as={'input'}

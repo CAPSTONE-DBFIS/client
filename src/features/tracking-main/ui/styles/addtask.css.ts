@@ -58,6 +58,7 @@ export const tagContainer = style({
 })
 
 export const twoinput = style({
+    marginTop: '62px',
     padding: '4px 0',
     width: '893px',
 })
@@ -98,6 +99,11 @@ export const select = style({
 })
 
 export const dropdownContainer = style({
+    position: 'absolute',
+    top: '100%',
+    left: '0',
+    zIndex: 10,
+    width: '100%',
     backgroundColor: '#FAFBFB',
     border: '1px solid #B3B9C4',
     borderRadius: '12px',

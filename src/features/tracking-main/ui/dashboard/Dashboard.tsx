@@ -7,6 +7,10 @@ import { useState } from 'react'
 import Modal from '@/shared/ui/Modal/Modal'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { Text } from '@/shared/ui/Text'
+import { TextInput } from '@/shared/ui/Input/TextInput'
+import { useAddTask } from '../../model/useAddTask'
+import Down from '@/shared/asset/icon/cheveron-down.svg?react'
+
 interface IDashboard {
     activeView: string
 }
@@ -21,11 +25,14 @@ interface IDashboard {
  */
 
 export const Dashboard = ({ activeView }: IDashboard) => {
+    const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
+        useAddTask()
+
     // 작업들 상태 관리
     const [taskArray, setTaskArray] = useState(tasks)
     // 작업 추가 모달에 대한 상태
     const { modalConfig, toggleModal } = useModal()
-    //삭제할 작업 ID 저장
+    //삭제,수정할 작업 ID 저장
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
 
     // 작업 삭제 핸들러
@@ -39,9 +46,17 @@ export const Dashboard = ({ activeView }: IDashboard) => {
         }
     }
 
+    // 작업 수정 핸들러
+    const handleEeditTask = () => {}
+
     // 삭제 확인 모달 열기
     const openDeleteModal = (id: string) => {
         setSelectedTaskId(id) // 삭제할 작업 ID 저장
+        toggleModal() // 모달 열기
+    }
+
+    const openEditModal = (id: string) => {
+        setSelectedTaskId(id) // 수정할 작업 ID 저장
         toggleModal() // 모달 열기
     }
     return (
@@ -57,6 +72,7 @@ export const Dashboard = ({ activeView }: IDashboard) => {
                             key={task.id}
                             task={task}
                             handleDeleteTask={() => openDeleteModal(task.id)}
+                            handleEditTask={() => openEditModal(task.id)}
                         />
                     ))}
                 </Box>
@@ -103,6 +119,147 @@ export const Dashboard = ({ activeView }: IDashboard) => {
                                 onClick={toggleModal}
                             >
                                 <Text color="white" fontSize="title2">
+                                    취소
+                                </Text>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Modal>
+            )}
+
+            {/* 수정 모달 */}
+            {modalConfig.open && (
+                <Modal modalConfig={modalConfig}>
+                    <Box
+                        as={'form'}
+                        onSubmit={onSubmit}
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        className={style.editModal}
+                    >
+                        <Box>
+                            <Box style={{ paddingBottom: '15px' }}>
+                                <Text fontSize="title1">작업 수정</Text>
+                            </Box>
+                            <Box>
+                                <Box as={'label'} htmlFor="period">
+                                    <Text
+                                        fontSize="subHeadline"
+                                        color="neutral-90"
+                                    >
+                                        주기 선택
+                                    </Text>
+                                </Box>
+                                <Box style={{ position: 'relative' }}>
+                                    <Box className={style.dropdownContainer}>
+                                        <Box
+                                            onClick={onToggle}
+                                            className={style.select}
+                                            display="flex"
+                                            justifyContent="space-between"
+                                        >
+                                            <Text fontSize="body">
+                                                {selectedPeriod}
+                                            </Text>
+                                            <Down width={15} height={15} />
+                                        </Box>
+
+                                        {isOpen && (
+                                            <Box
+                                                style={{ position: 'relative' }}
+                                            >
+                                                <Box>
+                                                    {[
+                                                        '일주일마다',
+                                                        '2주일마다',
+                                                        '1개월마다',
+                                                    ].map((option) => (
+                                                        <Box
+                                                            as={'button'}
+                                                            type="button"
+                                                            key={option}
+                                                            className={
+                                                                style.dropdownOption
+                                                            }
+                                                            onClick={onOptionClicked(
+                                                                option
+                                                            )}
+                                                        >
+                                                            <Text
+                                                                fontSize="body"
+                                                                color={
+                                                                    option ===
+                                                                    selectedPeriod
+                                                                        ? 'neutral-900'
+                                                                        : 'neutral-100'
+                                                                }
+                                                            >
+                                                                {option}
+                                                            </Text>
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            </Box>
+                                        )}
+                                        {/* 주가선택 값 받기 위한 숨긴 input필드 */}
+                                        <Box
+                                            as={'input'}
+                                            type="hidden"
+                                            name="period"
+                                            value={selectedPeriod} // 선택된 기간 값
+                                        />
+                                    </Box>
+                                </Box>
+
+                                <Box
+                                    className={style.twoinput}
+                                    display="flex"
+                                    flexDirection="column"
+                                    style={{ marginTop: '50px' }}
+                                >
+                                    <Box
+                                        as={'label'}
+                                        htmlFor="endtDate"
+                                        style={{ marginBottom: '8px' }}
+                                    >
+                                        <Text
+                                            fontSize="subHeadline"
+                                            color="neutral-90"
+                                        >
+                                            종료일
+                                        </Text>
+                                    </Box>
+                                    <TextInput
+                                        type="date"
+                                        name="endDate"
+                                        size="small"
+                                        width="100%"
+                                        placeholder="날짜 범위를 선택해주세요."
+                                        height="36px"
+                                        required
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box
+                            display="flex"
+                            style={{ gap: '18px', width: '100%' }}
+                        >
+                            <Box
+                                className={style.editBtn}
+                                onClick={handleEeditTask}
+                            >
+                                <Text color="white" fontSize="title2">
+                                    완료
+                                </Text>
+                            </Box>
+                            <Box
+                                className={style.editBackBtn}
+                                onClick={toggleModal}
+                            >
+                                <Text color="teal-500" fontSize="title2">
                                     취소
                                 </Text>
                             </Box>
