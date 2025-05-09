@@ -1,14 +1,33 @@
 import { useRef } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
-import { Box } from '@/shared/ui/Box'
-import { Text } from '@/shared/ui/Text'
-import { TextInput } from '@/shared/ui/Input/TextInput'
+import { colors } from '@/app/token'
+import { ITeamSection, IProject } from '../types/team.types'
+//icons
 import Plus from '@/shared/asset/icon/plus-sm.svg?react'
 import Trash from '@/shared/asset/icon/trash.svg?react'
 import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
+//components
+import { Box } from '@/shared/ui/Box'
+import { Text } from '@/shared/ui/Text'
+import { TextInput } from '@/shared/ui/Input/TextInput'
+//css
 import * as style from './styles/team-secion.css'
-import { colors } from '@/app/token'
-import { ITeamSection, IProject } from '../types/team.types'
+
+/**
+ * TeamSection 컴포넌트
+ * 팀의 프로젝트 목록과 입력창 관리
+ *
+ * @param {ITeamSection} props - TeamSection의 props
+ * @param {ITeam} props.team - 팀 데이터
+ * @param {boolean} props.addProject - 프로젝트 추가 입력창 표시 여부
+ * @param {string} props.inProject - 입력 중인 프로젝트 이름
+ * @param {function} props.onAddProject - 프로젝트 추가 핸들러
+ * @param {function} props.onInputChange - 입력값 변경 핸들러
+ * @param {function} props.onToggleInput - 입력창 토글 핸들러
+ * @param {number | null} props.selectedTask - 선택된 프로젝트 ID
+ * @param {function} props.onProjectClick - 프로젝트 클릭 핸들러
+ * @returns {JSX.Element}
+ */
 
 export const TeamSection: React.FC<ITeamSection> = ({
     team,

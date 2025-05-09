@@ -1,20 +1,32 @@
-import { Box } from '@/shared/ui/Box'
-import * as style from './styles/tracking-sidebar.css'
 import { useState } from 'react'
+//css
+import * as style from './styles/tracking-sidebar.css'
+//components
+import { Box } from '@/shared/ui/Box'
 import { TeamSection } from './TeamSection'
+//interface
+import { ITeam } from '../types/team.types'
 
-interface Project {
-    id: number
-    name: string
-}
+/**
+ * TrackingSidebar
+ * 팀과 프로젝트를 관리하는 사이드바 UI
+ * @function handleInput - 입력창을 열기 or 닫기기
+ * @param {number} teamId - 팀의 id
+ *
+ * @function handleAddProject - 새 프로젝트를 추가
+ * @param {number} teamId - 팀의 id
+ *
+ * @function handleInputChange - 입력창에 입력된 값을 상태업데이트
+ * @param {number} teamId - 팀의 id
+ * @param {string} value - 입력된 값
+ *
+ * @function handleProjectClick - 특정 프로젝트를 선택
+ * @param {number} taskId -팀의 id
+ *
+ * @returns {JSX.Element}
+ */
 
-interface Team {
-    id: number
-    name: string
-    projects: Project[]
-}
-
-const teams: Team[] = [
+const teams: ITeam[] = [
     {
         id: 1,
         name: '1팀',
