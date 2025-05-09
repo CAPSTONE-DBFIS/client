@@ -3,6 +3,7 @@ import * as style from './styles/tracking-sidebar.css'
 import Plus from '@/shared/asset/icon/plus-sm.svg?react'
 import { Text } from '@/shared/ui/Text'
 import { useState } from 'react'
+import { colors } from '@/app/token'
 interface Project {
     id: number
     name: string
@@ -66,29 +67,39 @@ export const TrackingSidebar = () => {
                         <Text color="neutral-900" fontSize="subHeadline">
                             {team.name}
                         </Text>
-                        <Plus width={15} height={15} />
+                        <Plus
+                            width={15}
+                            height={15}
+                            fill={colors['neutral-100']}
+                        />
                     </Box>
                     {/* 팀의 프로젝트 리스트 */}
-                    {team.projects.map((project) => (
-                        <Box
-                            display="flex"
-                            fontSize="body"
-                            key={project.id}
-                            className={`
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        style={{ gap: '6px' }}
+                    >
+                        {team.projects.map((project) => (
+                            <Box
+                                display="flex"
+                                fontSize="body"
+                                key={project.id}
+                                className={`
                                 ${style.taskItem} 
                                 ${style.menuItemClick[selectedTask === project.id ? 'selected' : 'default']}
                             `}
-                            onClick={() => projectTaskClick(project.id)}
-                        >
-                            <Text
-                                fontSize="body"
-                                className={`${style.taskIcon} ${selectedTask === project.id ? style.selectedTaskIcon : ''}`}
+                                onClick={() => projectTaskClick(project.id)}
                             >
-                                {project.name.charAt(0)}
-                            </Text>
-                            <Text>{project.name}</Text>
-                        </Box>
-                    ))}
+                                <Text
+                                    fontSize="body"
+                                    className={`${style.taskIcon} ${selectedTask === project.id ? style.selectedTaskIcon : ''}`}
+                                >
+                                    {project.name.charAt(0)}
+                                </Text>
+                                <Text>{project.name}</Text>
+                            </Box>
+                        ))}
+                    </Box>
                 </Box>
             ))}
         </Box>
