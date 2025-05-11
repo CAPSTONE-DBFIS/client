@@ -110,7 +110,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
                         <Text fontSize="title3">확장자</Text>
                         <Text fontSize="title3">소유자</Text>
                     </Box>
-                    {currentFolderId !== null && (
+                    {currentFolderId !== 0 && (
                         <Box
                             className={S.goBackRow}
                             onClick={() => {
