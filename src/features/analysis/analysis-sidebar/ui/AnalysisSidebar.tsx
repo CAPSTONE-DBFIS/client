@@ -71,7 +71,7 @@ export const AnalysisSidebar = ({
 
     const favoriteChat = async (id: number, value: boolean) => {
         const response = await patchFavoriteChat(id, value)
-        if( response.status === 204) {
+        if (response.status === 204) {
             await fetchChatList()
         }
         return response

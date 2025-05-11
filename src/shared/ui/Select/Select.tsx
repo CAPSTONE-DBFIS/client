@@ -13,6 +13,7 @@ interface ISelect<T extends readonly string[]> {
     setValue: (value: T[number]) => void
     Icon?: ReactElement
     width?: string
+    height?: string
 }
 
 /**
@@ -30,6 +31,7 @@ export const Select = <T extends readonly string[]>({
     setValue,
     Icon,
     width,
+    height,
 }: ISelect<T>) => {
     const id = useId()
     const [isSelect, setIsSelect] = useState(false)
@@ -45,8 +47,12 @@ export const Select = <T extends readonly string[]>({
     }
 
     return (
-        <Box className={S.container} style={{ width: width }}>
-            <Box ref={ref} className={S.wrapper}>
+        <Box className={S.container} style={{ width: width, height: height }}>
+            <Box
+                ref={ref}
+                className={S.wrapper}
+                style={{ width: width, minHeight: height }}
+            >
                 <Box
                     as={'label'}
                     htmlFor={`${id}:select`}
