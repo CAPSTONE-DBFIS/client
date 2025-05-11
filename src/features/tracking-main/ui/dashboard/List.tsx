@@ -20,6 +20,8 @@ interface ITaskdata {
 interface IListProps {
     task: ITaskdata
     handleDeleteTask: (id: string) => void // 삭제 함수
+    handleEditTask: (id: string) => void // 수정 함수
+    onClick: () => void // 리스트 클릭 이벤트
 }
 /**
  * 대시보드 중 리스트
@@ -37,7 +39,12 @@ interface IListProps {
  * @returns {JSX.Element}
  */
 
-export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
+export const List: React.FC<IListProps> = ({
+    task,
+    handleDeleteTask,
+    handleEditTask,
+    onClick,
+}) => {
     // 메뉴 열림, 닫힘 상태
     const [menuOpen, setMenuOpen] = useState(false)
     // 메뉴 영역 감지용 ref
@@ -51,8 +58,8 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     }
 
     // 작업 수정 핸들러
-    const handleEditTitle = () => {
-        console.log('작업 수정')
+    const handleEdit = () => {
+        handleEditTask(task.id)
         setMenuOpen(false)
     }
 
@@ -63,7 +70,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
     }
 
     return (
-        <Box style={{ position: 'relative', zIndex: '0' }}>
+        <Box style={{ position: 'relative', zIndex: '0' }} onClick={onClick}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
@@ -154,7 +161,11 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                         </Box>
                     </Box>
 
-                    <Box>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        className={style.tagBox}
+                    >
                         {task.tags.map((tag) => (
                             <Text key={tag} className={style.tag}>
                                 {tag}
@@ -178,11 +189,7 @@ export const List: React.FC<IListProps> = ({ task, handleDeleteTask }) => {
                         작업 삭제
                     </Text>
                 </Box>
-                <Box
-                    as={'li'}
-                    className={style.listItem}
-                    onClick={handleEditTitle}
-                >
+                <Box as={'li'} className={style.listItem} onClick={handleEdit}>
                     <Text fontSize="title3" className={style.listItemText}>
                         작업 수정
                     </Text>

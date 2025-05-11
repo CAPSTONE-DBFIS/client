@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
 export const layout = style({
-    margin: '56px 0',
-    width: '700px',
+    padding: '36px 0',
+    width: '1200px',
     height: 'auto',
     // border: '1px solid black',
     boxSizing: 'content-box',

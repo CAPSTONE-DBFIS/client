@@ -1,0 +1,109 @@
+import { colors } from '@/app/token'
+import { keyframes, style, styleVariants } from '@vanilla-extract/css'
+
+export const menuItemClick = styleVariants({
+    // 기본 상태
+    default: {},
+    // 선택된 상태
+    selected: {
+        backgroundColor: `${colors['neutral-10']}`,
+    },
+})
+
+export const hoverItem = style({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '34px',
+    height: '36px',
+    borderRadius: '20px 0 0 20px',
+    backgroundColor: `${colors['neutral-20']}`,
+})
+
+export const menuItemIcon = style({
+    marginRight: '10px',
+    fontSize: '12px',
+    width: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+})
+
+export const menuItemText = style({
+    fontSize: '14px',
+    marginLeft: '16px',
+})
+
+export const taskItem = style({
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5.5px 12px',
+    borderRadius: '10px',
+    position: 'relative',
+
+    ':hover': {
+        backgroundColor: `${colors['neutral-10']}`,
+    },
+})
+
+export const clickTaskItem = style({
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5.5px 12px',
+    borderRadius: '10px',
+    gap: '12px',
+    margin: '0 10px 6px 10px',
+    backgroundColor: `${colors['neutral-10']}`,
+})
+
+export const taskIcon = style({
+    width: '25px',
+    height: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '8px',
+    backgroundColor: `${colors['neutral-900']}`,
+    color: 'white',
+})
+
+export const selectedTaskIcon = style({
+    width: '25px',
+    height: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '8px',
+    backgroundColor: `${colors['neutral-40']}`,
+    color: `${colors['neutral-900']}`,
+})
+
+const slideInFromRight = keyframes({
+    from: {
+        transform: 'translateX(100%)',
+        opacity: 0,
+    },
+    to: {
+        transform: 'translateX(0)',
+        opacity: 1,
+    },
+})
+
+export const selectedEdit = style({
+    borderRadius: '20px 0px 0px 20px',
+    backgroundColor: colors['neutral-20'],
+    position: 'absolute',
+    right: '0',
+    width: '50px',
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+})
+
+export const slidingContent = style({
+    animation: `${slideInFromRight} 0.3s ease-out`,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+})
