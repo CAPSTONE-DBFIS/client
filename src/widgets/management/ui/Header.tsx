@@ -158,7 +158,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
         }
 
         if (selectedFileId !== null) {
-            // ✅ 파일 삭제
+            // 파일 삭제
             try {
                 const response = await deleteFileFolder(
                     teamId,
@@ -168,20 +168,20 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                 console.log('✅ 파일 삭제 성공', response.data)
                 onFolderCreated()
             } catch (error) {
-                console.error('❌ 파일 삭제 실패:', error)
+                console.error(error)
             }
         } else if (currentFolderId !== null) {
-            // ✅ 폴더 삭제
+            // 폴더 삭제
             try {
                 const response = await deleteFileFolder(
                     teamId,
                     undefined,
                     currentFolderId
                 )
-                console.log('✅ 폴더 삭제 성공', response.data)
+                console.log(response.data)
                 onFolderCreated()
             } catch (error) {
-                console.error('❌ 폴더 삭제 실패:', error)
+                console.error(error)
             }
         } else {
             alert('삭제할 파일 또는 폴더를 선택하세요.')

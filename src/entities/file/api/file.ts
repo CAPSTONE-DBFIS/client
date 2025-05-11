@@ -53,7 +53,7 @@ export const postfolder = async (
 
 export const getDownload = async (teamId: number, fileId: number) => {
     return await axiosInstance.get(`/api/teams/${teamId}/files/${fileId}`, {
-        responseType: 'arraybuffer', // 바이너리 데이터로 받기
+        responseType: 'arraybuffer',
     })
 }
 

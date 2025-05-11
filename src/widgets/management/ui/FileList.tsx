@@ -81,7 +81,7 @@ const FileList = forwardRef<
         } else {
             // 첫 번째 클릭: 선택만
             setLastClickedFolder(id)
-            onFolderChange(id) // ✅ Header가 인식할 수 있게 전달
+            onFolderChange(id)
             setTimeout(() => {
                 if (lastClickedFolder === id) {
                     setLastClickedFolder(null)
