@@ -3,8 +3,6 @@ import { style, styleVariants } from '@vanilla-extract/css'
 
 export const container = style({
     position: 'relative',
-
-    height: '32px',
 })
 
 export const wrapper = style({
@@ -18,6 +16,7 @@ export const wrapper = style({
     backgroundColor: colors['neutral-10'],
 
     position: 'absolute',
+    zIndex: 10,
 })
 export const cell = style({
     padding: '6px 10px',

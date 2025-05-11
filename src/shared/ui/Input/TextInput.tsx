@@ -75,7 +75,7 @@ export const TextInput: React.FC<ITextInput> = ({
             as={'label'}
             htmlFor={inputId}
             className={textLabel({ size })}
-            style={isFocus ? { borderColor: '#2BA0B5' } : {}}
+            style={isFocus ? { borderColor: '#2BA0B5', width } : { width }}
         >
             {leftIcon}
             <Box

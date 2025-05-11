@@ -45,7 +45,7 @@ export const Login = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.log(error.response?.data)
-                console.log(error.response?.data.message) 
+                console.log(error.response?.data.message)
                 setError(error.response?.data.message)
             } else {
                 console.error(error)
