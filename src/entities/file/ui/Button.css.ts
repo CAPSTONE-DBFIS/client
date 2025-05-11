@@ -17,6 +17,6 @@ export const Container = style({
 })
 
 export const Active = style({
-    backgroundColor: colors['neutral-700'],
+    backgroundColor: colors['neutral-900'],
     color: colors.white,
 })

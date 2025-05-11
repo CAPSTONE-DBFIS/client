@@ -7,16 +7,10 @@ import DownloadIcon from '@/shared/asset/icon/cloud-download.svg?react'
 import UploadIcon from '@/shared/asset/icon/cloud-upload.svg?react'
 import FolderIcon from '@/shared/asset/icon/folder-add.svg?react'
 import TrashIcon from '@/shared/asset/icon/folder-remove.svg?react'
-
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { Button } from '@/shared/ui/Button'
 import { useState } from 'react'
-import {
-    deleteFileFolder,
-    getDownload,
-    postUpload,
-    postfolder,
-} from '@/entities/file/api/file'
+import { useFileActions } from '../model/fileAction'
 
 interface ITeam {
     teamName: string
@@ -40,153 +34,14 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
     const [activeButton, setActiveButton] = useState<string | null>(null)
     const [folderName, setFolderName] = useState('') //폴더업로드
 
-    const handleButtonClick = (buttonId: string) => {
-        setActiveButton(buttonId)
-    }
-
-    //다운로드
-    const handleDownloadClick = async () => {
-        if (!selectedFileId || !selectedFileName) {
-            alert('다운로드할 파일을 선택하세요.')
-            return
-        }
-
-        try {
-            const extensionToMime: Record<string, string> = {
-                pdf: 'application/pdf',
-                docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                hwp: 'application/x-hwp',
-                txt: 'text/plain',
-                png: 'image/png',
-                jpg: 'image/jpeg',
-                jpeg: 'image/jpeg',
-            }
-
-            const extension =
-                selectedFileName.split('.').pop()?.toLowerCase() ||
-                'octet-stream'
-            const mimeType =
-                extensionToMime[extension] || 'application/octet-stream'
-
-            const response = await getDownload(teamId, selectedFileId)
-
-            const blob = new Blob([response.data], { type: mimeType })
-
-            const url = URL.createObjectURL(blob)
-            const link = document.createElement('a')
-            link.href = url
-            link.download = selectedFileName
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            URL.revokeObjectURL(url)
-
-            console.log('다운로드 완료')
-        } catch (error) {
-            console.error(error)
-        }
-    }
-    //업로드
-    const handleUploadClick = async () => {
-        if (!teamId) {
-            alert('업로드할 팀을 선택하세요.')
-            return
-        }
-
-        const allowedExtensions = ['pdf', 'docx', 'hwp', 'txt']
-
-        const fileInput = document.createElement('input')
-        fileInput.type = 'file'
-
-        fileInput.onchange = async (event: Event) => {
-            const target = event.target as HTMLInputElement
-            if (target.files && target.files[0]) {
-                const file = target.files[0]
-                const extension = file.name.split('.').pop()?.toLowerCase()
-
-                if (!extension || !allowedExtensions.includes(extension)) {
-                    alert('허용되지 않은 파일 형식입니다.')
-                    return
-                }
-
-                const formData = new FormData()
-                formData.append('file', file)
-
-                try {
-                    const folderId = currentFolderId ?? null
-                    console.log('업로드 대상 폴더 ID:', folderId)
-
-                    const response = await postUpload(
-                        teamId,
-                        folderId,
-                        formData
-                    )
-                    console.log('업로드 성공:', response.data)
-                    onFolderCreated() // 업로드 후 FileList 새로고침
-                } catch (error) {
-                    console.error('업로드 실패:', error)
-                }
-            }
-        }
-
-        fileInput.click()
-    }
-    //폴더생성
-    const handleCreateFolder = async () => {
-        if (!teamId || folderName.trim() === '') {
-            alert('팀 또는 폴더 이름이 없습니다.')
-            return
-        }
-
-        try {
-            const folderId = currentFolderId ?? null
-            console.log('parentId:', folderId)
-            const response = await postfolder(teamId, folderId, folderName)
-            console.log(response.data)
-            setFolderName('') // 입력창 초기화
-            onFolderCreated() // 폴더 생성 후 FileList 새로고침
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    //삭제
-    const handleDeleteClick = async () => {
-        if (!teamId) {
-            alert('삭제할 팀을 선택하세요.')
-            return
-        }
-
-        if (selectedFileId !== null) {
-            // 파일 삭제
-            try {
-                const response = await deleteFileFolder(
-                    teamId,
-                    selectedFileId,
-                    undefined
-                )
-                console.log('✅ 파일 삭제 성공', response.data)
-                onFolderCreated()
-            } catch (error) {
-                console.error(error)
-            }
-        } else if (currentFolderId !== null) {
-            // 폴더 삭제
-            try {
-                const response = await deleteFileFolder(
-                    teamId,
-                    undefined,
-                    currentFolderId
-                )
-                console.log(response.data)
-                onFolderCreated()
-            } catch (error) {
-                console.error(error)
-            }
-        } else {
-            alert('삭제할 파일 또는 폴더를 선택하세요.')
-        }
-    }
+    const { handleDownload, handleUpload, handleCreateFolder, handleDelete } =
+        useFileActions({
+            teamId,
+            currentFolderId,
+            selectedFileId,
+            selectedFileName,
+            onFolderCreated,
+        })
 
     return (
         <Box display="flex" flexDirection="column" style={{ gap: '20px' }}>
@@ -233,8 +88,8 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                         }
                         width="140px"
                         onClickFunc={() => {
-                            handleButtonClick('download')
-                            handleDownloadClick()
+                            setActiveButton('download')
+                            handleDownload()
                         }}
                     >
                         <DownloadIcon
@@ -251,8 +106,12 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                         }
                         width="140px"
                         onClickFunc={() => {
-                            handleButtonClick('upload')
-                            handleUploadClick()
+                            console.log(
+                                '[HEADER] 업로드 실행. folderId =',
+                                currentFolderId
+                            )
+                            setActiveButton('upload')
+                            handleUpload()
                         }}
                     >
                         <UploadIcon
@@ -270,9 +129,12 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                                 : 'tertiary'
                         }
                         width="140px"
-                        onClickFunc={() => {
-                            handleButtonClick('createFolder')
-                            handleCreateFolder()
+                        onClickFunc={async () => {
+                            setActiveButton('create')
+                            const success = await handleCreateFolder(folderName)
+                            if (success) {
+                                setFolderName('') // 초기화
+                            }
                         }}
                     >
                         <FolderIcon
@@ -291,9 +153,8 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                         }
                         width="140px"
                         onClickFunc={() => {
-                            console.log('삭제 버튼 클릭됨')
-                            handleButtonClick('delete')
-                            handleDeleteClick()
+                            setActiveButton('delete')
+                            handleDelete()
                         }}
                     >
                         <TrashIcon

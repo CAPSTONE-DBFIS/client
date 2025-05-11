@@ -1,7 +1,7 @@
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import SuggestionIcon from '@/shared/asset/icon/eye.svg?react'
-import SuggestionItem from '@/widgets/management/ui/SuggestionItem'
+import SuggestionItem from '@/features/management/ui/SuggestionItem'
 import { getRecommend } from '@/entities/file/api/file'
 import { useEffect, useState } from 'react'
 
