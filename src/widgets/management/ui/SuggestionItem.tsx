@@ -28,8 +28,6 @@ export default function SuggestionItem({
 
     const handleDownload = async () => {
         try {
-            console.log('다운로드 요청:', { teamId, fileId: id })
-
             const extensionToMime: Record<string, string> = {
                 pdf: 'application/pdf',
                 docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -46,7 +44,6 @@ export default function SuggestionItem({
                 extensionToMime[extension] || 'application/octet-stream'
 
             const response = await getDownload(teamId, id)
-            console.log('다운로드 응답:', response)
 
             const blob = new Blob([response.data], { type: mimeType })
 

@@ -26,19 +26,19 @@ export default function ManagementSideBar({
         if (selectedTeam !== teamId) {
             setSelectedTeam(teamId)
 
-            //  팀의 id가 클릭한 팀의 id와 같은지 확인
+            // 클릭한 팀 찾기
             const clickedTeam = teamItems.find((team) => team.teamId === teamId)
 
             if (clickedTeam) {
-                // 팀의 id가 클릭한 팀의 id와 다른지 확인 -> 중복 방지
+                // 중복 제거
                 const filteredRecent = recentTeams.filter(
                     (team) => team.teamId !== teamId
                 )
 
-                // 선택한 팀를 최근 팀 목록의 맨 앞에 추가
+                // 최근 팀 목록 업데이트
                 const newRecentTeams = [clickedTeam, ...filteredRecent]
 
-                // 최대 3개까지 유지
+                // 최대 3개 유지
                 setRecentTeams(newRecentTeams.slice(0, 3))
             }
         }
@@ -91,7 +91,10 @@ export default function ManagementSideBar({
                         teamId={team.teamId}
                         teamName={team.teamName}
                         isSelected={selectedTeamId === team.teamId}
-                        onClick={onTeamSelect}
+                        onClick={(teamId) => {
+                            projectTeamClick(teamId) // 최근 팀
+                            onTeamSelect(teamId) // 팀 전달
+                        }}
                     />
                 ))}
             </Box>

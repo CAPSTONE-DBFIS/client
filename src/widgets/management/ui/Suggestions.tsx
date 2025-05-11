@@ -44,7 +44,7 @@ export default function Suggestions({ teamId }: { teamId: number }) {
                 </Text>
             </Box>
             <Box display="flex" style={{ gap: '32px', overflowX: 'auto' }}>
-                {recommend.map((item) => (
+                {recommend.slice(0, 7).map((item) => (
                     <SuggestionItem
                         key={item.id}
                         id={item.id}
