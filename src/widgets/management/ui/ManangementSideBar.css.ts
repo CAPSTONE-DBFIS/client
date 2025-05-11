@@ -1,35 +1,63 @@
 import { colors } from '@/app/token'
-import { style } from '@vanilla-extract/css'
+import { style, styleVariants } from '@vanilla-extract/css'
 
-export const teamList = style({
+export const headerContainer = style({
+    gap: '6px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
 })
 
-export const teamLogo = style({
+export const sectionHeader = style({
     display: 'flex',
-    width: 25,
-    height: 25,
-    padding: '1px 7px',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-    flexShrink: 0,
-    borderRadius: 8,
-    background: colors['neutral-40'],
+    margin: '0 18px',
+})
+
+export const menuItemClick = styleVariants({
+    // 기본 상태
+    default: {},
+    // 선택된 상태
+    selected: {
+        backgroundColor: `${colors['neutral-10']}`,
+    },
 })
 
 export const teamItem = style({
-    padding: '0px 10px',
-    width: '240px',
-    height: '36px',
     display: 'flex',
     alignItems: 'center',
-    alignContent: 'center',
-    gap: 10,
-    flexWrap: 'wrap',
-    borderRadius: 10,
-    background: colors['neutral-10'],
+    padding: '5.5px 12px',
+    borderRadius: '10px',
+    gap: '12px',
+    margin: '0 10px 6px 10px',
+    ':hover': {
+        backgroundColor: `${colors['neutral-10']}`,
+    },
+})
+
+export const teamIcon = style({
+    width: '25px',
+    height: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '8px',
+    backgroundColor: `${colors['neutral-900']}`,
+    color: 'white',
+})
+
+export const selectedTeamIcon = style({
+    width: '25px',
+    height: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '8px',
+    backgroundColor: `${colors['neutral-40']}`,
+    color: `${colors['neutral-900']}`,
+})
+
+export const projectBox = style({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
 })
