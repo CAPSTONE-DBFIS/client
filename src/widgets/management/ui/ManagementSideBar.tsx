@@ -2,20 +2,23 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import * as style from './ManangementSideBar.css'
 import { useState } from 'react'
+import { Team } from '@/entities/file/ui/Team'
 
 interface Team {
-    id: number
-    name: string
+    teamId: number
+    teamName: string
 }
-const teamItems: Team[] = [
-    { id: 1, name: '수퍼 팀' },
-    { id: 2, name: '메가 팀' },
-    { id: 3, name: '메메메가 팀' },
-    { id: 4, name: '수수퍼 팀' },
-    // 다른 팀 추가 가능
-]
+interface IManagementSideBar {
+    teamItems: Team[]
+    selectedTeamId: number | null
+    onTeamSelect: (teamId: number) => void
+}
 
-export default function ManagementSideBar() {
+export default function ManagementSideBar({
+    teamItems,
+    selectedTeamId,
+    onTeamSelect,
+}: IManagementSideBar) {
     const [selectedTeam, setSelectedTeam] = useState<number | null>(null)
     const [recentTeams, setRecentTeams] = useState<Team[]>([])
 
@@ -24,12 +27,12 @@ export default function ManagementSideBar() {
             setSelectedTeam(teamId)
 
             //  팀의 id가 클릭한 팀의 id와 같은지 확인
-            const clickedTeam = teamItems.find((team) => team.id === teamId)
+            const clickedTeam = teamItems.find((team) => team.teamId === teamId)
 
             if (clickedTeam) {
                 // 팀의 id가 클릭한 팀의 id와 다른지 확인 -> 중복 방지
                 const filteredRecent = recentTeams.filter(
-                    (team) => team.id !== teamId
+                    (team) => team.teamId !== teamId
                 )
 
                 // 선택한 팀를 최근 팀 목록의 맨 앞에 추가
@@ -56,20 +59,20 @@ export default function ManagementSideBar() {
                         <Box
                             display="flex"
                             fontSize="body"
-                            key={team.id}
+                            key={team.teamId}
                             className={`
                                 ${style.teamItem} 
-                                ${style.menuItemClick[selectedTeam === team.id ? 'selected' : 'default']}
+                                ${style.menuItemClick[selectedTeam === team.teamId ? 'selected' : 'default']}
                             `}
-                            onClick={() => projectTeamClick(team.id)}
+                            onClick={() => projectTeamClick(team.teamId)}
                         >
                             <Text
                                 fontSize="body"
-                                className={`${style.teamIcon} ${selectedTeam === team.id ? style.selectedTeamIcon : ''}`}
+                                className={`${style.teamIcon} ${selectedTeam === team.teamId ? style.selectedTeamIcon : ''}`}
                             >
-                                {team.name.charAt(0)}
+                                {team.teamName.charAt(0)}
                             </Text>
-                            <Text>{team.name}</Text>
+                            <Text>{team.teamName}</Text>
                         </Box>
                     ))
                 ) : (
@@ -83,24 +86,13 @@ export default function ManagementSideBar() {
             </Text>
             <Box className={style.projectBox}>
                 {teamItems.map((team) => (
-                    <Box
-                        display="flex"
-                        fontSize="body"
-                        key={team.id}
-                        className={`
-                            ${style.teamItem} 
-                            ${style.menuItemClick[selectedTeam === team.id ? 'selected' : 'default']}
-                        `}
-                        onClick={() => projectTeamClick(team.id)}
-                    >
-                        <Text
-                            fontSize="body"
-                            className={`${style.teamIcon} ${selectedTeam === team.id ? style.selectedTeamIcon : ''}`}
-                        >
-                            {team.name.charAt(0)}
-                        </Text>
-                        <Text>{team.name}</Text>
-                    </Box>
+                    <Team
+                        key={'team' + team.teamId}
+                        teamId={team.teamId}
+                        teamName={team.teamName}
+                        isSelected={selectedTeamId === team.teamId}
+                        onClick={onTeamSelect}
+                    />
                 ))}
             </Box>
         </Box>

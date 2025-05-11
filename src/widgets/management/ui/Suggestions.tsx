@@ -2,8 +2,36 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import SuggestionIcon from '@/shared/asset/icon/eye.svg?react'
 import SuggestionItem from '@/widgets/management/ui/SuggestionItem'
+import { getRecommend } from '@/entities/file/api/file'
+import { useEffect, useState } from 'react'
 
-export default function Suggestions() {
+interface IRecommend {
+    id: number
+    originalName: string
+    size: number
+    uploadedAt: string
+    uploaderId: string
+    downloadCount: number
+    onTeamSelect: (teamId: number) => void
+}
+
+export default function Suggestions({ teamId }: { teamId: number }) {
+    const [recommend, setRecommend] = useState<IRecommend[]>([])
+
+    useEffect(() => {
+        const fetchRecommendations = async () => {
+            try {
+                const response = await getRecommend(teamId)
+                setRecommend(response.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        if (teamId) {
+            fetchRecommendations()
+        }
+    }, [teamId])
+
     return (
         <Box display="flex" flexDirection="column" style={{ gap: '12px' }}>
             <Box display="flex" style={{ gap: '10px' }}>
@@ -16,11 +44,18 @@ export default function Suggestions() {
                 </Text>
             </Box>
             <Box display="flex" style={{ gap: '32px', overflowX: 'auto' }}>
-                <SuggestionItem />
-                <SuggestionItem />
-                <SuggestionItem />
-                <SuggestionItem />
-                <SuggestionItem />
+                {recommend.map((item) => (
+                    <SuggestionItem
+                        key={item.id}
+                        id={item.id}
+                        originalName={item.originalName}
+                        size={item.size}
+                        uploadedAt={item.uploadedAt}
+                        uploaderId={item.uploaderId}
+                        downloadCount={item.downloadCount}
+                        teamId={teamId}
+                    />
+                ))}
             </Box>
         </Box>
     )
