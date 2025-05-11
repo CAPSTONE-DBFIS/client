@@ -30,16 +30,24 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(error)
     }
 )
+let isRefreshing = false
 
-// 응답 인터셉터
 axiosInstance.interceptors.response.use(
-    (response) => {
-        return response
-    },
-    (error) => {
-        if (error.response?.status === 401) {
-            refreshToken()
+    (response) => response,
+    async (error) => {
+        if (error.response?.status === 401 && !isRefreshing) {
+            isRefreshing = true
+            try {
+                await refreshToken()
+                isRefreshing = false
+                // 실패한 요청 재시도
+                return axiosInstance(error.config)
+            } catch (e) {
+                isRefreshing = false
+                return Promise.reject(e)
+            }
         }
+
         return Promise.reject(error)
     }
 )

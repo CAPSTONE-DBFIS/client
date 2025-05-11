@@ -6,7 +6,6 @@ import { Layout } from '../layout'
 // pages
 import {
     Auth,
-    Community,
     Home,
     Analysis,
     Tracking,
@@ -47,15 +46,6 @@ export default function AppRouter() {
                         element={
                             <ProtectedRoute isAuth={isLoggined}>
                                 <Insight />
-                            </ProtectedRoute>
-                        }
-                    />
-                    {/* 커뮤니티 */}
-                    <Route
-                        path={route.COMMUNITY}
-                        element={
-                            <ProtectedRoute isAuth={isLoggined}>
-                                <Community />
                             </ProtectedRoute>
                         }
                     />

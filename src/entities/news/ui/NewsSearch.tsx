@@ -38,7 +38,6 @@ export default function NewsSearch({
         negative: 0,
     })
     const [newsList, setNewsList] = useState<CardNewsProps[]>([])
-    const [totalNewsCount, setTotalNewsCount] = useState(0)
 
     useEffect(() => {
         handleGetCategory()
