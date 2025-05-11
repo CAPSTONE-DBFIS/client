@@ -70,6 +70,17 @@ export const Insight = () => {
     }, [activeTabIndex])
 
     useEffect(() => {
+        if (date === '') {
+            const today = new Date()
+            const year = today.getFullYear()
+            const month = String(today.getMonth() + 1).padStart(2, '0')
+            const day = String(today.getDate()).padStart(2, '0')
+            setDate(`${year}-${month}-${day}`)
+            handleCheckButtonForDate(`${year}-${month}-${day}`)
+        }
+    }, [])
+
+    useEffect(() => {
         if (currentKeyword.keyword) {
             if (currentKeyword.isDaily) {
                 dailyData.filter((data) => {
@@ -92,6 +103,29 @@ export const Insight = () => {
         setCurrentKeyword({ isDaily: true, keyword: '' })
     }, [activeTabIndex, date])
 
+    const handleCheckButtonForDate = async (targetDate: string) => {
+        const dailyResponse =
+            activeTabIndex === 0
+                ? await getDomesticInsight(targetDate)
+                : await getOverseasInsight(targetDate)
+
+        const weeklyResponse =
+            activeTabIndex === 0
+                ? await getDomesticWeeklyInsight(targetDate)
+                : await getOverseasWeeklyInsight(targetDate)
+
+        if (dailyResponse.status === 200) {
+            if (activeTabIndex === 0) {
+                setDailyData(dailyResponse.data?.top_keywords)
+                setWeeklyData(weeklyResponse.data?.top_weekly_keywords)
+            } else {
+                setDailyData(dailyResponse.data?.top_foreign_keywords)
+                setWeeklyData(weeklyResponse.data?.top_weekly_foreign_keywords)
+            }
+        } else {
+            alert('조회에 실패했습니다. 다시 시도해주세요.')
+        }
+    }
     const handleCheckButton = async () => {
         if (!date) {
             alert('날짜를 선택해주세요.')

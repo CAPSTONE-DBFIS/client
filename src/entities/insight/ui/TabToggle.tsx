@@ -7,14 +7,14 @@ import { Text } from '@/shared/ui/Text'
 
 const tabVariant = {
     active: {
-        width: '35%',
+        width: '45%',
         transition: {
             type: 'tween',
             duration: 0.8,
         },
     },
     inactive: {
-        width: '30%',
+        width: '45%',
         transition: {
             type: 'tween',
             duration: 0.8,
@@ -34,14 +34,14 @@ const tabTextVariant = {
         },
     },
     inactive: {
-        opacity: 0,
-        x: -30,
+        opacity: 0.6,
+        x: 0,
+        display: 'block',
         transition: {
             type: 'tween',
             duration: 0.3,
             delay: 0,
         },
-        transitionEnd: { display: 'none' },
     },
 }
 
@@ -78,6 +78,7 @@ export default function TabToggle({
             <ul className={S.tabLink} role="tablist">
                 {tabs.map((tab, index) => (
                     <MotionDiv
+                        layout
                         key={tab.id}
                         className={cn(S.tab, {
                             active: tabIndex === index,
