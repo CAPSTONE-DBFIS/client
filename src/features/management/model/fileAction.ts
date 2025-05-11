@@ -72,10 +72,10 @@ export function useFileActions({
                         folderId,
                         formData
                     )
-                    console.log('[✅ SUCCESS] 업로드 완료:', response.data)
+                    console.log(response.data)
                     onFolderCreated() // 업로드 후 FileList 새로고침
                 } catch (error) {
-                    console.error('[❌ ERROR] 업로드 실패:', error)
+                    console.error(error)
                 }
             }
         }
