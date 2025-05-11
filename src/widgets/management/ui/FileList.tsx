@@ -45,6 +45,10 @@ const FileList = forwardRef<
         null
     ) // 마지막으로 클릭한 폴더 ID
 
+    const [selectedSort, setSelectedSort] = useState<
+        'recent' | 'oldest' | 'name' | null
+    >(null)
+
     const fetchFolderContents = useCallback(async () => {
         try {
             const response = await getFolder(teamId, folderId || 0)
@@ -55,7 +59,7 @@ const FileList = forwardRef<
                 if (sortOrder === 'name') return a.name.localeCompare(b.name)
                 return 0
             })
-            console.log('✅ 받은 파일 목록:', rawFiles)
+            console.log(rawFiles)
 
             setFiles(rawFiles)
         } catch (error) {
@@ -108,6 +112,7 @@ const FileList = forwardRef<
     // 정렬
     const handleSort = (order: 'recent' | 'oldest' | 'name') => {
         setSortOrder(order)
+        setSelectedSort(order)
     }
     //파일클릭
     const handleFileClick = async (fileId: number, fileName: string) => {
@@ -126,9 +131,24 @@ const FileList = forwardRef<
         >
             <Text>All files</Text>
             <Box display="flex" style={{ gap: '4px' }}>
-                <Button onClick={() => handleSort('recent')}>최근 순</Button>
-                <Button onClick={() => handleSort('oldest')}>오래된 순</Button>
-                <Button onClick={() => handleSort('name')}>이름 순</Button>
+                <Button
+                    onClick={() => handleSort('recent')}
+                    isActive={selectedSort === 'recent'}
+                >
+                    최근 순
+                </Button>
+                <Button
+                    onClick={() => handleSort('oldest')}
+                    isActive={selectedSort === 'oldest'}
+                >
+                    오래된 순
+                </Button>
+                <Button
+                    onClick={() => handleSort('name')}
+                    isActive={selectedSort === 'name'}
+                >
+                    이름 순
+                </Button>
             </Box>
             <Box className={S.fileTable}>
                 <Box className={S.fileTableRow + ' ' + S.fileTableHeader}>
