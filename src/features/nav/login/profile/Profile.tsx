@@ -10,7 +10,8 @@ import { useAuthStore } from '@/entities/user/stores/AuthStore'
  * @returns {JsxElement}
  */
 export const Profile = () => {
-    const userData = useAuthStore.getState().userData
+    const name = useAuthStore((state) => state.name)
+    const department = useAuthStore((state) => state.department)
 
     return (
         <Box display="flex" alignItems="center" className={profileContainer}>
@@ -25,10 +26,10 @@ export const Profile = () => {
                     fontWeight="bold"
                     className={notSelect}
                 >
-                    {userData.name}
+                    {name}
                 </Text>
                 <Text fontWeight="regular" className={notSelect}>
-                    {userData.department}
+                    {department}
                 </Text>
             </Box>
             <ProfileOption />
