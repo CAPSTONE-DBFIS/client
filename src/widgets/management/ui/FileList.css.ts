@@ -3,6 +3,8 @@ import { style } from '@vanilla-extract/css'
 
 export const fileTable = style({
     display: 'grid',
+    height: '222px',
+    overflowY: 'auto',
 })
 
 export const fileTableRow = style({

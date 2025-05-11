@@ -111,13 +111,19 @@ const FileList = forwardRef<
     }
     //파일클릭
     const handleFileClick = async (fileId: number, fileName: string) => {
+        console.log(fileId, fileName)
         setSelectedFileId(fileId)
         setLastClickedFolder(null)
         onFileSelect(fileId, fileName)
+        onFolderChange(null)
     }
 
     return (
-        <Box display="flex" flexDirection="column" style={{ gap: '12px' }}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            style={{ gap: '12px', paddingTop: '18px' }}
+        >
             <Text>All files</Text>
             <Box display="flex" style={{ gap: '4px' }}>
                 <Button onClick={() => handleSort('recent')}>최근 순</Button>

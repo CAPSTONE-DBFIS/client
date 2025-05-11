@@ -33,7 +33,11 @@ export default function Suggestions({ teamId }: { teamId: number }) {
     }, [teamId])
 
     return (
-        <Box display="flex" flexDirection="column" style={{ gap: '12px' }}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            style={{ gap: '12px', paddingTop: '18px' }}
+        >
             <Box display="flex" style={{ gap: '10px' }}>
                 <Box display="flex" alignItems="center" style={{ gap: '2px' }}>
                     <Text fontSize="body">제안</Text>
