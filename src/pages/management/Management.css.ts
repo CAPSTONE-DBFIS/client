@@ -1,3 +1,4 @@
+import { colors } from '@/app/token'
 import { style } from '@vanilla-extract/css'
 
 export const HeaderSection = style({
@@ -9,7 +10,7 @@ export const HeaderSection = style({
 export const HeaderTeam = style({})
 
 export const layout = style({
-    width: '1024px',
+    width: '1600px',
     padding: '36px 0px',
 
     '@media': {
@@ -20,8 +21,9 @@ export const layout = style({
 
     display: 'flex',
     justifyContent: 'space-between',
+    background: colors['neutral-10'],
 })
 
 export const main = style({
-    width: '710px',
+    width: '1200px',
 })

@@ -15,3 +15,8 @@ export const Container = style({
     border: '1px solid ' + colors['neutral-700'],
     opacity: '0.9',
 })
+
+export const Active = style({
+    backgroundColor: colors['neutral-900'],
+    color: colors.white,
+})
