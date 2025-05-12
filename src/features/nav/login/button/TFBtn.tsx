@@ -13,6 +13,7 @@ import Modal from '@/shared/ui/Modal/Modal'
 import { TeamModal } from '@/features/alarm/modal/TeamModal'
 import { PersonaModal } from '@/features/alarm/modal/PersonaModal'
 import { useModal } from '@/shared/lib/hooks/useModal'
+import { AddMemModal } from '@/features/alarm/modal/AddMemModal'
 
 /**
  * Team personar 컴포넌트
@@ -20,14 +21,14 @@ import { useModal } from '@/shared/lib/hooks/useModal'
  */
 export const TPeBtn: React.FC = () => {
     const { config, togglePopup, hidePopup } = usePopup()
-    const [activeModal, setActiveModal] = useState<'team' | 'persona' | null>(
-        null
-    )
+    const [activeModal, setActiveModal] = useState<
+        'team' | 'member' | 'persona' | null
+    >(null)
     const { modalConfig, showModal } = useModal()
 
     const ref = useRef<HTMLDivElement>(null) // ref 설정
     useClickOutside(ref, hidePopup) // 팝업 외부 클릭시 팝업 닫기
-    const handleOpenModal = (type: 'team' | 'persona') => {
+    const handleOpenModal = (type: 'team' | 'member' | 'persona') => {
         setActiveModal(type)
         showModal()
         togglePopup()
@@ -52,7 +53,12 @@ export const TPeBtn: React.FC = () => {
             </Box>
             {activeModal === 'team' && (
                 <Modal modalConfig={modalConfig}>
-                    <TeamModal />
+                    <TeamModal onClose={handleCloseModal} />
+                </Modal>
+            )}
+            {activeModal === 'member' && (
+                <Modal modalConfig={modalConfig}>
+                    <AddMemModal onClose={handleCloseModal} />
                 </Modal>
             )}
             {activeModal === 'persona' && (

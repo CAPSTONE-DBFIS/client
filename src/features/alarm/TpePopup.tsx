@@ -3,7 +3,7 @@ import { Text } from '@/shared/ui/Text'
 import * as S from './TPePopup.css'
 
 interface Props {
-    onOpenModal: (type: 'team' | 'persona') => void
+    onOpenModal: (type: 'team' | 'member' | 'persona') => void
 }
 
 export const TpePopup: React.FC<Props> = ({ onOpenModal }) => {
@@ -22,7 +22,19 @@ export const TpePopup: React.FC<Props> = ({ onOpenModal }) => {
                 onClick={() => onOpenModal('team')}
             >
                 <Text fontSize="subHeadline" color="neutral-900">
-                    팀 설정
+                    팀 추가
+                </Text>
+            </Box>
+            <Box
+                as={'button'}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                className={S.buttonStyle}
+                onClick={() => onOpenModal('member')}
+            >
+                <Text fontSize="subHeadline" color="neutral-900">
+                    팀원 추가
                 </Text>
             </Box>
             <Box
