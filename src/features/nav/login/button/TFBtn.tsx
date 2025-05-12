@@ -11,7 +11,7 @@ import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import Modal from '@/shared/ui/Modal/Modal'
 import { TeamModal } from '@/features/alarm/modal/TeamModal'
-import { PersonaModal } from '@/features/alarm/modal/PersonarModal'
+import { PersonaModal } from '@/features/alarm/modal/PersonaModal'
 import { useModal } from '@/shared/lib/hooks/useModal'
 
 /**
@@ -31,6 +31,10 @@ export const TPeBtn: React.FC = () => {
         setActiveModal(type)
         showModal()
         togglePopup()
+    }
+
+    const handleCloseModal = () => {
+        setActiveModal(null)
     }
 
     return (
@@ -53,7 +57,7 @@ export const TPeBtn: React.FC = () => {
             )}
             {activeModal === 'persona' && (
                 <Modal modalConfig={modalConfig}>
-                    <PersonaModal />
+                    <PersonaModal onClose={handleCloseModal} />
                 </Modal>
             )}
         </Box>
