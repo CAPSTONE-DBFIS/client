@@ -3,6 +3,7 @@ import { Text } from '@/shared/ui/Text'
 import * as S from './SuggestionItem.css'
 import FileIcon from '@/shared/asset/icon/clipboard-copy.svg?react'
 import { getDownload } from '@/entities/file/api/file'
+import { mime } from '../lib/mime'
 
 interface IRecommend {
     id: number
@@ -28,15 +29,7 @@ export default function SuggestionItem({
 
     const handleDownload = async () => {
         try {
-            const extensionToMime: Record<string, string> = {
-                pdf: 'application/pdf',
-                docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                hwp: 'application/x-hwp',
-                txt: 'text/plain',
-                png: 'image/png',
-                jpg: 'image/jpeg',
-                jpeg: 'image/jpeg',
-            }
+            const extensionToMime = mime
 
             const extension =
                 originalName.split('.').pop()?.toLowerCase() || 'octet-stream'

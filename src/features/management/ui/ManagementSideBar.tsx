@@ -1,7 +1,7 @@
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import * as style from './ManangementSideBar.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Team } from '@/entities/file/ui/Team'
 
 interface Team {
@@ -21,6 +21,14 @@ export default function ManagementSideBar({
 }: IManagementSideBar) {
     const [selectedTeam, setSelectedTeam] = useState<number | null>(null)
     const [recentTeams, setRecentTeams] = useState<Team[]>([])
+
+    useEffect(() => {
+        if (teamItems.length > 0 && recentTeams.length === 0) {
+            const firstTeam = teamItems[0]
+            setRecentTeams([firstTeam])
+            setSelectedTeam(firstTeam.teamId)
+        }
+    }, [recentTeams.length, teamItems])
 
     const projectTeamClick = (teamId: number) => {
         if (selectedTeam !== teamId) {
