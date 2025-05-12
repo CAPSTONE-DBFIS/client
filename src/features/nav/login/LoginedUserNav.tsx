@@ -1,6 +1,6 @@
 // components
 import { Box } from '@/shared/ui/Box'
-import { AlarmBtn } from './button/AlarmBtn'
+import { TPeBtn } from './button/TFBtn'
 import { CalendarBtn } from './button/CalenderBtn'
 import { ThemeBtn } from './button/ThemeBtn'
 import { Profile } from './profile/Profile'
@@ -13,7 +13,7 @@ export const LoginedUserNav = () => {
             <Box display="flex" className={btnBox}>
                 <ThemeBtn />
                 <CalendarBtn />
-                <AlarmBtn />
+                <TPeBtn />
             </Box>
             <Profile />
         </Box>
