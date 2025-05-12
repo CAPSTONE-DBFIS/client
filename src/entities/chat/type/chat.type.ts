@@ -4,4 +4,13 @@ export type messagesType = {
     createdAt: string
     response: string
     sender: string
+    source?: sourceType[]
+    log?: string
+}
+
+export type sourceType = {
+    id: string
+    title: string
+    content: string
+    url: string
 }

@@ -10,9 +10,12 @@ import * as S from './Chat.css'
 import { messagesType } from '@/entities/chat/type/chat.type'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeHighlight from 'rehype-highlight'
 import { useEffect, useState } from 'react'
 import { Popup } from '@/shared/ui/Popup'
 import { usePopup } from '@/shared/lib/hooks/usePopup'
+import SourceButton from '@/entities/chat/ui/SourceButton'
+import 'highlight.js/styles/github-dark.css' // 원하는 테마
 
 export const ChatListItem = ({ message }: { message: messagesType }) => {
     const hadleCopy = () => {
@@ -29,10 +32,22 @@ export const ChatListItem = ({ message }: { message: messagesType }) => {
                 </Box>
                 <Box>
                     <Box className={S.response}>
+                        <SourceButton source={message.source} />
                         {message.response ? (
                             <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
+                                rehypePlugins={[rehypeHighlight]}
                                 components={{
+                                    strong: ({ children }) => (
+                                        <span
+                                            style={{
+                                                color: '#243757',
+                                                fontWeight: 700,
+                                            }}
+                                        >
+                                            {children}
+                                        </span>
+                                    ),
                                     a: ({ href, children, ...props }) => (
                                         <CustomAnchor
                                             href={href}
@@ -48,12 +63,39 @@ export const ChatListItem = ({ message }: { message: messagesType }) => {
                                             {children}
                                         </CustomAnchor>
                                     ),
+                                    code: ({
+                                        children,
+                                        className,
+                                        ...props
+                                    }) => {
+                                        if (className)
+                                            return (
+                                                <CodeWithCopy>
+                                                    {children}
+                                                </CodeWithCopy>
+                                            )
+                                        // 인라인 코드
+                                        return (
+                                            <code
+                                                style={{
+                                                    backgroundColor: '#f5f5f5',
+                                                    padding: '2px 6px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '0.875rem',
+                                                    fontFamily: 'monospace',
+                                                }}
+                                                {...props}
+                                            >
+                                                {children}
+                                            </code>
+                                        )
+                                    },
                                 }}
                             >
                                 {message.response}
                             </ReactMarkdown>
                         ) : (
-                            <LoadingDots />
+                            <LoadingDots log={message.log} />
                         )}
                     </Box>
                 </Box>
@@ -88,7 +130,7 @@ export const ChatListItem = ({ message }: { message: messagesType }) => {
     )
 }
 
-export const LoadingDots = () => {
+export const LoadingDots = ({ log }: { log: string | undefined }) => {
     const [dotCount, setDotCount] = useState(0)
     useEffect(() => {
         const interval = setInterval(() => {
@@ -97,7 +139,11 @@ export const LoadingDots = () => {
         return () => clearInterval(interval)
     }, [])
 
-    return <Text color="neutral-100">분석 중{'.'.repeat(dotCount)}</Text>
+    return (
+        <Text color="neutral-100">
+            {(log ?? '분석 중') + '.'.repeat(dotCount)}
+        </Text>
+    )
 }
 
 const CustomAnchor = ({
@@ -134,5 +180,54 @@ const CustomAnchor = ({
                 </Text>
             </Popup>
         </a>
+    )
+}
+
+const CodeWithCopy = ({ children }: { children: React.ReactNode }) => {
+    const [copied, setCopied] = useState(false)
+
+    const handleCopy = () => {
+        const text = Array.isArray(children)
+            ? children.join('')
+            : String(children)
+        navigator.clipboard.writeText(text.trim())
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1500)
+    }
+
+    return (
+        <div style={{ position: 'relative' }}>
+            <pre
+                style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '1rem',
+                    borderRadius: '8px',
+                    overflowX: 'auto',
+                    color: '#e6e6e6',
+                    fontSize: '0.875rem',
+                    fontFamily: 'monospace',
+                    margin: '1rem 0',
+                }}
+            >
+                <code>{children}</code>
+            </pre>
+            <button
+                onClick={handleCopy}
+                style={{
+                    position: 'absolute',
+                    top: '0.5rem',
+                    right: '0.5rem',
+                    backgroundColor: '#333',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    fontSize: '0.75rem',
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                }}
+            >
+                {copied ? 'Copied!' : 'Copy'}
+            </button>
+        </div>
     )
 }

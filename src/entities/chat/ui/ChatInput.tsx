@@ -6,12 +6,19 @@ import { useId, useState } from 'react'
 import { Text } from '@/shared/ui/Text'
 import { CustomSelect } from '@/entities/chat/ui/Select'
 import { useAuthStore } from '@/entities/user/stores/AuthStore'
+import { sourceType } from '@/entities/chat/type/chat.type'
 
 const LLM_MODELS = [
+    { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
+    { value: 'o4-mini', label: 'gpt-o4-mini' },
+    { value: 'claude-3-7-sonnet-20250219', label: 'claude-3-7-sonnet' },
+    { value: 'grok-3-mini-beta', label: 'grok-3-mini-beta' },
+]
+const LLM_MODELS_LABEL = [
     'gpt-4o-mini',
-    'gpt-4o',
-    'Claude 3.5 Haiku',
-    'Claude 3.5 Sonnet',
+    'gpt-o4-mini',
+    'claude-3-7-sonnet',
+    'grok-3-mini-beta',
 ]
 const PERSONAS = ['기본타입']
 
@@ -24,7 +31,7 @@ export const ChatInput = ({
 }: {
     chatId: number
     onStreamStart: (query: string) => void
-    onStreamUpdate: (token: string) => void
+    onStreamUpdate: (token?: string, links?: sourceType[], log?: string) => void
     onStreamEnd: () => void
     isfixedDisabled: boolean
 }) => {
@@ -63,9 +70,17 @@ export const ChatInput = ({
 
         try {
             const formData = new FormData()
+            const selectedModel = LLM_MODELS.find(
+                (model) => model.label === llmModelType
+            )?.value
+            if (!selectedModel) {
+                alert('모델 선택이 올바르지 않습니다.')
+                return
+            }
             formData.append('query', query)
             formData.append('personaId', '1')
-            formData.append('llmModelType', llmModelType)
+
+            formData.append('llmModelType', selectedModel)
             files.forEach((file) => {
                 formData.append('files', file)
             })
@@ -81,7 +96,6 @@ export const ChatInput = ({
                     body: formData,
                 }
             )
-
             const reader = response.body?.getReader()
             const decoder = new TextDecoder('utf-8')
 
@@ -111,9 +125,12 @@ export const ChatInput = ({
 
                     try {
                         const json = JSON.parse(clean)
-
                         if (json.token) {
                             onStreamUpdate(json.token)
+                        } else if (json.links) {
+                            onStreamUpdate('', json.links)
+                        } else if (json.log) {
+                            onStreamUpdate('', [], json.log)
                         }
                     } catch {
                         console.warn('Invalid JSON:', clean)
@@ -140,7 +157,7 @@ export const ChatInput = ({
             <Box display="flex" style={{ gap: '14px' }} flexDirection="column">
                 <Box className={S.inputSelect}>
                     <CustomSelect
-                        options={LLM_MODELS}
+                        options={LLM_MODELS_LABEL}
                         value={llmModelType}
                         onChange={(val) => setLlmModelType(val)}
                         placeholder="모델 선택"

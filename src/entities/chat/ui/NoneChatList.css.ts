@@ -17,3 +17,7 @@ export const exampleButton = style({
     color: '#354764',
     transition: 'background 0.2s ease',
 })
+
+export const summaryText = style({
+    textAlign: 'center'
+})

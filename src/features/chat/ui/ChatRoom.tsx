@@ -1,5 +1,5 @@
 import { chatMessageList } from '@/entities/chat/api/chat'
-import { messagesType } from '@/entities/chat/type/chat.type'
+import { messagesType, sourceType } from '@/entities/chat/type/chat.type'
 import { ChatInput } from '@/entities/chat/ui/ChatInput'
 import { ChatLists } from '@/entities/chat/ui/ChatLists'
 import { Box } from '@/shared/ui/Box'
@@ -55,17 +55,20 @@ export const ChatRoom = ({
 
     const onStreamStart = (query: string) => {
         const newMessage: messagesType = {
-            id: 1000,
+            id: new Date().getTime(),
             message: query,
             response: chat,
             createdAt: new Date().toISOString(),
-            sender: 'user',
+            sender: 'current-client',
+            source: [],
+            log: '',
         }
         setMessages((prevMessages) => [...prevMessages, newMessage]) // 새로운 메시지를 추가
         scrollToBottom() // 스크롤을 맨 아래로 이동
     }
 
-    const onStreamUpdate = (token: string) => {
+
+    const onStreamUpdate = (token?: string, list?: sourceType[], log?: string) => {
         chatRef.current += token
         setMessages((prev) => {
             const updated = [...prev]
@@ -74,6 +77,8 @@ export const ChatRoom = ({
                 updated[lastIndex] = {
                     ...updated[lastIndex],
                     response: chatRef.current,
+                    source: list && list.length > 0 ? list : updated[lastIndex].source,
+                    log: log ? log : updated[lastIndex].log,
                 }
             }
             return updated
