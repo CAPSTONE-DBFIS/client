@@ -117,8 +117,8 @@ function createCustomTreemapContent(isDaily: boolean): React.FC<any> {
 function getColorByIndex(index: number, total: number, isDaily: boolean) {
     const ratio = index / (total - 1 || 1)
 
-    const startColor = isDaily ? [208, 231, 255] : [249, 233, 230] // 파랑 / 살구
-    const endColor = isDaily ? [43, 127, 255] : [202, 75, 43] // 파랑 / 빨강
+    const endColor = isDaily ? [208, 231, 255] : [249, 233, 230] // 파랑 / 살구
+    const startColor = isDaily ? [43, 127, 255] : [202, 75, 43] // 파랑 / 빨강
 
     const r = Math.round(startColor[0] + (endColor[0] - startColor[0]) * ratio)
     const g = Math.round(startColor[1] + (endColor[1] - startColor[1]) * ratio)
