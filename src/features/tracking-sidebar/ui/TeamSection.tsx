@@ -1,17 +1,17 @@
 import { useRef } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { colors } from '@/app/token'
-import { ITeamSection, IProject } from '../types/team.types'
 //icons
 import Plus from '@/shared/asset/icon/plus-sm.svg?react'
-import Trash from '@/shared/asset/icon/trash.svg?react'
-import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
+// import Trash from '@/shared/asset/icon/trash.svg?react'
+// import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
+import { ITrackingTeam } from '@/entities/tracking/type/tracking.type'
 //css
-import * as style from './styles/team-secion.css'
+// import * as style from './styles/team-secion.css'
 
 /**
  * TeamSection 컴포넌트
@@ -29,15 +29,20 @@ import * as style from './styles/team-secion.css'
  * @returns {JSX.Element}
  */
 
-export const TeamSection: React.FC<ITeamSection> = ({
+export const TeamSection: React.FC<{
+    team: ITrackingTeam
+    addProject: boolean
+    inProject: string
+    onAddProject: (teamId: number, projectName: string) => void
+    onInputChange: (teamId: number, value: string) => void
+    onToggleInput: (teamId: number) => void
+}> = ({
     team,
     addProject,
     inProject,
     onAddProject,
     onInputChange,
     onToggleInput,
-    selectedTask,
-    onProjectClick,
 }) => {
     const inputRef = useRef<HTMLDivElement>(null)
 
@@ -72,18 +77,18 @@ export const TeamSection: React.FC<ITeamSection> = ({
                     ref={inputRef}
                     display="flex"
                     justifyContent="center"
-                    style={{ marginBottom: '12px' }}
+                    style={{ marginBottom: '12px', width: '100%' }}
                 >
                     <TextInput
-                        placeholder="프로젝트 이름을 입력해주세요."
+                        placeholder="프로젝트를 입력해주세요."
                         size="small"
-                        width="200px"
+                        width="220px"
                         value={inProject}
                         onChange={(e) => onInputChange(team.id, e.target.value)}
                         rightIcon={
                             <Plus
                                 fill={colors['neutral-90']}
-                                onClick={() => onAddProject(team.id)}
+                                onClick={() => onAddProject(team.id, team.name)}
                             />
                         }
                     />
@@ -92,7 +97,7 @@ export const TeamSection: React.FC<ITeamSection> = ({
 
             {/* 프로젝트 리스트 */}
             <Box display="flex" flexDirection="column" style={{ gap: '6px' }}>
-                {team.projects.map((project: IProject) => (
+                {/* {projects.map((project: IProject) => (
                     <Box
                         key={project.id}
                         display="flex"
@@ -131,7 +136,7 @@ export const TeamSection: React.FC<ITeamSection> = ({
                             </Box>
                         )}
                     </Box>
-                ))}
+                ))} */}
             </Box>
         </Box>
     )
