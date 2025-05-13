@@ -22,6 +22,7 @@ export const TeamModal: React.FC<ITeamModal> = ({ onClose }) => {
                 role: '리더',
             })
             console.log(response.data)
+            alert('팀이 성공적으로 생성되었습니다.')
             onClose()
         } catch (error) {
             console.error(error)
