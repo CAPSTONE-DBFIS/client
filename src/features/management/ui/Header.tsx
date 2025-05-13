@@ -154,7 +154,21 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                         width="140px"
                         onClickFunc={() => {
                             setActiveButton('delete')
-                            handleDelete()
+                            console.log('selectedFileId:', selectedFileId)
+                            console.log('currentFolderId:', currentFolderId)
+                            if (
+                                selectedFileId !== null &&
+                                selectedFileName !== null
+                            ) {
+                                handleDelete('file')
+                            } else if (
+                                selectedFileId === null &&
+                                currentFolderId !== null
+                            ) {
+                                handleDelete('folder')
+                            } else {
+                                alert('삭제할 대상을 선택하세요.')
+                            }
                         }}
                     >
                         <TrashIcon

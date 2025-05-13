@@ -105,17 +105,22 @@ export function useFileActions({
         [teamId, currentFolderId, onFolderCreated]
     )
 
-    const handleDelete = useCallback(async () => {
-        if (selectedFileId !== null) {
-            await deleteFileFolder(teamId, selectedFileId, undefined)
-        } else if (currentFolderId !== null) {
-            await deleteFileFolder(teamId, undefined, currentFolderId)
-        } else {
-            alert('삭제할 대상을 선택하세요.')
-            return
-        }
-        onFolderCreated()
-    }, [teamId, selectedFileId, currentFolderId, onFolderCreated])
+    const handleDelete = useCallback(
+        async (type: 'file' | 'folder') => {
+            if (type === 'file' && selectedFileId !== null) {
+                // 파일 삭제
+                await deleteFileFolder(teamId, selectedFileId, undefined)
+            } else if (type === 'folder' && currentFolderId !== null) {
+                // 폴더 삭제
+                await deleteFileFolder(teamId, undefined, currentFolderId)
+            } else {
+                alert('삭제할 대상을 선택하세요.')
+                return
+            }
+            onFolderCreated() // 삭제 후 FileList 새로고침
+        },
+        [teamId, selectedFileId, currentFolderId, onFolderCreated]
+    )
 
     return {
         handleDownload,
