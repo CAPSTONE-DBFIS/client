@@ -1,38 +1,100 @@
 import { Box } from '@/shared/ui/Box'
 
-import Chip from '@/shared/asset/icon/chip.svg?react'
-import Calendar from '@/shared/asset/icon/calendar.svg?react'
-import { Text } from '@/shared/ui/Text'
 import { Button } from '@/shared/ui/Button'
-import { Select } from '@/shared/ui/Select/Select'
-import { useState } from 'react'
-import { colors } from '@/app/token'
+import { useEffect, useState } from 'react'
+import Chart from '@/entities/insight/ui/Chart'
+import {
+    CurrentKeywordType,
+    InsightDataDailyType,
+    RelatedDataType,
+} from '@/entities/insight/type/data.type'
+import {
+    getDomesticInsight,
+    getDomesticWeeklyInsight,
+} from '@/entities/insight/api/insight'
+import KeywordTreemap from '@/entities/insight/ui/Treemap'
+import { useNavigate } from 'react-router-dom'
 
 export const InsightGraph = () => {
-    const [week, setWeek] = useState('1주')
+    const navigate = useNavigate()
+    const [date, setDate] = useState('')
+    const [dailyData, setDailyData] = useState<InsightDataDailyType[]>([])
+    const [weeklyData, setWeeklyData] = useState<InsightDataDailyType[]>([])
+    const [relatedData, setRelatedData] = useState<RelatedDataType[]>([])
+    const [currentKeyword, setCurrentKeyword] = useState<CurrentKeywordType>({
+        isDaily: true,
+        keyword: '',
+    })
+    useEffect(() => {
+        if (currentKeyword.keyword) {
+            if (currentKeyword.isDaily) {
+                dailyData.filter((data) => {
+                    if (data.keyword === currentKeyword.keyword) {
+                        setRelatedData(data.relatedKeywords)
+                    }
+                })
+            } else {
+                weeklyData.filter((data) => {
+                    if (data.keyword === currentKeyword.keyword) {
+                        setRelatedData(data.relatedKeywords)
+                    }
+                })
+            }
+        }
+    }, [currentKeyword, dailyData, weeklyData])
+
+    useEffect(() => {
+        setRelatedData([])
+        setCurrentKeyword({ isDaily: true, keyword: '' })
+    }, [date])
+
+    useEffect(() => {
+        if (date === '') {
+            const today = new Date()
+            const year = today.getFullYear()
+            const month = String(today.getMonth() + 1).padStart(2, '0')
+            const day = String(today.getDate()).padStart(2, '0')
+            setDate(`${year}-${month}-${day}`)
+            handleCheckButtonForDate(`${year}-${month}-${day}`)
+        }
+    }, [date])
+
+    const handleCheckButtonForDate = async (targetDate: string) => {
+        const dailyResponse = await getDomesticInsight(targetDate)
+        const weeklyResponse = await getDomesticWeeklyInsight(targetDate)
+
+        if (dailyResponse.status === 200) {
+            setDailyData(dailyResponse.data?.top_keywords)
+            setWeeklyData(weeklyResponse.data?.top_weekly_keywords)
+        } else {
+            alert('조회에 실패했습니다. 다시 시도해주세요.')
+        }
+    }
+
     return (
-        <Box>
-            <Select
-                options={['1주', '1달', '준비중']}
-                currentValue={week}
-                setValue={setWeek}
-                Icon={
-                    <Calendar
-                        width={15}
-                        height={15}
-                        fill={colors['teal-500']}
-                    />
+        <Box display="flex" flexDirection="column" style={{ gap: '24px' }}>
+            <Chart
+                dailyData={dailyData}
+                weeklyData={weeklyData}
+                date={date}
+                setCurrentKeyword={(isDaily: boolean, keyword: string) =>
+                    setCurrentKeyword({ isDaily, keyword })
                 }
             />
-            <Box display="flex" alignItems="center" style={{ gap: '6px' }}>
-                <Chip />
-                <Text fontSize="title1">기술·IT</Text>
-            </Box>
-            <Box display="flex" alignItems="center" style={{ gap: '6px' }}>
-                <Chip />
-                <Text fontSize="title1">경쟁사</Text>
-            </Box>
-            <Button type="secondary" size="medium" width="100%">
+            <KeywordTreemap
+                data={relatedData}
+                isDaily={currentKeyword.isDaily}
+                currentKeyword={currentKeyword.keyword}
+            />
+            <Button
+                type="secondary"
+                size="medium"
+                width="100%"
+                onClickFunc={() => {
+                    navigate('/insight')
+                    window.scrollTo(0, 0)
+                }}
+            >
                 다양한 인사이트 보러가기
             </Button>
         </Box>
