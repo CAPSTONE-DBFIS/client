@@ -12,7 +12,7 @@ import {
     putPersona,
 } from '@/entities/user/api/persona'
 import { PersonaAddModal } from './PersonalAddModal'
-import { motion } from 'framer-motion'
+import { MotionDiv } from '@/shared/ui/MotionDiv/MotionDiv'
 
 interface Persona {
     id: number
@@ -232,7 +232,7 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
                                     </Box>
 
                                     {selectedPersonaId === persona.id && (
-                                        <motion.div
+                                        <MotionDiv
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
@@ -249,7 +249,7 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
                                                     {persona.prompt}
                                                 </Text>
                                             </Box>
-                                        </motion.div>
+                                        </MotionDiv>
                                     )}
                                 </Box>
                             ))}
