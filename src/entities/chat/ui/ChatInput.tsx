@@ -2,11 +2,13 @@ import { Box } from '@/shared/ui/Box'
 import * as S from './Chat.css'
 import Send from '@/shared/asset/icon/paper-airplane.svg?react'
 import FileIcon from '@/shared/asset/icon/paper-clip.svg?react'
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { Text } from '@/shared/ui/Text'
 import { CustomSelect } from '@/entities/chat/ui/Select'
 import { useAuthStore } from '@/entities/user/stores/AuthStore'
 import { sourceType } from '@/entities/chat/type/chat.type'
+import { PersonaType } from '@/entities/persona/type/persona.type'
+import { getPersona } from '@/entities/persona/api/persona'
 
 const LLM_MODELS = [
     { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
@@ -20,7 +22,6 @@ const LLM_MODELS_LABEL = [
     'claude-3-7-sonnet',
     'grok-3-mini-beta',
 ]
-const PERSONAS = ['기본타입']
 
 export const ChatInput = ({
     chatId,
@@ -39,11 +40,17 @@ export const ChatInput = ({
     const [inputValue, setInputValue] = useState('')
     const [loading, setLoading] = useState(false)
     const [llmModelType, setLlmModelType] = useState('')
-    const [personaId, setPersonaId] = useState('')
+    const [personaName, setPersonaName] = useState('')
     const [files, setFiles] = useState<File[]>([])
+    const [personaList, setPersonaList] = useState<PersonaType[]>([])
+    const personaListName = personaList.map((persona) => persona.name)
 
+    console.log(personaListName)
+    useEffect(() => {
+        getPersonaList()
+    }, [])
     const validInput =
-        inputValue.trim() !== '' && llmModelType !== '' && personaId !== ''
+        inputValue.trim() !== '' && llmModelType !== '' && personaName !== ''
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
@@ -73,12 +80,19 @@ export const ChatInput = ({
             const selectedModel = LLM_MODELS.find(
                 (model) => model.label === llmModelType
             )?.value
+            const selectedPersona = personaList.find(
+                (p) => p.name === personaName
+            )
             if (!selectedModel) {
                 alert('모델 선택이 올바르지 않습니다.')
                 return
             }
+            if (!selectedPersona) {
+                alert('선택한 페르소나가 존재하지 않습니다.')
+                return
+            }
             formData.append('query', query)
-            formData.append('personaId', '1')
+            formData.append('personaId', selectedPersona.id.toString())
 
             formData.append('llmModelType', selectedModel)
             files.forEach((file) => {
@@ -144,6 +158,12 @@ export const ChatInput = ({
             onStreamEnd()
         }
     }
+    const getPersonaList = async () => {
+        const response = await getPersona()
+        if (response.status === 200) {
+            setPersonaList(response.data)
+        }
+    }
     return (
         <Box
             as={'label'}
@@ -163,9 +183,9 @@ export const ChatInput = ({
                         placeholder="모델 선택"
                     />
                     <CustomSelect
-                        options={PERSONAS}
-                        value={personaId}
-                        onChange={(val) => setPersonaId(val)}
+                        options={personaListName}
+                        value={personaName}
+                        onChange={(val) => setPersonaName(val)}
                         placeholder="페르소나 선택"
                     />
 
@@ -180,7 +200,7 @@ export const ChatInput = ({
                         <input
                             type="file"
                             multiple
-                            accept="image/*, pdf, docs"
+                            accept=".pdf,.docx,.hwp,.txt"
                             hidden
                             id="analyis-file"
                             onChange={handleFileChange}
