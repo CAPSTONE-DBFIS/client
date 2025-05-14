@@ -13,12 +13,14 @@ export function useFileActions({
     selectedFileId,
     selectedFileName,
     onFolderCreated,
+    selectedItemType,
 }: {
     teamId: number
     currentFolderId: number | null
     selectedFileId: number | null
     selectedFileName: string | null
     onFolderCreated: () => void
+    selectedItemType: 'file' | 'folder' | null
 }) {
     const handleDownload = useCallback(async () => {
         if (!selectedFileId || !selectedFileName) {
@@ -91,31 +93,49 @@ export function useFileActions({
             }
 
             try {
-                const folderId = currentFolderId ?? null
-                console.log('parentId:', folderId)
-                const response = await postfolder(teamId, folderId, folderName)
+                let parentId: number | null = null
+
+                if (selectedItemType === 'folder' && selectedFileId !== null) {
+                    parentId = selectedFileId // 폴더를 클릭한 경우 → 그 폴더 안에 생성
+                } else {
+                    parentId = currentFolderId // 파일 클릭했거나 아무것도 선택 안 한 경우 → 현재 폴더에 생성
+                }
+
+                console.log('parentId:', parentId)
+                const response = await postfolder(teamId, parentId, folderName)
                 console.log(response.data)
-                onFolderCreated() // 폴더 생성 후 FileList 새로고침
+                onFolderCreated()
                 return true
             } catch (error) {
                 console.error(error)
                 return false
             }
         },
-        [teamId, currentFolderId, onFolderCreated]
+        [
+            teamId,
+            currentFolderId,
+            selectedFileId,
+            selectedItemType,
+            onFolderCreated,
+        ]
     )
 
-    const handleDelete = useCallback(async () => {
-        if (selectedFileId !== null) {
-            await deleteFileFolder(teamId, selectedFileId, undefined)
-        } else if (currentFolderId !== null) {
-            await deleteFileFolder(teamId, undefined, currentFolderId)
-        } else {
-            alert('삭제할 대상을 선택하세요.')
-            return
-        }
-        onFolderCreated()
-    }, [teamId, selectedFileId, currentFolderId, onFolderCreated])
+    const handleDelete = useCallback(
+        async (type: 'file' | 'folder') => {
+            if (type === 'file' && selectedFileId !== null) {
+                // 파일 삭제
+                await deleteFileFolder(teamId, selectedFileId, undefined)
+            } else if (type === 'folder' && currentFolderId !== null) {
+                // 폴더 삭제
+                await deleteFileFolder(teamId, undefined, currentFolderId)
+            } else {
+                alert('삭제할 대상을 선택하세요.')
+                return
+            }
+            onFolderCreated() // 삭제 후 FileList 새로고침
+        },
+        [teamId, selectedFileId, currentFolderId, onFolderCreated]
+    )
 
     return {
         handleDownload,

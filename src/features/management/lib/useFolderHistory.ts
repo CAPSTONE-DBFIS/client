@@ -18,7 +18,7 @@ export function useFolderHistory(initialFolderId: number | null = null) {
             setHistory((prev) => prev.slice(0, prev.length - 1))
             setCurrentFolderId(prev)
         } else {
-            setCurrentFolderId(0)
+            setCurrentFolderId(null)
             setHistory([])
         }
     }

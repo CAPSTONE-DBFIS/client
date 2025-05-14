@@ -23,6 +23,9 @@ export const Management = () => {
         null
     )
     const [currentFolderId, setCurrentFolderId] = useState<number | null>(null)
+    const [selectedItemType, setSelectedItemType] = useState<
+        'file' | 'folder' | null
+    >(null)
 
     const fileListRef = useRef<FileListHandle>(null) //파일생성후REFETCH
     const handleFolderCreated = () => {
@@ -51,11 +54,13 @@ export const Management = () => {
 
     const handleFileSelect = (
         fileId: number | null,
-        fileName: string | null
+        fileName: string | null,
+        type: 'file' | 'folder' | null
     ) => {
         setSelectedFileId(fileId)
         setSelectedFileName(fileName)
-        setCurrentFolderId(null)
+
+        setSelectedItemType(type)
     }
 
     return (
@@ -77,13 +82,16 @@ export const Management = () => {
                         teamId={selectedTeam?.teamId || 0} // 팀 ID 전달
                         currentFolderId={currentFolderId}
                         onFolderCreated={handleFolderCreated}
+                        selectedItemType={selectedItemType}
                     />
                     <Suggestions teamId={selectedTeam?.teamId || 0} />
                     {selectedTeam && (
                         <FileList
                             ref={fileListRef} // FileList의 ref 전달
                             teamId={selectedTeam.teamId}
-                            onFileSelect={handleFileSelect}
+                            onFileSelect={(id, name, type) =>
+                                handleFileSelect(id, name, type)
+                            }
                             onFolderChange={setCurrentFolderId}
                         />
                     )}

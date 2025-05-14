@@ -20,6 +20,7 @@ interface ITeam {
     teamId: number
     currentFolderId: number | null
     onFolderCreated: () => void
+    selectedItemType: 'file' | 'folder' | null
 }
 
 export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
@@ -30,6 +31,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
     teamId,
     currentFolderId,
     onFolderCreated,
+    selectedItemType,
 }) => {
     const [activeButton, setActiveButton] = useState<string | null>(null)
     const [folderName, setFolderName] = useState('') //폴더업로드
@@ -41,6 +43,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
             selectedFileId,
             selectedFileName,
             onFolderCreated,
+            selectedItemType,
         })
 
     return (
@@ -154,7 +157,21 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                         width="140px"
                         onClickFunc={() => {
                             setActiveButton('delete')
-                            handleDelete()
+                            console.log('selectedFileId:', selectedFileId)
+                            console.log('currentFolderId:', currentFolderId)
+                            if (
+                                selectedItemType === 'file' &&
+                                selectedFileId !== null
+                            ) {
+                                handleDelete('file')
+                            } else if (
+                                selectedItemType === 'folder' &&
+                                currentFolderId !== null
+                            ) {
+                                handleDelete('folder')
+                            } else {
+                                alert('삭제할 대상을 선택하세요.')
+                            }
                         }}
                     >
                         <TrashIcon
