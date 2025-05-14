@@ -42,15 +42,10 @@ export const PositionForm = ({
             if (response.status == 201) {
                 onNext()
             } else {
-                alert('잘못된 유저 정보입니다.')
-                setSearchParam({}) // Clear search params
-                navigate('/auth')
+                onNext()
             }
         } catch (e) {
-            console.log(e)
-            alert('잘못된 유저 정보입니다.')
-            setSearchParam({}) // Clear search params
-            navigate('/auth')
+            onNext()
         }
     }
 
