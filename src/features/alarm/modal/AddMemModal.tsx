@@ -97,7 +97,14 @@ export const AddMemModal: React.FC<IAddMemModal> = ({ onClose }) => {
 
                     <Box className={S.rowBox}>
                         {teams.map((team) => (
-                            <Box key={team.teamId} className={S.tableRow}>
+                            <Box
+                                key={team.teamId}
+                                className={S.tableRow}
+                                onClick={() => {
+                                    setSelectedTeamName(team.teamName)
+                                    setSelectedTeamId(team.teamId)
+                                }}
+                            >
                                 <Box className={S.nameCell}>
                                     <Text>{team.teamName}</Text>
                                 </Box>
@@ -174,14 +181,23 @@ export const AddMemModal: React.FC<IAddMemModal> = ({ onClose }) => {
                     <TextInput
                         width="100%"
                         size="small"
-                        placeholder="초대할 팀원의 이메일을 입력해주세요."
+                        placeholder="초대할 팀원의 ID를 입력해주세요."
                         height="42px"
                         value={memberEmail}
                         onChange={(e) => setMemberEmail(e.target.value)}
                     />
                 </Box>
             </Box>
-            <Box style={{ marginTop: '20px' }}>
+            <Box display="flex" style={{ gap: '24px', marginTop: '20px' }}>
+                <Button
+                    width="100%"
+                    size="medium"
+                    type="tertiary"
+                    fontSize="title3"
+                    onClickFunc={onClose}
+                >
+                    이전
+                </Button>
                 <Button
                     width="100%"
                     size="medium"

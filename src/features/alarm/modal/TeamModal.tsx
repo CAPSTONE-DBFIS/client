@@ -78,7 +78,16 @@ export const TeamModal: React.FC<ITeamModal> = ({ onClose }) => {
                     />
                 </Box>
             </Box>
-            <Box style={{ marginTop: '20px' }}>
+            <Box display="flex" style={{ gap: '24px', marginTop: '20px' }}>
+                <Button
+                    width="100%"
+                    size="medium"
+                    type="tertiary"
+                    fontSize="title3"
+                    onClickFunc={onClose}
+                >
+                    이전
+                </Button>
                 <Button
                     width="100%"
                     size="medium"

@@ -71,6 +71,7 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
         try {
             await delPersona(id)
             setPersonas(personas.filter((persona) => persona.id !== id))
+            resetModal()
         } catch (error) {
             console.error(error)
         }
@@ -131,6 +132,7 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
         setEditingPersonaId(null)
         setNewPersona({ name: '', prompt: '' })
         setAlertMessage('')
+
         try {
             const response = await getPersona()
             setPersonas(response.data)
@@ -208,8 +210,8 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
                                                     }
                                                 >
                                                     <Edit
-                                                        width={14}
-                                                        height={14}
+                                                        width={16}
+                                                        height={16}
                                                     />
                                                 </Box>
                                                 <Box
@@ -223,8 +225,8 @@ export const PersonaModal: React.FC<IPersonaModal> = ({ onClose }) => {
                                                     }
                                                 >
                                                     <Trash
-                                                        width={14}
-                                                        height={14}
+                                                        width={16}
+                                                        height={16}
                                                     />
                                                 </Box>
                                             </Box>
