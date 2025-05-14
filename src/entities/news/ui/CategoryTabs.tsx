@@ -15,6 +15,36 @@ export default function CategoryTabs({
 }) {
     return (
         <Box className={S.container}>
+            <motion.button
+                onClick={() =>
+                    onSelectCategory(
+                        selectedCategory === '전체' ? null : '전체'
+                    )
+                }
+                style={{
+                    height: '38px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor:
+                        selectedCategory === '전체' ? '#006374' : '#ffffff',
+                }}
+                className={S.button}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 20,
+                }}
+            >
+                <Text
+                    color={
+                        selectedCategory === '전체' ? 'white' : 'neutral-500'
+                    }
+                >
+                    전체
+                </Text>
+            </motion.button>
             {categories.map((category) => (
                 <motion.button
                     key={category.name}

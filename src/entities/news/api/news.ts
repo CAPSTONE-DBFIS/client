@@ -7,6 +7,7 @@ export const getSentiment = async (
     category?: string | null,
     foreign = false
 ) => {
+    const allCategory = category === '전체' ? null : category
     const response = await axiosInstance.get(
         '/api/insight/sentiment-analysis',
         {
@@ -14,7 +15,7 @@ export const getSentiment = async (
                 keyword: keyword,
                 startDate: startDate,
                 endDate: endDate,
-                category: category,
+                category: allCategory,
                 foreign: foreign,
             },
         }

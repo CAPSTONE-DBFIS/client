@@ -75,7 +75,6 @@ export default function NewsSearch({
             selectedCategory,
             activeTabIndex === 1
         )
-        console.log('response', response)
         if (response.status === 200) {
             setNewsList(response.data.hits)
         }
@@ -162,7 +161,12 @@ export default function NewsSearch({
                     width="200px"
                     onClickFunc={handleSearchClick}
                     disabled={
-                        !startDate || !endDate || !searchKeyword ? true : false
+                        !startDate ||
+                        !endDate ||
+                        !searchKeyword ||
+                        !selectedCategory
+                            ? true
+                            : false
                     }
                 >
                     검색
