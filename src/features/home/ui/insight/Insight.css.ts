@@ -11,7 +11,7 @@ export const container = style({
 
     borderRadius: '20px',
 
-    padding: '24px 82px',
+    padding: '24px 24px',
 
     '@media': {
         'screen and (max-width: 1024px)': {

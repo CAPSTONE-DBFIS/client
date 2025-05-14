@@ -96,14 +96,14 @@ function createCustomTreemapContent(isDaily: boolean): React.FC<any> {
                     width={width}
                     height={height}
                     fill={fillColor}
-                    stroke="#ccc"
+                    stroke="#F5F6F7"
                 />
                 {width > 60 && height > 20 && (
                     <text
-                        x={x + 8}
-                        y={y + 20}
-                        fill="#5D6B82"
-                        fontSize={18}
+                        x={x + 12}
+                        y={y + 25}
+                        fill="#F5F6F7"
+                        fontSize={15}
                         stroke="none"
                     >
                         {relatedKeyword}

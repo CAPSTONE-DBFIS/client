@@ -11,7 +11,7 @@ export const Insight = () => {
                 <Text fontSize="title2" color="neutral-600">
                     인사이트
                 </Text>
-                <Text fontSize="title1">트렌드 한눈에 보기</Text>
+                <Text fontSize="title1">오늘의 트렌드 한눈에 보기</Text>
                 <Text fontSize="title3" color="neutral-300">
                     다양한 트렌드 정보를 한 눈에 볼 수 있어요!
                 </Text>

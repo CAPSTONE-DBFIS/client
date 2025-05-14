@@ -26,6 +26,9 @@ export default function CategoryTabs({
                         )
                     }
                     style={{
+                        height: '38px',
+                        display: 'flex',
+                        alignItems: 'center',
                         backgroundColor:
                             selectedCategory === category.name
                                 ? '#006374'
