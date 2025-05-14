@@ -55,20 +55,20 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
 
         const handleFolderClick = (id: number) => {
             setSelectedFileId(null)
+
             onFileSelect(null, null, 'folder')
             if (lastClickedFolder === id) {
                 goToFolder(id)
-                setLastClickedFolder(null)
                 onFolderChange(id)
+                setLastClickedFolder(null)
             } else {
                 setSelectedFileId(id)
-                setLastClickedFolder(id)
                 onFolderChange(id)
+                setLastClickedFolder(id)
+
                 setTimeout(() => {
-                    if (lastClickedFolder === id) {
-                        setLastClickedFolder(null)
-                    }
-                }, 1000)
+                    setLastClickedFolder(null)
+                }, 500)
             }
         }
 
