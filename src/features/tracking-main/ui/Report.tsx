@@ -92,9 +92,12 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                 // 키워드분석
                 <Box>
                     <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Text fontSize="title1" fontWeight="bold">
-                            {'n'}주차 핵심 트렌드 인사이트
-                        </Text>
+                        <Box style={{ padding: '0 24px' }}>
+                            <Text fontSize="title1" fontWeight="bold">
+                                {'n'}주차 핵심 트렌드 인사이트
+                            </Text>
+                        </Box>
+
                         <Box
                             display="flex"
                             flexDirection="column"
@@ -159,7 +162,7 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                             style={{
                                 position: 'absolute',
                                 width: '100%',
-                                background: 'rgb(0,0,0,0.001)',
+                                background: 'rgb(0,0,0,0.01)',
                                 height: '100%',
                                 top: '0',
                                 backdropFilter: 'blur(4px)',
@@ -191,9 +194,11 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                 // 요약대시보드
                 <Box>
                     <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Text fontSize="title1" fontWeight="bold">
-                            {'n'}주차 핵심 트렌드 인사이트
-                        </Text>
+                        <Box style={{ padding: '0 24px' }}>
+                            <Text fontSize="title1" fontWeight="bold">
+                                {'n'}주차 핵심 트렌드 인사이트
+                            </Text>
+                        </Box>
                         <Box
                             display="flex"
                             flexDirection="column"
