@@ -11,6 +11,7 @@ import {
     Tracking,
     Insight,
     Management,
+    NotLogin,
 } from '@/pages'
 import { useAuthStore } from '@/entities/user/stores/AuthStore'
 // v7 부터 변경될 내용으로 추후 해결 필요
@@ -59,6 +60,10 @@ export default function AppRouter() {
                         }
                     />
                     <Route path={route.AUTH} element={<Auth />}></Route>
+                    <Route
+                        path={route.NOT_LOGIN}
+                        element={<NotLogin />}
+                    ></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
