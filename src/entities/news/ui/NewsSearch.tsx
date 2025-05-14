@@ -23,7 +23,7 @@ export default function NewsSearch({
     activeTabIndex: number
 }) {
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-        null
+        "전체"
     )
     const [categories, setCategories] = useState<CategoryList[]>([])
     const [startDate, setStartDate] = useState('2025-05-01')
