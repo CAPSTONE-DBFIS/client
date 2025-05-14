@@ -152,7 +152,7 @@ export const LoadingDots = ({ log }: { log: string[] | undefined }) => {
         <Box
             display="flex"
             flexDirection="column"
-            style={{ gap: '4px', height: '300px' }}
+            style={{ gap: '4px'}}
         >
             {log && log.length > 0 ? (
                 log.map((line, idx) => (
