@@ -4,7 +4,7 @@ import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { Text } from '@/shared/ui/Text'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 /**
  * 회원가입 사용자 인증을 위한 컴포넌트
@@ -19,6 +19,7 @@ export const SignupVerification = ({
     id: string
 }) => {
     const [code, setCode] = useState(['', '', '', '', '', '', ''])
+    const inputArrRef = useRef<(HTMLInputElement | null)[]>([])
     const onHandleInput = (
         e: React.FormEvent<HTMLInputElement>,
         index: number
@@ -39,11 +40,22 @@ export const SignupVerification = ({
             return newCode
         })
 
-        // 다음 칸으로 자동 포커스 이동 (선택 사항)
-        if (value && target.nextElementSibling instanceof HTMLInputElement) {
-            target.nextElementSibling.focus()
+        if (value && index < inputArrRef.current.length - 1) {
+            inputArrRef.current[index + 1]?.focus()
         }
     }
+    const onHandleKeyDown = (
+        e: React.KeyboardEvent<HTMLInputElement>,
+        index: number
+    ) => {
+        if (e.key === 'Backspace') {
+            // 현재 칸이 비어 있으면 이전 칸으로 포커스
+            if (code[index] === '' && index > 0) {
+                inputArrRef.current[index - 1]?.focus()
+            }
+        }
+    }
+    console.log(inputArrRef)
     const handleSubmit = async () => {
         try {
             const data = await verifyCode(id, code.join(''))
@@ -58,14 +70,16 @@ export const SignupVerification = ({
                 key={index}
                 type="text"
                 maxLength={1}
-                onInput={(e) => onHandleInput(e, index)}
+                onChange={(e) => onHandleInput(e, index)}
                 placeholder=""
                 size="large"
                 height="64px"
-                width="24px"
-                textAlignment="center"
+                width="48px"
+                textAlignment="left"
                 value={code[index]}
                 required={true}
+                ref={(el) => (inputArrRef.current[index] = el)}
+                onkeyDown={(e) => onHandleKeyDown(e, index)}
             />
         ))
     }
@@ -92,7 +106,7 @@ export const SignupVerification = ({
             <Box
                 display="flex"
                 justifyContent="space-around"
-                style={{ gap: '8px' }}
+                style={{ gap: '8px', width: '400px' }}
             >
                 {renderInputFields()}
             </Box>
