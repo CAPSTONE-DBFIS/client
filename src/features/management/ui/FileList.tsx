@@ -15,7 +15,11 @@ export interface FileListHandle {
 
 interface FileListProps {
     teamId: number
-    onFileSelect: (fileId: number | null, fileName: string | null) => void
+    onFileSelect: (
+        fileId: number | null,
+        fileName: string | null,
+        type: 'file' | 'folder' | null
+    ) => void
     onFolderChange: (folderId: number | null) => void
 }
 
@@ -51,7 +55,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
 
         const handleFolderClick = (id: number) => {
             setSelectedFileId(null)
-            onFileSelect(null, null)
+            onFileSelect(null, null, 'folder')
             if (lastClickedFolder === id) {
                 goToFolder(id)
                 setLastClickedFolder(null)
@@ -76,8 +80,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
         const handleFileClick = (fileId: number, fileName: string) => {
             setSelectedFileId(fileId)
             setLastClickedFolder(null)
-            onFileSelect(fileId, fileName)
-            onFolderChange(null)
+            onFileSelect(fileId, fileName, 'file')
         }
 
         return (

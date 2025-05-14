@@ -20,6 +20,7 @@ interface ITeam {
     teamId: number
     currentFolderId: number | null
     onFolderCreated: () => void
+    selectedItemType: 'file' | 'folder' | null
 }
 
 export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
@@ -30,6 +31,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
     teamId,
     currentFolderId,
     onFolderCreated,
+    selectedItemType,
 }) => {
     const [activeButton, setActiveButton] = useState<string | null>(null)
     const [folderName, setFolderName] = useState('') //폴더업로드
@@ -41,6 +43,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
             selectedFileId,
             selectedFileName,
             onFolderCreated,
+            selectedItemType,
         })
 
     return (
@@ -157,12 +160,12 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                             console.log('selectedFileId:', selectedFileId)
                             console.log('currentFolderId:', currentFolderId)
                             if (
-                                selectedFileId !== null &&
-                                selectedFileName !== null
+                                selectedItemType === 'file' &&
+                                selectedFileId !== null
                             ) {
                                 handleDelete('file')
                             } else if (
-                                selectedFileId === null &&
+                                selectedItemType === 'folder' &&
                                 currentFolderId !== null
                             ) {
                                 handleDelete('folder')
