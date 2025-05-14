@@ -31,7 +31,15 @@ export const ChatListItem = ({ message }: { message: messagesType }) => {
                     </Text>
                 </Box>
                 <Box>
-                    <Box className={S.response}>
+                    <Box
+                        className={S.response}
+                        style={{
+                            maxWidth: '100%', // 또는 '800px' 등 제한
+                            wordBreak: 'break-word', // 긴 텍스트 줄바꿈
+                            overflowWrap: 'break-word',
+                            overflowX: 'auto',
+                        }}
+                    >
                         <SourceButton source={message.source} />
                         {message.response ? (
                             <ReactMarkdown
@@ -141,7 +149,11 @@ export const LoadingDots = ({ log }: { log: string[] | undefined }) => {
     }, [])
 
     return (
-        <Box display="flex" flexDirection="column" style={{ gap: '4px', height: '300px' }}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            style={{ gap: '4px', height: '300px' }}
+        >
             {log && log.length > 0 ? (
                 log.map((line, idx) => (
                     <Text key={idx} fontSize="body" color="neutral-100">

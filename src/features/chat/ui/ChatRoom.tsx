@@ -64,7 +64,9 @@ export const ChatRoom = ({
             log: [],
         }
         setMessages((prevMessages) => [...prevMessages, newMessage]) // 새로운 메시지를 추가
-        scrollToBottom() // 스크롤을 맨 아래로 이동
+        setTimeout(() => {
+            scrollToBottom()
+        }, 500)
     }
 
     const onStreamUpdate = (
