@@ -11,11 +11,16 @@ import { response } from '@/entities/chat/ui/Chat.css'
 globalStyle('#root', {
     '@layer': {
         [layers.reset]: {
-            position: 'fixed',
             minWidth: '1600px',
             width: '100%',
+            minHeight: '100vh',
         },
     },
+})
+
+globalStyle('html, body', {
+    height: '100%',
+    overflowY: 'auto',
 })
 
 globalStyle(

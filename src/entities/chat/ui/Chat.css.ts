@@ -21,7 +21,7 @@ export const button = style({
 })
 
 export const list = style({
-    width: '1200px',
+    minWidth: '1200px',
     gap: '24px',
 })
 
