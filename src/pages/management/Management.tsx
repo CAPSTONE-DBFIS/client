@@ -7,6 +7,7 @@ import FileList, { FileListHandle } from '@/features/management/ui/FileList'
 import ManagementSideBar from '@/features/management/ui/ManagementSideBar'
 import { useEffect, useRef, useState } from 'react'
 import { getTeams } from '@/entities/file/api/file'
+import { colors } from '@/app/token'
 
 interface Team {
     teamId: number
@@ -64,7 +65,11 @@ export const Management = () => {
     }
 
     return (
-        <Box display="flex" justifyContent="center">
+        <Box
+            display="flex"
+            justifyContent="center"
+            style={{ background: colors['neutral-10'] }}
+        >
             <Box className={S.layout}>
                 <Sidebar headerText="관리">
                     <ManagementSideBar
