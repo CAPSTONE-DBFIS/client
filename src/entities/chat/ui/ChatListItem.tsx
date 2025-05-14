@@ -141,7 +141,7 @@ export const LoadingDots = ({ log }: { log: string[] | undefined }) => {
     }, [])
 
     return (
-        <Box display="flex" flexDirection="column" style={{ gap: '4px' }}>
+        <Box display="flex" flexDirection="column" style={{ gap: '4px', height: '300px' }}>
             {log && log.length > 0 ? (
                 log.map((line, idx) => (
                     <Text key={idx} fontSize="body" color="neutral-100">

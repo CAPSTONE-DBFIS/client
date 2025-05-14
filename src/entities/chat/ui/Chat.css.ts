@@ -94,7 +94,7 @@ export const inputBtn = style({
 
 export const response = style({
     fontFamily: 'Pretendard',
-
+    minHeight: '300px',
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
