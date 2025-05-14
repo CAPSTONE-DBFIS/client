@@ -15,6 +15,7 @@ const LLM_MODELS = [
     { value: 'o4-mini', label: 'gpt-o4-mini' },
     { value: 'claude-3-7-sonnet-20250219', label: 'claude-3-7-sonnet' },
     { value: 'grok-3-mini-beta', label: 'grok-3-mini-beta' },
+    { value: 'grok-3-beta', label: 'grok-3-beta' },
 ]
 const LLM_MODELS_LABEL = [
     'gpt-4o-mini',
@@ -44,8 +45,14 @@ export const ChatInput = ({
     const [files, setFiles] = useState<File[]>([])
     const [personaList, setPersonaList] = useState<PersonaType[]>([])
     const personaListName = personaList.map((persona) => persona.name)
+    const [isComposing, setIsComposing] = useState(false)
 
-    console.log(personaListName)
+    const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && !loading && validInput && !isComposing) {
+            handleOnSubmit()
+        }
+    }
+
     useEffect(() => {
         getPersonaList()
     }, [])
@@ -54,12 +61,6 @@ export const ChatInput = ({
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
-    }
-
-    const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && !loading && validInput) {
-            handleOnSubmit()
-        }
     }
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +92,8 @@ export const ChatInput = ({
                 alert('선택한 페르소나가 존재하지 않습니다.')
                 return
             }
+            await onStreamStart(query)
+            setInputValue('')
             formData.append('query', query)
             formData.append('personaId', selectedPersona.id.toString())
 
@@ -116,7 +119,6 @@ export const ChatInput = ({
             if (!reader) throw new Error('No response body')
 
             let buffer = ''
-            onStreamStart(query)
             setInputValue('')
 
             // eslint-disable-next-line no-constant-condition
@@ -221,6 +223,8 @@ export const ChatInput = ({
                     onChange={handleOnChange}
                     onKeyDown={handleOnKeyDown}
                     value={inputValue}
+                    onCompositionStart={() => setIsComposing(true)}
+                    onCompositionEnd={() => setIsComposing(false)}
                 />
             </Box>
 

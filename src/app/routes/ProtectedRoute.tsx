@@ -8,6 +8,6 @@ export const ProtectedRoute: React.FC<IProtectedRoute> = ({
     children,
     isAuth,
 }) => {
-    if (!isAuth) return <Navigate to={'/'} replace={true} />
+    if (!isAuth) return <Navigate to={'/not-login'} replace={true} />
     return children
 }

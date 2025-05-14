@@ -5,9 +5,15 @@ export const chatList = async () => {
     return response
 }
 
-export const addChat = async (type = 'PERSONAL') => {
+export const addChat = async (type = 'PERSONAL', id: number | null) => {
     const response = await axiosInstance.post(
-        `/api/chatbot/chatroom?type=${type}`
+        `/api/chatbot/chatroom?type=${type}`,
+        {},
+        {
+            params: {
+                teamId: id,
+            },
+        }
     )
 
     return response

@@ -26,8 +26,8 @@ export default function NewsSearch({
         null
     )
     const [categories, setCategories] = useState<CategoryList[]>([])
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
+    const [startDate, setStartDate] = useState('2025-05-01')
+    const [endDate, setEndDate] = useState('2025-05-14')
     const [searchKeyword, setSearchKeyword] = useState('')
     const [sitement, setSentiment] = useState({
         positive_percent: 0,
@@ -75,7 +75,6 @@ export default function NewsSearch({
             selectedCategory,
             activeTabIndex === 1
         )
-        console.log('response', response)
         if (response.status === 200) {
             setNewsList(response.data.hits)
         }
@@ -162,7 +161,12 @@ export default function NewsSearch({
                     width="200px"
                     onClickFunc={handleSearchClick}
                     disabled={
-                        !startDate || !endDate || !searchKeyword ? true : false
+                        !startDate ||
+                        !endDate ||
+                        !searchKeyword ||
+                        !selectedCategory
+                            ? true
+                            : false
                     }
                 >
                     검색
