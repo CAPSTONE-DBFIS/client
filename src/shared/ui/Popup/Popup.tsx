@@ -17,18 +17,9 @@ import { PopupProps } from '@/shared/types/popup.types'
  */
 export const Popup = forwardRef<HTMLDivElement, PopupProps>(
     ({ children, config, TOP = 0, LEFT = 0 }, ref) => {
-        const timerRef = useRef<number | ReturnType<typeof setTimeout> | null>(null)
         useEffect(() => {
             if (config.type === 'timer') {
-                if (timerRef.current) {
-                    clearTimeout(timerRef.current)
-                } // timeRef 초기화
-                timerRef.current = setTimeout(() => {
-                    config.handleClose()
-                }, config.SET_TIMER_MES) // timeout 설정
-            }
-            return () => {
-                if (timerRef.current) clearTimeout(timerRef.current) // 언마운트시 제거
+                config.handleClose()
             }
         }, [config])
 
