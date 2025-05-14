@@ -21,114 +21,127 @@ export default function SourceButton({ source }: { source?: sourceType[] }) {
             <Text color="white">출처 {source.length}개</Text>
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
-                        className={S.modalContainer}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{
-                            type: 'spring',
-                            bounce: 0.4,
-                            stiffness: 300,
-                            damping: 20,
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            style={{ gap: '8px', marginBottom: '16px' }}
-                            alignItems="center"
+                    <Box className={S.overlay} onClick={handleClose}>
+                        <motion.div
+                            className={S.modalContainer}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{
+                                type: 'spring',
+                                bounce: 0.4,
+                                stiffness: 300,
+                                damping: 20,
+                            }}
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <Box
                                 display="flex"
-                                justifyContent="space-between"
-                                style={{ width: '100%' }}
+                                flexDirection="column"
+                                style={{ gap: '8px', marginBottom: '16px' }}
+                                alignItems="center"
                             >
                                 <Box
-                                    style={{ flex: 1 }}
                                     display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
+                                    justifyContent="space-between"
+                                    style={{ width: '100%' }}
                                 >
-                                    <Text
-                                        fontSize="largeTitle"
-                                        fontWeight="bold"
+                                    <Box
+                                        style={{ flex: 1 }}
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
                                     >
-                                        TRENDB
-                                    </Text>
-                                    <Text
-                                        fontSize="title2"
-                                        fontWeight="semibold"
-                                        color="neutral-50"
+                                        <Text
+                                            fontSize="largeTitle"
+                                            fontWeight="bold"
+                                        >
+                                            TRENDB
+                                        </Text>
+                                        <Text
+                                            fontSize="title2"
+                                            fontWeight="semibold"
+                                            color="neutral-50"
+                                        >
+                                            ase
+                                        </Text>
+                                    </Box>
+                                    <Box
+                                        as={'button'}
+                                        onClick={handleClose}
+                                        className={S.button}
                                     >
-                                        ase
-                                    </Text>
-                                </Box>
-                                <Box
-                                    as={'button'}
-                                    onClick={handleClose}
-                                    className={S.button}
-                                >
-                                    <Text fontSize="title2" color="white">
-                                        닫기
-                                    </Text>
-                                </Box>
-                            </Box>
-                            <Text fontSize="subHeadline" color="neutral-100">
-                                해당 출처를 기반으로 신뢰성이 높은 답변을
-                                제공합니다
-                            </Text>
-                        </Box>
-                        {source.map((item) => {
-                            return (
-                                <Box key={item.id} className={S.sourceBox}>
-                                    <Box>
-                                        <Box
-                                            display="flex"
-                                            flexDirection="column"
-                                            style={{ gap: '2px' }}
-                                        >
-                                            <Text
-                                                fontSize="title2"
-                                                fontWeight="semibold"
-                                            >
-                                                {item.title}
-                                            </Text>
-                                        </Box>
-
-                                        <Box
-                                            display="flex"
-                                            flexDirection="column"
-                                            style={{ gap: '2px' }}
-                                        >
-                                            <Text
-                                                fontSize="title3"
-                                                color="neutral-500"
-                                            >
-                                                {item.content}
-                                            </Text>
-                                        </Box>
-                                        <a
-                                            href={item.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            style={{
-                                                width: 'fit-content',
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                gap: '4px',
-                                                padding: '4px 8px',
-                                            }}
-                                        >
-                                            <Text color="white">바로가기</Text>
-                                        </a>
+                                        <Text fontSize="title2" color="white">
+                                            닫기
+                                        </Text>
                                     </Box>
                                 </Box>
-                            )
-                        })}
-                    </motion.div>
+                                <Text
+                                    fontSize="subHeadline"
+                                    color="neutral-100"
+                                >
+                                    해당 출처를 기반으로 신뢰성이 높은 답변을
+                                    제공합니다
+                                </Text>
+                            </Box>
+                            <Box display='flex' flexDirection='column' style={{ gap: '42px' }}>
+                            {source.map((item) => {
+                                return (
+                                    <Box key={item.id} className={S.sourceBox}>
+                                        <Box
+                                            display="flex"
+                                            flexDirection="column"
+                                            style={{ gap: '8px' }}
+                                        >
+                                            <Box
+                                                display="flex"
+                                                flexDirection="column"
+                                                style={{ gap: '12px' }}
+                                            >
+                                                <Text
+                                                    fontSize="title2"
+                                                    fontWeight="semibold"
+                                                >
+                                                    {item.title}
+                                                </Text>
+                                            </Box>
+
+                                            <Box
+                                                display="flex"
+                                                flexDirection="column"
+                                                style={{ gap: '2px' }}
+                                            >
+                                                <Text
+                                                    fontSize="title3"
+                                                    color="neutral-500"
+                                                >
+                                                    {item.content}
+                                                </Text>
+                                            </Box>
+                                            <a
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    width: 'fit-content',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    gap: '4px',
+                                                    padding: '4px 8px',
+                                                }}
+                                            >
+                                                <Text color="white">
+                                                    바로가기
+                                                </Text>
+                                            </a>
+                                        </Box>
+                                    </Box>
+                                )
+                            })}
+                            </Box>
+                        </motion.div>
+                    </Box>
                 )}
             </AnimatePresence>
         </Box>

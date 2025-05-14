@@ -15,6 +15,16 @@ export const container = style({
     position: 'relative',
 })
 
+export const overlay = style({
+    position: 'fixed',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    top: 0,
+    left: 0,
+    zIndex: 999,
+    width: '100%',
+    height: '100%',
+})
+
 export const modalContainer = style({
     display: 'flex',
     flexDirection: 'column',
@@ -26,8 +36,9 @@ export const modalContainer = style({
     overflowY: 'scroll',
     borderRadius: '12px',
     position: 'fixed',
-    top: '10%',
-    left: '30%',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     backgroundColor: colors["white"],
     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
     zIndex: 1000,

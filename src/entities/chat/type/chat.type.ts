@@ -5,7 +5,7 @@ export type messagesType = {
     response: string
     sender: string
     source?: sourceType[]
-    log?: string
+    log?: string[]
 }
 
 export type sourceType = {

@@ -27,6 +27,8 @@ interface ITextInput {
     maxLength?: number
     textAlignment?: 'left' | 'center' | 'right'
     readonly?: boolean
+    onCompositionStart?: (e: React.CompositionEvent<HTMLInputElement>) => void
+    onCompositionEnd?: (e: React.CompositionEvent<HTMLInputElement>) => void
 }
 /**
  * shared Input string type(text, password, email ...) 컴포넌트
@@ -66,6 +68,8 @@ export const TextInput: React.FC<ITextInput> = ({
     maxLength,
     textAlignment = 'left',
     readonly = false,
+    onCompositionEnd,
+    onCompositionStart
 }) => {
     const inputId = useId()
     const [isFocus, setIsFocus] = useState(false)
@@ -95,6 +99,8 @@ export const TextInput: React.FC<ITextInput> = ({
                 maxLength={maxLength}
                 onInput={onInput}
                 readOnly={readonly}
+                onCompositionEnd={onCompositionEnd}
+                onCompositionStart={onCompositionStart}
             />
             {rightIcon}
         </Box>

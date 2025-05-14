@@ -7,6 +7,17 @@ import { response } from '@/entities/chat/ui/Chat.css'
  * - "html" 요소는 제외되며, 그렇지 않으면 Chrome에서 CSS 하이픈(hyphens) 속성이 망가지는 버그가 발생합니다.
  *   (관련 문제: https://github.com/elad2412/the-new-css-reset/issues/36).
  **/
+
+globalStyle('#root', {
+    '@layer': {
+        [layers.reset]: {
+            position: 'fixed',
+            minWidth: '1600px',
+            width: '100%',
+        },
+    },
+})
+
 globalStyle(
     '*:where(:not(html, iframe, img, svg, video, audio):not(svg *, symbol *))',
     {

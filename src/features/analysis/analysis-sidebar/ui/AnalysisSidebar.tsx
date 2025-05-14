@@ -32,7 +32,6 @@ export const AnalysisSidebar = ({
     const [teamChatList, setTeamChatList] = useState<ChatType[]>([])
     const [edit, setEdit] = useState(false)
     const [editId, setEditId] = useState(-1)
-
     const fetchChatList = useCallback(async () => {
         const response = await chatList()
         if (response.status === 200) {
@@ -76,7 +75,7 @@ export const AnalysisSidebar = ({
         }
         return response
     }
-
+   
     const editChat = async (id: number, name: string) => {
         const response = await renameChat(id, name)
         if (response.status === 204) {

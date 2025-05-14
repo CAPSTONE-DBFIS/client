@@ -130,8 +130,9 @@ export const ChatListItem = ({ message }: { message: messagesType }) => {
     )
 }
 
-export const LoadingDots = ({ log }: { log: string | undefined }) => {
+export const LoadingDots = ({ log }: { log: string[] | undefined }) => {
     const [dotCount, setDotCount] = useState(0)
+
     useEffect(() => {
         const interval = setInterval(() => {
             setDotCount((prev) => (prev + 1) % 4) // 0 ~ 3
@@ -140,9 +141,20 @@ export const LoadingDots = ({ log }: { log: string | undefined }) => {
     }, [])
 
     return (
-        <Text color="neutral-100">
-            {(log ?? '분석 중') + '.'.repeat(dotCount)}
-        </Text>
+        <Box display="flex" flexDirection="column" style={{ gap: '4px' }}>
+            {log && log.length > 0 ? (
+                log.map((line, idx) => (
+                    <Text key={idx} fontSize="body" color="neutral-100">
+                        {line}
+                        {'.'.repeat(dotCount)}
+                    </Text>
+                ))
+            ) : (
+                <Text fontSize="body" color="neutral-100">
+                    분석 중 {'.'.repeat(dotCount)}
+                </Text>
+            )}
+        </Box>
     )
 }
 

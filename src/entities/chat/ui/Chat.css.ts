@@ -28,7 +28,7 @@ export const list = style({
 export const listContainer = style({
     display: 'flex',
     flexDirection: 'column',
-    height: 'calc(100vh - 100px)',
+    height: 'calc(100vh - 200px)',
 })
 
 export const lists = style({
@@ -101,5 +101,4 @@ export const response = style({
 })
 
 export const bottomPadding = style({
-    paddingBottom: '25px',
 })
