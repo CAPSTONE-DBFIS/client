@@ -1,5 +1,5 @@
 // react
-import { useEffect, useRef, forwardRef } from 'react'
+import { useEffect, forwardRef } from 'react'
 // component
 import { Box } from '../Box'
 // css
