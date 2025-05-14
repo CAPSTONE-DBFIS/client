@@ -44,6 +44,17 @@ export const SignupVerification = ({
             inputArrRef.current[index + 1]?.focus()
         }
     }
+    const onHandleKeyDown = (
+        e: React.KeyboardEvent<HTMLInputElement>,
+        index: number
+    ) => {
+        if (e.key === 'Backspace') {
+            // 현재 칸이 비어 있으면 이전 칸으로 포커스
+            if (code[index] === '' && index > 0) {
+                inputArrRef.current[index - 1]?.focus()
+            }
+        }
+    }
     console.log(inputArrRef)
     const handleSubmit = async () => {
         try {
@@ -68,6 +79,7 @@ export const SignupVerification = ({
                 value={code[index]}
                 required={true}
                 ref={(el) => (inputArrRef.current[index] = el)}
+                onkeyDown={(e) => onHandleKeyDown(e, index)}
             />
         ))
     }

@@ -21,6 +21,7 @@ interface ITextInput {
     readonly?: boolean
     onCompositionStart?: (e: React.CompositionEvent<HTMLInputElement>) => void
     onCompositionEnd?: (e: React.CompositionEvent<HTMLInputElement>) => void
+    onkeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export const TextInput = forwardRef<HTMLInputElement, ITextInput>(
@@ -44,6 +45,7 @@ export const TextInput = forwardRef<HTMLInputElement, ITextInput>(
             readonly = false,
             onCompositionEnd,
             onCompositionStart,
+            onkeyDown
         },
         ref
     ) => {
@@ -77,6 +79,7 @@ export const TextInput = forwardRef<HTMLInputElement, ITextInput>(
                     readOnly={readonly}
                     onCompositionEnd={onCompositionEnd}
                     onCompositionStart={onCompositionStart}
+                    onKeyDown={onkeyDown}
                     ref={ref}
                 />
                 {rightIcon}
