@@ -17,7 +17,7 @@ import { PopupProps } from '@/shared/types/popup.types'
  */
 export const Popup = forwardRef<HTMLDivElement, PopupProps>(
     ({ children, config, TOP = 0, LEFT = 0 }, ref) => {
-        const timerRef = useRef<number | null>(null) // timeout 설정 ref
+        const timerRef = useRef<number | ReturnType<typeof setTimeout> | null>(null)
         useEffect(() => {
             if (config.type === 'timer') {
                 if (timerRef.current) {
