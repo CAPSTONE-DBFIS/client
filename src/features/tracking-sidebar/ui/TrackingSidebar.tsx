@@ -8,6 +8,7 @@ import { postProject } from '@/entities/tracking/api/tracking'
 import {
     ITrackingProject,
     ITrackingSidebarProps,
+    ITrackingTeam,
 } from '@/entities/tracking/type/tracking.type'
 
 /**
@@ -32,10 +33,13 @@ import {
 export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
     teamsData,
     setTeamsData,
+    onTeamSelect,
+    onProjectSelect,
 }) => {
     // const [selectedTask, setSelectedTask] = useState<number | null>(null)
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
+    const [selectedProject, setSelectedProject] = useState<number | null>(null) //프로젝트 선택택
 
     const handleInput = (teamId: number) => {
         setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
@@ -46,9 +50,6 @@ export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
             const response = await postProject({
                 teamId,
                 name,
-                description: '',
-                startDate: '2025-05-01',
-                endDate: '2025-06-13',
             })
             const newProject: ITrackingProject = response.data
 
@@ -74,11 +75,14 @@ export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
         setInProject((prev) => ({ ...prev, [teamId]: value }))
     }
 
-    // const handleProjectClick = (team: ITeam, project: IProject) => {
-    //     setSelectedTask(project.id)
-    //     onTeamSelect(team) // 선택된 팀 전달
-    //     onProjectSelect(project) // 선택된 프로젝트 전달
-    // }
+    const handleProjectClick = (
+        team: ITrackingTeam,
+        project: ITrackingProject
+    ) => {
+        setSelectedProject(project.id)
+        onTeamSelect(team)
+        onProjectSelect(project)
+    }
 
     return (
         <Box
@@ -96,6 +100,13 @@ export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
                     onAddProject={handleAddProject}
                     onInputChange={handleInputChange}
                     onToggleInput={handleInput}
+                    selectedProject={selectedProject}
+                    onProjectClick={(projectId) =>
+                        handleProjectClick(
+                            team,
+                            team.projects.find((p) => p.id === projectId)!
+                        )
+                    }
                 />
             ))}
         </Box>

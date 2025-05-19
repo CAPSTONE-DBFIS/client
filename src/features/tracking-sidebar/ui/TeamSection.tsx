@@ -3,15 +3,18 @@ import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { colors } from '@/app/token'
 //icons
 import Plus from '@/shared/asset/icon/plus-sm.svg?react'
-// import Trash from '@/shared/asset/icon/trash.svg?react'
-// import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
+import Trash from '@/shared/asset/icon/trash.svg?react'
+import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
-import { ITrackingTeam } from '@/entities/tracking/type/tracking.type'
+import {
+    ITrackingProject,
+    ITrackingTeam,
+} from '@/entities/tracking/type/tracking.type'
 //css
-// import * as style from './styles/team-secion.css'
+import * as style from './styles/team-secion.css'
 
 /**
  * TeamSection 컴포넌트
@@ -33,9 +36,11 @@ export const TeamSection: React.FC<{
     team: ITrackingTeam
     addProject: boolean
     inProject: string
+    selectedProject: number | null
     onAddProject: (teamId: number, projectName: string) => void
     onInputChange: (teamId: number, value: string) => void
     onToggleInput: (teamId: number) => void
+    onProjectClick: (projectId: number) => void
 }> = ({
     team,
     addProject,
@@ -43,6 +48,8 @@ export const TeamSection: React.FC<{
     onAddProject,
     onInputChange,
     onToggleInput,
+    selectedProject,
+    onProjectClick,
 }) => {
     const inputRef = useRef<HTMLDivElement>(null)
 
@@ -82,13 +89,13 @@ export const TeamSection: React.FC<{
                     <TextInput
                         placeholder="프로젝트를 입력해주세요."
                         size="small"
-                        width="200px"
+                        width="230px"
                         value={inProject}
                         onChange={(e) => onInputChange(team.id, e.target.value)}
                         rightIcon={
                             <Plus
                                 fill={colors['neutral-90']}
-                                onClick={() => onAddProject(team.id, team.name)}
+                                onClick={() => onAddProject(team.id, inProject)}
                             />
                         }
                     />
@@ -97,14 +104,14 @@ export const TeamSection: React.FC<{
 
             {/* 프로젝트 리스트 */}
             <Box display="flex" flexDirection="column" style={{ gap: '6px' }}>
-                {/* {projects.map((project: IProject) => (
+                {team.projects.map((project: ITrackingProject) => (
                     <Box
                         key={project.id}
                         display="flex"
                         justifyContent="space-between"
                         fontSize="body"
                         className={`${style.taskItem}
-                        ${style.menuItemClick[selectedTask === project.id ? 'selected' : 'default']}
+                        ${style.menuItemClick[selectedProject === project.id ? 'selected' : 'default']}
                                         `}
                         onClick={() => onProjectClick(project.id)}
                     >
@@ -118,7 +125,7 @@ export const TeamSection: React.FC<{
                                 align="left"
                                 fontSize="body"
                                 className={`${style.taskIcon} ${
-                                    selectedTask === project.id &&
+                                    selectedProject === project.id &&
                                     style.selectedTaskIcon
                                 }`}
                             >
@@ -127,7 +134,7 @@ export const TeamSection: React.FC<{
                             <Text>{project.name}</Text>
                         </Box>
 
-                        {selectedTask === project.id && (
+                        {selectedProject === project.id && (
                             <Box className={style.selectedEdit}>
                                 <Box className={style.slidingContent}>
                                     <Trash width={16} height={16} />
@@ -136,7 +143,7 @@ export const TeamSection: React.FC<{
                             </Box>
                         )}
                     </Box>
-                ))} */}
+                ))}
             </Box>
         </Box>
     )

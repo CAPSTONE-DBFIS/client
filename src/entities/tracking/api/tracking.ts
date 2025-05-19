@@ -21,13 +21,7 @@ export const delProject = async (projectId: number) => {
     return response
 }
 
-export const postProject = async (body: {
-    teamId: number
-    name: string
-    description: string
-    startDate: string
-    endDate: string
-}) => {
+export const postProject = async (body: { teamId: number; name: string }) => {
     const response = await axiosInstance.post(`/api/trprojects`, body)
     return response
 }
