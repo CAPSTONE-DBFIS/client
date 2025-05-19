@@ -113,6 +113,8 @@ export const Tracking = () => {
         try {
             await delProject(projectId)
             fetchTeamsAndProjects()
+            setSelectedProject(null)
+            setSelectedTeam(null)
         } catch (error) {
             console.error(error)
         }
