@@ -33,6 +33,8 @@ export const TrackingSidebar: React.FC<ITrackingSidebar> = ({
     onToggleInput,
     selectedProject,
     onProjectClick,
+    onEditProject,
+    onDeleteProject,
 }) => {
     return (
         <Box
@@ -54,6 +56,8 @@ export const TrackingSidebar: React.FC<ITrackingSidebar> = ({
                     onProjectClick={(projectId) =>
                         onProjectClick(projectId, team.id)
                     }
+                    onEditProject={onEditProject}
+                    onDeleteProject={onDeleteProject}
                 />
             ))}
         </Box>

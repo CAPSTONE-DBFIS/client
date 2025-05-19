@@ -10,7 +10,12 @@ import {
     ITrackingTeam,
     ITrackingTeamResponse,
 } from '@/entities/tracking/type/tracking.type'
-import { getProject, postProject } from '@/entities/tracking/api/tracking'
+import {
+    delProject,
+    getProject,
+    postProject,
+    putProject,
+} from '@/entities/tracking/api/tracking'
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
@@ -94,6 +99,25 @@ export const Tracking = () => {
         setSelectedProject(project)
     }
 
+    //수정
+    const handleEditProject = async (projectId: number, name: string) => {
+        try {
+            await putProject(projectId, { name })
+            fetchTeamsAndProjects()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    //삭제
+    const handleDeleteProject = async (projectId: number) => {
+        try {
+            await delProject(projectId)
+            fetchTeamsAndProjects()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <Box
             display="flex"
@@ -119,6 +143,8 @@ export const Tracking = () => {
                         )!
                         handleProjectClick(team, project)
                     }}
+                    onEditProject={handleEditProject}
+                    onDeleteProject={handleDeleteProject}
                 />
             </Sidebar>
             {/* 메인콘텐츠 */}

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { colors } from '@/app/token'
 //icons
@@ -41,6 +41,8 @@ export const TeamSection: React.FC<{
     onInputChange: (teamId: number, value: string) => void
     onToggleInput: (teamId: number) => void
     onProjectClick: (projectId: number) => void
+    onEditProject: (projectId: number, name: string, teamId: number) => void
+    onDeleteProject: (projectId: number) => void
 }> = ({
     team,
     addProject,
@@ -50,10 +52,29 @@ export const TeamSection: React.FC<{
     onToggleInput,
     selectedProject,
     onProjectClick,
+    onEditProject,
+    onDeleteProject,
 }) => {
+    // 수정 프로젝트id와 값
+    const [editProjectId, setEditProjectId] = useState<number | null>(null)
+    const [editProjectName, setEditProjectName] = useState<string>('')
+
     const inputRef = useRef<HTMLDivElement>(null)
 
     useClickOutside(inputRef, () => onToggleInput(team.id))
+
+    // 수정 시작
+    const handleEditClick = (project: ITrackingProject) => {
+        setEditProjectId(project.id)
+        setEditProjectName(project.name)
+    }
+
+    // 수정 완료
+    const handleEditSubmit = (projectId: number, teamId: number) => {
+        onEditProject(projectId, editProjectName, teamId)
+        setEditProjectId(null)
+        setEditProjectName('')
+    }
 
     return (
         <Box>
@@ -131,14 +152,54 @@ export const TeamSection: React.FC<{
                             >
                                 {project.name.charAt(0)}
                             </Text>
-                            <Text>{project.name}</Text>
+                            {editProjectId === project.id ? (
+                                <input
+                                    type="text"
+                                    defaultValue={editProjectName}
+                                    autoFocus
+                                    onChange={(e) =>
+                                        setEditProjectName(e.target.value)
+                                    }
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            const newName =
+                                                e.currentTarget.value
+                                            if (
+                                                newName &&
+                                                newName !== project.name
+                                            ) {
+                                                handleEditSubmit(
+                                                    project.id,
+                                                    team.id
+                                                )
+                                            }
+                                            setEditProjectId(null)
+                                        }
+                                        if (e.key === 'Escape') {
+                                            setEditProjectId(null)
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <Text>{project.name}</Text>
+                            )}
                         </Box>
 
                         {selectedProject === project.id && (
                             <Box className={style.selectedEdit}>
                                 <Box className={style.slidingContent}>
-                                    <Trash width={16} height={16} />
-                                    <Edit width={16} height={16} />
+                                    <Trash
+                                        width={16}
+                                        height={16}
+                                        onClick={() =>
+                                            onDeleteProject(project.id)
+                                        }
+                                    />
+                                    <Edit
+                                        width={16}
+                                        height={16}
+                                        onClick={() => handleEditClick(project)}
+                                    />
                                 </Box>
                             </Box>
                         )}

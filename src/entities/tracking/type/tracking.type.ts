@@ -71,4 +71,6 @@ export interface ITrackingSidebar {
     onToggleInput: (teamId: number) => void
     selectedProject: number | null
     onProjectClick: (projectId: number, teamId: number) => void
+    onEditProject: (projectId: number, name: string, teamId: number) => void
+    onDeleteProject: (projectId: number) => void
 }

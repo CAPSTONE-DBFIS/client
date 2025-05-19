@@ -4,9 +4,6 @@ export const putProject = async (
     projectId: number,
     body: {
         name: string
-        description: string
-        startDate: string
-        endDate: string
     }
 ) => {
     const response = await axiosInstance.put(
