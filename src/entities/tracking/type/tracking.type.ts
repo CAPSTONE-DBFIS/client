@@ -74,3 +74,16 @@ export interface ITrackingSidebar {
     onEditProject: (projectId: number, name: string, teamId: number) => void
     onDeleteProject: (projectId: number) => void
 }
+
+export interface ITeamSection {
+    team: ITrackingTeam
+    addProject: boolean
+    inProject: string
+    selectedProject: number | null
+    onAddProject: (teamId: number, projectName: string) => void
+    onInputChange: (teamId: number, value: string) => void
+    onToggleInput: (teamId: number) => void
+    onProjectClick: (projectId: number) => void
+    onEditProject: (projectId: number, name: string, teamId: number) => void
+    onDeleteProject: (projectId: number) => void
+}

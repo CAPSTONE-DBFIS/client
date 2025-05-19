@@ -10,8 +10,8 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import {
+    ITeamSection,
     ITrackingProject,
-    ITrackingTeam,
 } from '@/entities/tracking/type/tracking.type'
 //css
 import * as style from './styles/team-secion.css'
@@ -32,18 +32,7 @@ import * as style from './styles/team-secion.css'
  * @returns {JSX.Element}
  */
 
-export const TeamSection: React.FC<{
-    team: ITrackingTeam
-    addProject: boolean
-    inProject: string
-    selectedProject: number | null
-    onAddProject: (teamId: number, projectName: string) => void
-    onInputChange: (teamId: number, value: string) => void
-    onToggleInput: (teamId: number) => void
-    onProjectClick: (projectId: number) => void
-    onEditProject: (projectId: number, name: string, teamId: number) => void
-    onDeleteProject: (projectId: number) => void
-}> = ({
+export const TeamSection: React.FC<ITeamSection> = ({
     team,
     addProject,
     inProject,
