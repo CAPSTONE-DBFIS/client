@@ -23,9 +23,7 @@ export interface ITrackingTeam {
 export interface ITrackingProject {
     id: number
     name: string
-    description: string
-    startDate: string
-    endDate: string
+    teamId: number
 }
 
 /**
@@ -64,9 +62,13 @@ export interface ITrackingProjectRequest {
  * @property {ITrackingTeam[]} teamsData - 팀 데이터 목록
  * @property {function} setTeamsData - 팀 데이터 상태 업데이트 핸들러
  */
-export interface ITrackingSidebarProps {
-    onTeamSelect: (team: ITrackingTeam) => void
-    onProjectSelect: (project: ITrackingProject) => void
+export interface ITrackingSidebar {
     teamsData: ITrackingTeam[]
-    setTeamsData: React.Dispatch<React.SetStateAction<ITrackingTeam[]>>
+    addProject: { [teamId: number]: boolean }
+    inProject: { [teamId: number]: string }
+    onAddProject: (teamId: number, projectName: string) => void
+    onInputChange: (teamId: number, value: string) => void
+    onToggleInput: (teamId: number) => void
+    selectedProject: number | null
+    onProjectClick: (projectId: number, teamId: number) => void
 }

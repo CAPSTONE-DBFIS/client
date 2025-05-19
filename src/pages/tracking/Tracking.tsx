@@ -10,7 +10,7 @@ import {
     ITrackingTeam,
     ITrackingTeamResponse,
 } from '@/entities/tracking/type/tracking.type'
-import { getProject } from '@/entities/tracking/api/tracking'
+import { getProject, postProject } from '@/entities/tracking/api/tracking'
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
@@ -20,47 +20,79 @@ export const Tracking = () => {
     const [selectedTeam, setSelectedTeam] = useState<ITrackingTeam | null>(null)
     const [selectedProject, setSelectedProject] =
         useState<ITrackingProject | null>(null)
+
     const [teamsData, setTeamsData] = useState<ITrackingTeam[]>([])
+    const [inProject, setInProject] = useState<{ [key: number]: string }>({})
+    const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
+
+    // 팀과 프로젝트 불러오기
+    const fetchTeamsAndProjects = async () => {
+        try {
+            const response = await getTeams()
+            const mappedTeams = response.data.map(
+                (team: ITrackingTeamResponse) => ({
+                    id: team.teamId,
+                    name: team.teamName,
+                    projects: [],
+                })
+            )
+
+            // 모든 프로젝트를 한 번에 조회
+            const projectsResponse = await getProject()
+            const allProjects = projectsResponse.data
+
+            // 팀별로 프로젝트 분배
+            const teamsWithProjects = mappedTeams.map(
+                (team: ITrackingTeam) => ({
+                    ...team,
+                    projects: allProjects.filter(
+                        (p: ITrackingProject) => p.teamId === team.id
+                    ),
+                })
+            )
+
+            setTeamsData(teamsWithProjects)
+        } catch (error) {
+            console.error(error)
+            setTeamsData([])
+        }
+    }
 
     useEffect(() => {
-        const fetchTeamsAndProjects = async () => {
-            try {
-                const response = await getTeams()
-                const mappedTeams = response.data.map(
-                    (team: ITrackingTeamResponse) => ({
-                        id: team.teamId,
-                        name: team.teamName,
-                        projects: [],
-                    })
-                )
-
-                const teamsWithProjects = await Promise.all(
-                    mappedTeams.map(async (team: ITrackingTeam) => {
-                        try {
-                            const projectsResponse = await getProject(team.id)
-                            return {
-                                ...team,
-                                projects: projectsResponse.data,
-                            }
-                        } catch (error) {
-                            console.error(
-                                `프로젝트 데이터를 가져오는 중 오류 발생 (팀 ID: ${team.id}):`,
-                                error
-                            )
-                            return team
-                        }
-                    })
-                )
-
-                setTeamsData(teamsWithProjects)
-            } catch (error) {
-                console.error(error)
-                setTeamsData([])
-            }
-        }
-
         fetchTeamsAndProjects()
     }, [])
+
+    // 입력창 토글
+    const handleInput = (teamId: number) => {
+        setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
+    }
+
+    // 입력값 변경
+    const handleInputChange = (teamId: number, value: string) => {
+        setInProject((prev) => ({ ...prev, [teamId]: value }))
+    }
+
+    // 프로젝트 추가
+    const handleAddProject = async (teamId: number, name: string) => {
+        try {
+            await postProject({ teamId, name })
+            //재조회
+            fetchTeamsAndProjects()
+            setInProject((prev) => ({ ...prev, [teamId]: '' }))
+            setAddProject((prev) => ({ ...prev, [teamId]: false }))
+        } catch (error) {
+            console.error('프로젝트 추가 중 오류 발생:', error)
+        }
+    }
+
+    // 프로젝트 클릭
+    const handleProjectClick = (
+        team: ITrackingTeam,
+        project: ITrackingProject
+    ) => {
+        setSelectedTeam(team)
+        setSelectedProject(project)
+    }
 
     return (
         <Box
@@ -74,9 +106,19 @@ export const Tracking = () => {
             <Sidebar headerText="추적">
                 <TrackingSidebar
                     teamsData={teamsData}
-                    onTeamSelect={setSelectedTeam}
-                    onProjectSelect={setSelectedProject}
-                    setTeamsData={setTeamsData}
+                    addProject={addProject}
+                    inProject={inProject}
+                    onAddProject={handleAddProject}
+                    onInputChange={handleInputChange}
+                    onToggleInput={handleInput}
+                    selectedProject={selectedProject?.id ?? null}
+                    onProjectClick={(projectId, teamId) => {
+                        const team = teamsData.find((t) => t.id === teamId)!
+                        const project = team.projects.find(
+                            (p) => p.id === projectId
+                        )!
+                        handleProjectClick(team, project)
+                    }}
                 />
             </Sidebar>
             {/* 메인콘텐츠 */}

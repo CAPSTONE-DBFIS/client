@@ -1,15 +1,9 @@
-import { useState } from 'react'
 //css
 import * as style from './styles/tracking-sidebar.css'
 //components
 import { Box } from '@/shared/ui/Box'
 import { TeamSection } from './TeamSection'
-import { postProject } from '@/entities/tracking/api/tracking'
-import {
-    ITrackingProject,
-    ITrackingSidebarProps,
-    ITrackingTeam,
-} from '@/entities/tracking/type/tracking.type'
+import { ITrackingSidebar } from '@/entities/tracking/type/tracking.type'
 
 /**
  * TrackingSidebar
@@ -30,60 +24,16 @@ import {
  * @returns {JSX.Element}
  */
 
-export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
+export const TrackingSidebar: React.FC<ITrackingSidebar> = ({
     teamsData,
-    setTeamsData,
-    onTeamSelect,
-    onProjectSelect,
+    addProject,
+    inProject,
+    onAddProject,
+    onInputChange,
+    onToggleInput,
+    selectedProject,
+    onProjectClick,
 }) => {
-    // const [selectedTask, setSelectedTask] = useState<number | null>(null)
-    const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
-    const [inProject, setInProject] = useState<{ [key: number]: string }>({})
-    const [selectedProject, setSelectedProject] = useState<number | null>(null) //프로젝트 선택택
-
-    const handleInput = (teamId: number) => {
-        setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
-    }
-
-    const handleAddProject = async (teamId: number, name: string) => {
-        try {
-            const response = await postProject({
-                teamId,
-                name,
-            })
-            const newProject: ITrackingProject = response.data
-
-            setTeamsData((prevTeams) =>
-                prevTeams.map((team) =>
-                    team.id === teamId
-                        ? {
-                              ...team,
-                              projects: [...team.projects, newProject],
-                          }
-                        : team
-                )
-            )
-
-            setInProject((prev) => ({ ...prev, [teamId]: '' }))
-            setAddProject((prev) => ({ ...prev, [teamId]: false }))
-        } catch (error) {
-            console.error('프로젝트 추가 중 오류 발생:', error)
-        }
-    }
-
-    const handleInputChange = (teamId: number, value: string) => {
-        setInProject((prev) => ({ ...prev, [teamId]: value }))
-    }
-
-    const handleProjectClick = (
-        team: ITrackingTeam,
-        project: ITrackingProject
-    ) => {
-        setSelectedProject(project.id)
-        onTeamSelect(team)
-        onProjectSelect(project)
-    }
-
     return (
         <Box
             display="flex"
@@ -97,15 +47,12 @@ export const TrackingSidebar: React.FC<ITrackingSidebarProps> = ({
                     team={team}
                     addProject={addProject[team.id] || false}
                     inProject={inProject[team.id] || ''}
-                    onAddProject={handleAddProject}
-                    onInputChange={handleInputChange}
-                    onToggleInput={handleInput}
+                    onAddProject={onAddProject}
+                    onInputChange={onInputChange}
+                    onToggleInput={onToggleInput}
                     selectedProject={selectedProject}
                     onProjectClick={(projectId) =>
-                        handleProjectClick(
-                            team,
-                            team.projects.find((p) => p.id === projectId)!
-                        )
+                        onProjectClick(projectId, team.id)
                     }
                 />
             ))}
