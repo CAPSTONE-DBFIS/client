@@ -15,7 +15,11 @@ export interface FileListHandle {
 
 interface FileListProps {
     teamId: number
-    onFileSelect: (fileId: number | null, fileName: string | null) => void
+    onFileSelect: (
+        fileId: number | null,
+        fileName: string | null,
+        type: 'file' | 'folder' | null
+    ) => void
     onFolderChange: (folderId: number | null) => void
 }
 
@@ -29,7 +33,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
             number | null
         >(null)
 
-        const { currentFolderId, goToFolder, goBack } = useFolderHistory(0)
+        const { currentFolderId, goToFolder, goBack } = useFolderHistory(null)
 
         const { files, refetch } = useFileList(
             teamId,
@@ -50,18 +54,21 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
         }
 
         const handleFolderClick = (id: number) => {
+            setSelectedFileId(null)
+
+            onFileSelect(null, null, 'folder')
             if (lastClickedFolder === id) {
                 goToFolder(id)
+                onFolderChange(id)
                 setLastClickedFolder(null)
-                onFolderChange(id)
             } else {
-                setLastClickedFolder(id)
+                setSelectedFileId(id)
                 onFolderChange(id)
+                setLastClickedFolder(id)
+
                 setTimeout(() => {
-                    if (lastClickedFolder === id) {
-                        setLastClickedFolder(null)
-                    }
-                }, 2000)
+                    setLastClickedFolder(null)
+                }, 500)
             }
         }
 
@@ -73,8 +80,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
         const handleFileClick = (fileId: number, fileName: string) => {
             setSelectedFileId(fileId)
             setLastClickedFolder(null)
-            onFileSelect(fileId, fileName)
-            onFolderChange(null)
+            onFileSelect(fileId, fileName, 'file')
         }
 
         return (
@@ -110,7 +116,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
                         <Text fontSize="title3">확장자</Text>
                         <Text fontSize="title3">소유자</Text>
                     </Box>
-                    {currentFolderId !== 0 && (
+                    {currentFolderId !== null && (
                         <Box
                             className={S.goBackRow}
                             onClick={() => {
@@ -126,14 +132,15 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
                                 <Text>/</Text>
                             </Box>
                             <Text>FOLDER</Text>
-                            <Text>-</Text>
                         </Box>
                     )}
                     {files.map((file) => (
                         <Box
-                            key={file.id}
+                            key={`file${file.id}`}
                             className={`${S.fileTableRow} ${
-                                selectedFileId === file.id ? S.selectedRow : ''
+                                selectedFileId === Number(file.id)
+                                    ? S.selectedRow
+                                    : ''
                             }`}
                             onClick={() =>
                                 file.type === 'FOLDER'

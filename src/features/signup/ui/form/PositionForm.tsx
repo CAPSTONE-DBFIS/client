@@ -11,7 +11,7 @@ import { colors } from '@/app/token'
 import { IJoin } from '@/entities/user/join.type'
 import { useState } from 'react'
 import { join } from '@/entities/user/api/join'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 /**
  * 직무 설정 폼
@@ -30,6 +30,7 @@ export const PositionForm = ({
 }) => {
     const [position, setPosition] = useState<string>('')
     const navigate = useNavigate()
+    const [, setSearchParam] = useSearchParams()
     const handleSubmit = async () => {
         await setFormData({
             ...formData,
@@ -41,13 +42,10 @@ export const PositionForm = ({
             if (response.status == 201) {
                 onNext()
             } else {
-                alert('잘못된 유저 정보입니다.')
-                navigate('/auth')
+                onNext()
             }
         } catch (e) {
-            console.log(e)
-            alert('잘못된 유저 정보입니다.')
-            navigate('/auth')
+            onNext()
         }
     }
 

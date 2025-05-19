@@ -35,27 +35,32 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        style={{ gap: '4px' }}
                     >
-                        <Calendar width={12} height={12} />
+                        <Calendar width={14} height={14} />
                         <Text fontSize="subHeadline">
-                            기간: {'2025-00-00 ~ 2025-00-00'}
+                            기간: {'2025-05-13 ~ 2025-05-28'}
                         </Text>
                     </Box>
                     <Box
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        style={{ gap: '4px' }}
                     >
-                        <Search width={12} height={12} />
-                        <Text fontSize="subHeadline">연관 키워드: {24}개</Text>
+                        <Search width={14} height={14} />
+                        <Text fontSize="subHeadline">연관 키워드: {0}개</Text>
                     </Box>
                     <Box
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        style={{ gap: '4px' }}
                     >
-                        <Data width={12} height={12} />
-                        <Text fontSize="subHeadline">데이터 포인트: {123}</Text>
+                        <Data width={14} height={14} />
+                        <Text fontSize="subHeadline" align="center">
+                            데이터 포인트: {0}
+                        </Text>
                     </Box>
                 </Box>
             </Box>
@@ -85,129 +90,204 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
             </Box>
             {selectedTaps ? (
                 // 키워드분석
-                <Box style={{ padding: '24px 0' }}>
-                    <Text fontSize="title1" fontWeight="bold">
-                        {'n'}주차 핵심 트렌드 인사이트
-                    </Text>
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        style={{ gap: '25px', marginTop: '25px' }}
-                    >
+                <Box>
+                    <Box style={{ padding: '24px 0', position: 'relative' }}>
+                        <Box style={{ padding: '0 24px' }}>
+                            <Text fontSize="title1" fontWeight="bold">
+                                {'n'}주차 핵심 트렌드 인사이트
+                            </Text>
+                        </Box>
+
                         <Box
                             display="flex"
-                            flexDirection="row"
-                            justifyContent="space-between"
-                            className={style.graphContainer}
+                            flexDirection="column"
+                            style={{ gap: '25px', marginTop: '25px' }}
                         >
-                            <Box className={style.graph}>
-                                <Text fontSize="title2">
-                                    연관 키워드 언급량 통계
-                                </Text>
-                                <Box
-                                    style={{
-                                        background: colors['neutral-30'],
-                                    }}
-                                />
-                            </Box>
-                            <Box className={style.graph}>
-                                <Text fontSize="title2">키워드 긍부정도</Text>
-                                <Box
-                                    style={{
-                                        background: colors['neutral-30'],
-                                        width: '100%',
-                                    }}
-                                />
-                            </Box>
-                        </Box>
-                        <Box className={style.textBox}>
                             <Box
                                 display="flex"
-                                style={{ gap: '8px', marginBottom: '16px' }}
+                                flexDirection="row"
+                                justifyContent="space-between"
+                                className={style.graphContainer}
                             >
-                                <Speak />
-                                <Text fontSize="title2">한줄 요약</Text>
+                                <Box className={style.graph}>
+                                    <Text fontSize="title2">
+                                        연관 키워드 언급량 통계
+                                    </Text>
+                                    <Box
+                                        style={{
+                                            background: colors['neutral-30'],
+                                        }}
+                                    />
+                                </Box>
+                                <Box className={style.graph}>
+                                    <Text fontSize="title2">
+                                        키워드 긍부정도
+                                    </Text>
+                                    <Box
+                                        style={{
+                                            background: colors['neutral-30'],
+                                            width: '100%',
+                                        }}
+                                    />
+                                </Box>
                             </Box>
-                            <Text>
-                                {' '}
-                                Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry. Lorem Ipsum has been
-                                the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley
-                                of type and scrambled it to make a type specimen
-                                book. It has survived not only five centuries,
-                                but also the leap into electronic typesetting,
-                                remaining essentially unchanged. It was
-                                popularised in the 1960s with the release of
-                                Letraset sheets containing Lorem Ipsum passages,
-                                and more recently with desktop publishing
-                                software like Aldus PageMaker including versions
-                                of Lorem Ipsum.
-                            </Text>
+                            <Box className={style.textBox}>
+                                <Box
+                                    display="flex"
+                                    style={{ gap: '8px', marginBottom: '16px' }}
+                                >
+                                    <Speak />
+                                    <Text fontSize="title2">한줄 요약</Text>
+                                </Box>
+                                <Text>
+                                    {' '}
+                                    Lorem Ipsum is simply dummy text of the
+                                    printing and typesetting industry. Lorem
+                                    Ipsum has been the industry's standard dummy
+                                    text ever since the 1500s, when an unknown
+                                    printer took a galley of type and scrambled
+                                    it to make a type specimen book. It has
+                                    survived not only five centuries, but also
+                                    the leap into electronic typesetting,
+                                    remaining essentially unchanged. It was
+                                    popularised in the 1960s with the release of
+                                    Letraset sheets containing Lorem Ipsum
+                                    passages, and more recently with desktop
+                                    publishing software like Aldus PageMaker
+                                    including versions of Lorem Ipsum.
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            style={{
+                                position: 'absolute',
+                                width: '100%',
+                                background: 'rgb(0,0,0,0.01)',
+                                height: '100%',
+                                top: '0',
+                                backdropFilter: 'blur(4px)',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Box
+                                style={{
+                                    position: 'relative',
+                                    top: '50%',
+                                    backdropFilter: 'blur(4x)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '12px',
+                                }}
+                            >
+                                <Text fontSize="largeTitle">
+                                    데이터가 부족해 보고서를 만들기 힘들어요.
+                                </Text>
+                                <Text fontSize="largeTitle" align="center">
+                                    예상완료일: 2025-05-28
+                                </Text>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
             ) : (
                 // 요약대시보드
-                <Box style={{ padding: '24px 0' }}>
-                    <Text fontSize="title1" fontWeight="bold">
-                        {'n'}주차 핵심 트렌드 인사이트
-                    </Text>
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        style={{ gap: '25px', marginTop: '25px' }}
-                    >
+                <Box>
+                    <Box style={{ padding: '24px 0', position: 'relative' }}>
+                        <Box style={{ padding: '0 24px' }}>
+                            <Text fontSize="title1" fontWeight="bold">
+                                {'n'}주차 핵심 트렌드 인사이트
+                            </Text>
+                        </Box>
                         <Box
                             display="flex"
-                            flexDirection="row"
-                            justifyContent="space-between"
-                            className={style.graphContainer}
+                            flexDirection="column"
+                            style={{ gap: '25px', marginTop: '25px' }}
                         >
-                            <Box className={style.graph}>
-                                <Text fontSize="title2">
-                                    키워드 언급량 통계
-                                </Text>
-                                <Box
-                                    style={{
-                                        background: colors['neutral-30'],
-                                    }}
-                                />
-                            </Box>
-                            <Box className={style.graph}>
-                                <Text fontSize="title2">언급 분포</Text>
-                                <Box
-                                    style={{
-                                        background: colors['neutral-30'],
-                                        width: '100%',
-                                    }}
-                                />
-                            </Box>
-                        </Box>
-                        <Box className={style.textBox}>
                             <Box
                                 display="flex"
-                                style={{ gap: '8px', marginBottom: '16px' }}
+                                flexDirection="row"
+                                justifyContent="space-between"
+                                className={style.graphContainer}
                             >
-                                <Speak />
-                                <Text fontSize="title2">한줄 요약</Text>
+                                <Box className={style.graph}>
+                                    <Text fontSize="title2">
+                                        연관 키워드 언급량 통계
+                                    </Text>
+                                    <Box
+                                        style={{
+                                            background: colors['neutral-30'],
+                                        }}
+                                    />
+                                </Box>
+                                <Box className={style.graph}>
+                                    <Text fontSize="title2">
+                                        키워드 긍부정도
+                                    </Text>
+                                    <Box
+                                        style={{
+                                            background: colors['neutral-30'],
+                                            width: '100%',
+                                        }}
+                                    />
+                                </Box>
                             </Box>
-                            <Text>
-                                {' '}
-                                Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry. Lorem Ipsum has been
-                                the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley
-                                of type and scrambled it to make a type specimen
-                                book. It has survived not only five centuries,
-                                but also the leap into electronic typesetting,
-                                remaining essentially unchanged. It was
-                                popularised in the 1960s with the release of
-                                Letraset sheets containing Lorem Ipsum passages,
-                                and more recently with desktop publishing
-                                software like Aldus PageMaker including versions
-                                of Lorem Ipsum.
-                            </Text>
+                            <Box className={style.textBox}>
+                                <Box
+                                    display="flex"
+                                    style={{ gap: '8px', marginBottom: '16px' }}
+                                >
+                                    <Speak />
+                                    <Text fontSize="title2">한줄 요약</Text>
+                                </Box>
+                                <Text>
+                                    {' '}
+                                    Lorem Ipsum is simply dummy text of the
+                                    printing and typesetting industry. Lorem
+                                    Ipsum has been the industry's standard dummy
+                                    text ever since the 1500s, when an unknown
+                                    printer took a galley of type and scrambled
+                                    it to make a type specimen book. It has
+                                    survived not only five centuries, but also
+                                    the leap into electronic typesetting,
+                                    remaining essentially unchanged. It was
+                                    popularised in the 1960s with the release of
+                                    Letraset sheets containing Lorem Ipsum
+                                    passages, and more recently with desktop
+                                    publishing software like Aldus PageMaker
+                                    including versions of Lorem Ipsum.
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            style={{
+                                position: 'absolute',
+                                width: '100%',
+                                background: 'rgb(0,0,0,0.001)',
+                                height: '100%',
+                                top: '0',
+                                backdropFilter: 'blur(4px)',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Box
+                                style={{
+                                    position: 'relative',
+                                    top: '50%',
+                                    backdropFilter: 'blur(4x)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '12px',
+                                }}
+                            >
+                                <Text fontSize="largeTitle">
+                                    데이터가 부족해 보고서를 만들기 힘들어요.
+                                </Text>
+                                <Text fontSize="largeTitle" align="center">
+                                    예상완료일: 2025-05-28
+                                </Text>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>

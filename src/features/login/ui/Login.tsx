@@ -78,7 +78,7 @@ export const Login = () => {
                         />
                     }
                     placeholder="아이디"
-                    type="email"
+                    type="text"
                     required={true}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

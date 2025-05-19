@@ -18,6 +18,9 @@ import {
     renameChat,
 } from '@/features/chat/api/chat'
 import { ChatType } from '@/features/chat/type/chat.type'
+import { useModal } from '@/shared/lib/hooks/useModal'
+import Modal from '@/shared/ui/Modal/Modal'
+import { AddChat } from '@/features/chat/ui/AddChat'
 
 export const AnalysisSidebar = ({
     id,
@@ -32,16 +35,12 @@ export const AnalysisSidebar = ({
     const [teamChatList, setTeamChatList] = useState<ChatType[]>([])
     const [edit, setEdit] = useState(false)
     const [editId, setEditId] = useState(-1)
-
+    const { modalConfig, showModal, hideModal } = useModal()
     const fetchChatList = useCallback(async () => {
         const response = await chatList()
         if (response.status === 200) {
             setUserChatList(response.data?.personalChatrooms)
-            if (Object.keys(response.data?.projectChatrooms).length === 0) {
-                setTeamChatList([])
-            } else {
-                setTeamChatList(response.data?.projectChatrooms)
-            }
+            setTeamChatList(response.data?.teamChatrooms)
         }
     }, [])
 
@@ -55,8 +54,9 @@ export const AnalysisSidebar = ({
         }
     }, [userAnalysisStart, fetchChatList])
 
-    const postAddChat = async () => {
-        const response = await addChat()
+    const postAddChat = async (type: '팀' | '개인', id: number | null) => {
+        const chatType = type === '팀' ? 'TEAM' : 'PERSONAL'
+        const response = await addChat(chatType, id)
         if (response.status === 201) {
             await fetchChatList()
             setId(response.data.id)
@@ -95,11 +95,14 @@ export const AnalysisSidebar = ({
                     size="medium"
                     type="primary"
                     width="225px"
-                    onClickFunc={postAddChat}
+                    onClickFunc={showModal}
                 >
                     <Plus fill={colors.white} width={20} height={20} />
                     <Text color="white">채팅 추가</Text>
                 </Button>
+                <Modal modalConfig={modalConfig}>
+                    <AddChat onClose={hideModal} addChat={postAddChat} />
+                </Modal>
             </Box>
             <Box className={S.listContainer}>
                 <Box>

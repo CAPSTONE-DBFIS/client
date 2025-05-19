@@ -29,6 +29,8 @@ export const SignupAttempt = ({
     setFormData: (formData: IJoin) => void
 }) => {
     const [currentFormData, setCurrentFormData] = useState<IJoin>(formData)
+    const [isComposing, setIsComposing] = useState(false)
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>,
         key: keyof IJoin,
@@ -36,11 +38,14 @@ export const SignupAttempt = ({
     ) => {
         let { value } = e.target
 
-        if (type === 'number') {
-            value = value.replace(/[^0-9]/g, '')
-        } else if (type === 'text') {
-            value = value.replace(/[^a-zA-Z가-힣\s]/g, '')
+        if (!isComposing) {
+            if (type === 'number') {
+                value = value.replace(/[^0-9]/g, '')
+            } else if (type === 'text') {
+                value = value.replace(/[^a-zA-Z가-힣\s]/g, '')
+            }
         }
+
         setCurrentFormData({
             ...currentFormData,
             [key]: value,
@@ -98,6 +103,8 @@ export const SignupAttempt = ({
                         required={true}
                         value={currentFormData.name}
                         onChange={(e) => handleInputChange(e, 'name', 'text')}
+                        onCompositionEnd={() => setIsComposing(false)}
+                        onCompositionStart={() => setIsComposing(true)}
                     />
                 </Box>
                 <Box
@@ -175,8 +182,8 @@ export const SignupAttempt = ({
                             />
                         }
                         width="280px"
-                        name="email"
-                        type="email"
+                        name="text"
+                        type="text"
                         required={true}
                         value={currentFormData.id}
                         onChange={(e) => handleInputChange(e, 'id', 'all')}

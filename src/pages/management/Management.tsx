@@ -7,6 +7,7 @@ import FileList, { FileListHandle } from '@/features/management/ui/FileList'
 import ManagementSideBar from '@/features/management/ui/ManagementSideBar'
 import { useEffect, useRef, useState } from 'react'
 import { getTeams } from '@/entities/file/api/file'
+import { colors } from '@/app/token'
 
 interface Team {
     teamId: number
@@ -23,6 +24,9 @@ export const Management = () => {
         null
     )
     const [currentFolderId, setCurrentFolderId] = useState<number | null>(null)
+    const [selectedItemType, setSelectedItemType] = useState<
+        'file' | 'folder' | null
+    >(null)
 
     const fileListRef = useRef<FileListHandle>(null) //파일생성후REFETCH
     const handleFolderCreated = () => {
@@ -51,15 +55,21 @@ export const Management = () => {
 
     const handleFileSelect = (
         fileId: number | null,
-        fileName: string | null
+        fileName: string | null,
+        type: 'file' | 'folder' | null
     ) => {
         setSelectedFileId(fileId)
         setSelectedFileName(fileName)
-        setCurrentFolderId(null)
+
+        setSelectedItemType(type)
     }
 
     return (
-        <Box display="flex" justifyContent="center">
+        <Box
+            display="flex"
+            justifyContent="center"
+            style={{ background: colors['neutral-10'] }}
+        >
             <Box className={S.layout}>
                 <Sidebar headerText="관리">
                     <ManagementSideBar
@@ -77,13 +87,16 @@ export const Management = () => {
                         teamId={selectedTeam?.teamId || 0} // 팀 ID 전달
                         currentFolderId={currentFolderId}
                         onFolderCreated={handleFolderCreated}
+                        selectedItemType={selectedItemType}
                     />
                     <Suggestions teamId={selectedTeam?.teamId || 0} />
                     {selectedTeam && (
                         <FileList
                             ref={fileListRef} // FileList의 ref 전달
                             teamId={selectedTeam.teamId}
-                            onFileSelect={handleFileSelect}
+                            onFileSelect={(id, name, type) =>
+                                handleFileSelect(id, name, type)
+                            }
                             onFolderChange={setCurrentFolderId}
                         />
                     )}

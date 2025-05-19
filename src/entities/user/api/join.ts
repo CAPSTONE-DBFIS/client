@@ -21,3 +21,10 @@ export const verifyCode = async (
     })
     return response
 }
+
+export const resendCode = async (memberId: string) => {
+    const response = await axiosInstance.post('/api/resend-verification', {
+        memberId,
+    })
+    return response
+}

@@ -21,14 +21,16 @@ export const button = style({
 })
 
 export const list = style({
-    width: '1200px',
+    minWidth: '1200px',
     gap: '24px',
 })
 
 export const listContainer = style({
     display: 'flex',
     flexDirection: 'column',
-    height: 'calc(100vh - 100px)',
+    width: '1200px',
+    overflow: 'hidden',
+    height: 'calc(100vh - 200px)',
 })
 
 export const lists = style({
@@ -94,12 +96,13 @@ export const inputBtn = style({
 
 export const response = style({
     fontFamily: 'Pretendard',
-
+    minHeight: '300px',
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
 })
 
 export const bottomPadding = style({
-    paddingBottom: '25px',
+    height: '300px',
+    width: '100%',
 })

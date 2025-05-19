@@ -57,7 +57,7 @@ export const TeamSection: React.FC<{
                 alignItems="center"
                 style={{ padding: '0 8px 12px 8px' }}
             >
-                <Text color="neutral-900" fontSize="subHeadline">
+                <Text color="neutral-900" fontSize="headline">
                     {team.name}
                 </Text>
                 {addProject || (
@@ -82,7 +82,7 @@ export const TeamSection: React.FC<{
                     <TextInput
                         placeholder="프로젝트를 입력해주세요."
                         size="small"
-                        width="220px"
+                        width="200px"
                         value={inProject}
                         onChange={(e) => onInputChange(team.id, e.target.value)}
                         rightIcon={

@@ -61,14 +61,19 @@ export const ChatRoom = ({
             createdAt: new Date().toISOString(),
             sender: 'current-client',
             source: [],
-            log: '',
+            log: [],
         }
         setMessages((prevMessages) => [...prevMessages, newMessage]) // 새로운 메시지를 추가
-        scrollToBottom() // 스크롤을 맨 아래로 이동
+        setTimeout(() => {
+            scrollToBottom()
+        }, 500)
     }
 
-
-    const onStreamUpdate = (token?: string, list?: sourceType[], log?: string) => {
+    const onStreamUpdate = (
+        token?: string,
+        list?: sourceType[],
+        log?: string
+    ) => {
         chatRef.current += token
         setMessages((prev) => {
             const updated = [...prev]
@@ -77,8 +82,13 @@ export const ChatRoom = ({
                 updated[lastIndex] = {
                     ...updated[lastIndex],
                     response: chatRef.current,
-                    source: list && list.length > 0 ? list : updated[lastIndex].source,
-                    log: log ? log : updated[lastIndex].log,
+                    source:
+                        list && list.length > 0
+                            ? list
+                            : updated[lastIndex].source,
+                    log: log
+                        ? [...(updated[lastIndex].log || []), log]
+                        : updated[lastIndex].log,
                 }
             }
             return updated
