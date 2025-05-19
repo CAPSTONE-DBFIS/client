@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
@@ -10,6 +10,8 @@ import * as style from './styles/addtask.css'
 import { colors } from '@/app/token'
 // svg
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
+import { postKeyword } from '@/entities/tracking/api/tracking'
+import { useTrackingStore } from '@/entities/tracking/store/trackingStore'
 
 interface IAddTask {
     onClose: () => void
@@ -33,8 +35,41 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
         handleInputChange,
         onToggle,
         onOptionClicked,
-        onSubmit,
     } = useAddTask()
+    const selectedProject = useTrackingStore((state) => state.selectedProject)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+
+    const trackingInterval = (period: string) => {
+        switch (period) {
+            case '일주일마다':
+                return 7
+            case '2주일마다':
+                return 14
+            case '1개월마다':
+                return 30
+            default:
+                return 7
+        }
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        try {
+            await postKeyword({
+                keyword: inputValue,
+                startDate,
+                endDate,
+                trackingInterval: trackingInterval(selectedPeriod),
+                projectId: selectedProject?.id ?? 0,
+            })
+            onClose()
+        } catch (error) {
+            alert(
+                '작업 추가에 실패했습니다: ' + (error as Error)?.message || ''
+            )
+        }
+    }
 
     return (
         <Box background={'white'} className={style.layout}>
@@ -43,7 +78,7 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                     트렌드 작업 추가
                 </Text>
             </Box>
-            <Box as={'form'} onSubmit={onSubmit}>
+            <Box as={'form'} onSubmit={handleSubmit}>
                 {/* 키워드설정 */}
                 <Box className={style.section}>
                     <Box display="flex" alignItems="center">
@@ -132,7 +167,6 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                                     '1개월마다',
                                                 ].map((option) => (
                                                     <Box
-                                                        as={'button'}
                                                         type="button"
                                                         key={option}
                                                         className={
@@ -196,6 +230,10 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
                                         required
+                                        value={startDate}
+                                        onChange={(e) =>
+                                            setStartDate(e.target.value)
+                                        }
                                     />
                                 </Box>
                                 <Box
@@ -220,6 +258,10 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                                         placeholder="날짜 범위를 선택해주세요."
                                         height="58px"
                                         required
+                                        value={endDate}
+                                        onChange={(e) =>
+                                            setEndDate(e.target.value)
+                                        }
                                     />
                                 </Box>
                             </Box>
