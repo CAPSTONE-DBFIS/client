@@ -16,15 +16,19 @@ import {
     postProject,
     putProject,
 } from '@/entities/tracking/api/tracking'
+import { useTrackingStore } from '@/entities/tracking/store/trackingStore'
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
  * @returns {JSX.Element}
  */
 export const Tracking = () => {
-    const [selectedTeam, setSelectedTeam] = useState<ITrackingTeam | null>(null)
-    const [selectedProject, setSelectedProject] =
-        useState<ITrackingProject | null>(null)
+    const selectedTeam = useTrackingStore((state) => state.selectedTeam)
+    const setSelectedTeam = useTrackingStore((state) => state.setSelectedTeam)
+    const selectedProject = useTrackingStore((state) => state.selectedProject)
+    const setSelectedProject = useTrackingStore(
+        (state) => state.setSelectedProject
+    )
 
     const [teamsData, setTeamsData] = useState<ITrackingTeam[]>([])
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
