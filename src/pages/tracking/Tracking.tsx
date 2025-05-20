@@ -16,17 +16,17 @@ import {
     postProject,
     putProject,
 } from '@/entities/tracking/api/tracking'
-import { useTrackingStore } from '@/entities/tracking/store/trackingStore'
+import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
  * @returns {JSX.Element}
  */
 export const Tracking = () => {
-    const selectedTeam = useTrackingStore((state) => state.selectedTeam)
-    const setSelectedTeam = useTrackingStore((state) => state.setSelectedTeam)
-    const selectedProject = useTrackingStore((state) => state.selectedProject)
-    const setSelectedProject = useTrackingStore(
+    const selectedTeam = useTrackingState((state) => state.selectedTeam)
+    const setSelectedTeam = useTrackingState((state) => state.setSelectedTeam)
+    const selectedProject = useTrackingState((state) => state.selectedProject)
+    const setSelectedProject = useTrackingState(
         (state) => state.setSelectedProject
     )
 
@@ -49,7 +49,7 @@ export const Tracking = () => {
             // 모든 프로젝트를 한 번에 조회
             const projectsResponse = await getProject()
             const allProjects = projectsResponse.data
-
+            console.log(allProjects)
             // 팀별로 프로젝트 분배
             const teamsWithProjects = mappedTeams.map(
                 (team: ITrackingTeam) => ({
@@ -90,7 +90,9 @@ export const Tracking = () => {
             setInProject((prev) => ({ ...prev, [teamId]: '' }))
             setAddProject((prev) => ({ ...prev, [teamId]: false }))
         } catch (error) {
-            console.error('프로젝트 추가 중 오류 발생:', error)
+            if (error) {
+                alert('오류가 발생했습니다.')
+            }
         }
     }
 

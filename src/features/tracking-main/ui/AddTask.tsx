@@ -11,7 +11,7 @@ import { colors } from '@/app/token'
 // svg
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
 import { postKeyword } from '@/entities/tracking/api/tracking'
-import { useTrackingStore } from '@/entities/tracking/store/trackingStore'
+import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 
 interface IAddTask {
     onClose: () => void
@@ -36,7 +36,7 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
         onToggle,
         onOptionClicked,
     } = useAddTask()
-    const selectedProject = useTrackingStore((state) => state.selectedProject)
+    const selectedProject = useTrackingState((state) => state.selectedProject)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
@@ -65,9 +65,9 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
             })
             onClose()
         } catch (error) {
-            alert(
-                '작업 추가에 실패했습니다: ' + (error as Error)?.message || ''
-            )
+            if (error) {
+                alert('작업 추가를 실패하였습니다다.')
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { ITrackingProject, ITrackingTeam } from '../type/tracking.type'
 
-interface TrackingStoreState {
+interface TrackingState {
     selectedProject: ITrackingProject | null
     setSelectedProject: (project: ITrackingProject | null) => void
 
@@ -9,7 +9,7 @@ interface TrackingStoreState {
     setSelectedTeam: (team: ITrackingTeam | null) => void
 }
 
-export const useTrackingStore = create<TrackingStoreState>((set) => ({
+export const useTrackingState = create<TrackingState>((set) => ({
     selectedProject: null,
     setSelectedProject: (project) => set({ selectedProject: project }),
 
