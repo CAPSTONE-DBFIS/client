@@ -70,7 +70,9 @@ export const postKeyword = async (body: {
     return response
 }
 
-export const getKeyword = async () => {
-    const response = await axiosInstance.get(`/api/tracking-keywords`)
+export const getKeyword = async (id?: number) => {
+    const url = id ? `/api/tracking-keywords/${id}` : `/api/tracking-keywords`
+
+    const response = await axiosInstance.get(url)
     return response
 }
