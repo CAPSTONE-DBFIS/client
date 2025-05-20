@@ -87,3 +87,26 @@ export interface ITeamSection {
     onEditProject: (projectId: number, name: string, teamId: number) => void
     onDeleteProject: (projectId: number) => void
 }
+
+export interface ITrackingKeyword {
+    id: number
+    keyword: string
+    startDate: string
+    endDate: string
+    trackingInterval: number
+    projectId: number
+}
+
+export interface ITrackingReport {
+    id: number
+    keyword: string
+    createdAt: string //보고서생성일일
+    createdOrder: number //n번째 보고서서
+    sentimentReport: string //긍부정정
+    articleCountReport: string //일주일동안의기사수수
+    mediaCompaniesReport: string //언론사갯수
+    relatedWordReport: string[] //연관어
+    recordDate: string //날짜
+    articleCntChange: string //키워드증감요약
+    llmDescription: string //키워드분석의 llm
+}

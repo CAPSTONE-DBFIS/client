@@ -11,7 +11,7 @@ import Speak from '@/shared/asset/icon/speakerphone.svg?react'
 import { colors } from '@/app/token'
 import * as style from './styles/report.css'
 interface IReportProps {
-    id: string // 선택된 리스트 ID
+    id: number // 선택된 리스트 ID
 }
 
 /**

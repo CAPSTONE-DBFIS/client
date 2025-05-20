@@ -2,18 +2,22 @@ import { Box } from '@/shared/ui/Box'
 import * as style from './styles/dashboard.css'
 import { Calendar } from './Calendar'
 import { List } from './List'
-import { tasks } from '../../const/tasks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from '@/shared/ui/Modal/Modal'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { useAddTask } from '../../model/useAddTask'
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
+import { getKeyword, getReport } from '@/entities/tracking/api/tracking'
+import {
+    ITrackingKeyword,
+    ITrackingReport,
+} from '@/entities/tracking/type/tracking.type'
 
 interface IDashboard {
     activeView: string
-    onReportSelect: (id: string) => void // 리스트 클릭 시 호출되는 함수
+    onReportSelect: (id: number) => void // 리스트 클릭 시 호출되는 함수
 }
 
 /**
@@ -30,16 +34,53 @@ interface IDashboard {
 export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
+    const [tasks, setTasks] = useState<ITrackingKeyword[]>([])
+    const [reportData, setReportData] = useState<{
+        [keywordId: number]: ITrackingReport | null
+    }>({})
+
+    const fetchKeywords = async () => {
+        try {
+            const response = await getKeyword()
+            setTasks(response.data)
+        } catch (error) {
+            if (error) {
+                alert('키워드 조회를 실패하였습니다.')
+            }
+        }
+    }
+    useEffect(() => {
+        if (tasks.length === 0) return
+        const fetchReports = async () => {
+            const reports: { [keywordId: number]: ITrackingReport | null } = {}
+            await Promise.all(
+                tasks.map(async (task) => {
+                    try {
+                        const reportRes = await getReport(task.id)
+                        reports[task.id] = reportRes.data
+                        console.log(reports[task.id])
+                    } catch {
+                        reports[task.id] = null
+                    }
+                })
+            )
+            setReportData(reports)
+        }
+        fetchReports()
+    }, [tasks])
+    useEffect(() => {
+        fetchKeywords()
+    }, [])
 
     // 작업들 상태 관리
     const [taskArray, setTaskArray] = useState(tasks)
     // 작업 추가 모달에 대한 상태
     const { modalConfig, toggleModal } = useModal()
     //삭제/수정할 작업 ID 저장
-    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+    const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
 
     // 수정 모달의 초기값 상태
-    const [editEndDate, setEditEndDate] = useState<string>('')
+    const [editEndDate, setEditEndDate] = useState<string>()
 
     // 작업 삭제 핸들러
     const handleDeleteTask = () => {
@@ -54,7 +95,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
 
     // 작업 수정 핸들러
     const handleEeditTask = () => {
-        if (selectedTaskId) {
+        if (selectedTaskId && editEndDate) {
             setTaskArray((prev) =>
                 prev.map((task) =>
                     task.id === selectedTaskId
@@ -68,13 +109,13 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     }
 
     // 삭제 확인 모달 열기
-    const openDeleteModal = (id: string) => {
+    const openDeleteModal = (id: number) => {
         setSelectedTaskId(id) // 삭제할 작업 ID 저장
         toggleModal() // 모달 열기
     }
 
     // 수정 모달 열기
-    const openEditModal = (id: string) => {
+    const openEditModal = (id: number) => {
         setSelectedTaskId(id)
         const taskToEdit = taskArray.find((task) => task.id === id)
         if (taskToEdit) {
@@ -92,6 +133,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
                 <Box>
                     {taskArray.map((task) => (
                         <List
+                            reportData={reportData}
                             key={task.id}
                             task={task}
                             handleDeleteTask={() => openDeleteModal(task.id)}

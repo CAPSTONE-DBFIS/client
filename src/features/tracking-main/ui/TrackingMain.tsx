@@ -22,7 +22,7 @@ import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
  */
 export const TrackingMain = ({ projectName, projectPath }: IProject) => {
     const [selectedTaps, setSelectedTaps] = useState('calendar') //현재 선택된 탭(캘린더/리스트)을 관리
-    const [selectedReport, setSelectedReport] = useState<string | null>(null) // 선택된 리스트 데이터
+    const [selectedReport, setSelectedReport] = useState<number | null>(null) // 선택된 리스트 데이터
     const reportRef = useRef<HTMLDivElement>(null)
 
     // 보고서 밖 클릭시 대시보드
@@ -30,7 +30,6 @@ export const TrackingMain = ({ projectName, projectPath }: IProject) => {
         setSelectedReport(null)
     })
 
-    console.log(selectedReport)
     return (
         <Box className={style.layout}>
             <Title projectName={projectName} projectPath={projectPath} />
