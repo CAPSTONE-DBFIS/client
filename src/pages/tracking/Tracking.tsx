@@ -71,6 +71,23 @@ export const Tracking = () => {
         fetchTeamsAndProjects()
     }, [])
 
+    useEffect(() => {
+        if (teamsData.length > 0 && !selectedTeam && !selectedProject) {
+            const firstTeam = teamsData[0]
+            const firstProject = firstTeam.projects && firstTeam.projects[0]
+            if (firstTeam && firstProject) {
+                setSelectedTeam(firstTeam)
+                setSelectedProject(firstProject)
+            }
+        }
+    }, [
+        teamsData,
+        selectedTeam,
+        selectedProject,
+        setSelectedTeam,
+        setSelectedProject,
+    ])
+
     // 입력창 토글
     const handleInput = (teamId: number) => {
         setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))

@@ -17,6 +17,7 @@ import {
 import {
     ITrackingKeyword,
     ITrackingList,
+    ITrackingProject,
     ITrackingReport,
     ListWithDate,
 } from '@/entities/tracking/type/tracking.type'
@@ -25,6 +26,7 @@ import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 interface IDashboard {
     activeView: string
     onReportSelect: (id: number) => void // 리스트 클릭 시 호출되는 함수
+    projects: ITrackingProject[]
 }
 /**
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
@@ -37,7 +39,11 @@ interface IDashboard {
  * @returns {JSX.Element}
  */
 
-export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
+export const Dashboard = ({
+    activeView,
+    onReportSelect,
+    projects,
+}: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
     //캘린더 작업관리
@@ -53,9 +59,10 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
 
     const fetchKeywords = useCallback(async () => {
         try {
-            const calendar = await getCalendar(selectedProject?.id)
+            const projectId = selectedProject?.id ?? projects[0]?.id ?? 1
+            const calendar = await getCalendar(projectId)
 
-            const list = await getList(selectedProject?.id)
+            const list = await getList(projectId)
             setCalTasks(calendar.data)
             setListTasks(list.data)
         } catch (error) {
@@ -63,7 +70,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
                 alert('키워드 조회를 실패하였습니다.')
             }
         }
-    }, [selectedProject?.id])
+    }, [selectedProject?.id, projects])
     useEffect(() => {
         fetchKeywords()
     }, [fetchKeywords])
@@ -74,8 +81,8 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
             const calTask = calTasks.find((cal) => cal.id === listTask.id)
             return {
                 ...listTask,
-                startDate: calTask?.startDate,
-                endDate: calTask?.endDate,
+                startDate: calTask?.startDate ?? '',
+                endDate: calTask?.endDate ?? '',
             }
         })
         setMergedListTasks(merged)

@@ -13,6 +13,7 @@ import * as style from './styles/trackingmain.css'
 //interface
 import { IProject } from '../types/project.type'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
+import { ITrackingProject } from '@/entities/tracking/type/tracking.type'
 
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
@@ -24,6 +25,7 @@ export const TrackingMain = ({ projectName, projectPath }: IProject) => {
     const [selectedTaps, setSelectedTaps] = useState('calendar') //현재 선택된 탭(캘린더/리스트)을 관리
     const [selectedReport, setSelectedReport] = useState<number | null>(null) // 선택된 리스트 데이터
     const reportRef = useRef<HTMLDivElement>(null)
+    const projects = useState<ITrackingProject[]>([])[0]
 
     // 보고서 밖 클릭시 대시보드
     useClickOutside(reportRef, () => {
@@ -48,6 +50,7 @@ export const TrackingMain = ({ projectName, projectPath }: IProject) => {
                     <Dashboard
                         activeView={selectedTaps}
                         onReportSelect={setSelectedReport}
+                        projects={projects}
                     />
                 </Box>
             )}
