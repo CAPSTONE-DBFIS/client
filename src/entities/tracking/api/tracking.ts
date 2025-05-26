@@ -70,9 +70,16 @@ export const postKeyword = async (body: {
     return response
 }
 
-export const getKeyword = async (id?: number) => {
-    const url = id ? `/api/tracking-keywords/${id}` : `/api/tracking-keywords`
+export const getCalendar = async (id?: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-keywords/project/${id}`
+    )
+    return response
+}
 
-    const response = await axiosInstance.get(url)
+export const getList = async (projectId?: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-result/list/${projectId}`
+    )
     return response
 }

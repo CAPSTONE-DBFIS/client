@@ -2,18 +2,19 @@ import { Box } from '@/shared/ui/Box'
 import * as style from './styles/dashboard.css'
 import { Calendar } from './Calendar'
 import { List } from './List'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Modal from '@/shared/ui/Modal/Modal'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { useAddTask } from '../../model/useAddTask'
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import { getKeyword, getReport } from '@/entities/tracking/api/tracking'
+import { getCalendar, getReport } from '@/entities/tracking/api/tracking'
 import {
     ITrackingKeyword,
     ITrackingReport,
 } from '@/entities/tracking/type/tracking.type'
+import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 
 interface IDashboard {
     activeView: string
@@ -38,17 +39,19 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     const [reportData, setReportData] = useState<{
         [keywordId: number]: ITrackingReport | null
     }>({})
+    const selectedProject = useTrackingState((state) => state.selectedProject)
 
-    const fetchKeywords = async () => {
+    const fetchKeywords = useCallback(async () => {
         try {
-            const response = await getKeyword()
+            const response = await getCalendar(selectedProject?.id)
             setTasks(response.data)
+            console.log(response)
         } catch (error) {
             if (error) {
                 alert('키워드 조회를 실패하였습니다.')
             }
         }
-    }
+    }, [selectedProject?.id])
     useEffect(() => {
         if (tasks.length === 0) return
         const fetchReports = async () => {
@@ -68,9 +71,10 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
         }
         fetchReports()
     }, [tasks])
+
     useEffect(() => {
         fetchKeywords()
-    }, [])
+    }, [selectedProject?.id])
 
     // 작업들 상태 관리
     const [taskArray, setTaskArray] = useState(tasks)
