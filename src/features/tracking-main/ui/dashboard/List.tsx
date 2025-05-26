@@ -8,12 +8,13 @@ import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import {
-    ITrackingKeyword,
     ITrackingReport,
+    ListWithDate,
 } from '@/entities/tracking/type/tracking.type'
+import { calculatePercentage } from '../../lib/calulatePercentage'
 
 interface IListProps {
-    task: ITrackingKeyword
+    task: ListWithDate
     reportData: { [keywordId: number]: ITrackingReport | null }
     handleDeleteTask: (id: number) => void // 삭제 함수
     handleEditTask: (id: number) => void // 수정 함수
@@ -46,7 +47,10 @@ export const List: React.FC<IListProps> = ({
     const [menuOpen, setMenuOpen] = useState(false)
     // 메뉴 영역 감지용 ref
     const menuRef = useRef<HTMLDivElement>(null)
-
+    const percentage = calculatePercentage(
+        new Date(task.startDate),
+        new Date(task.endDate)
+    )
     useClickOutside(menuRef, () => setMenuOpen(false))
 
     // 메뉴 클릭시 상태 변경
@@ -88,9 +92,9 @@ export const List: React.FC<IListProps> = ({
                         alignItems="center"
                         className={style.mainData}
                     >
-                        <Text fontSize="title1">{task.keyword}</Text>
+                        <Text fontSize="title1">{task.createdOrder}</Text>
                         <Text fontSize="body" color="neutral-90">
-                            연관 키워드
+                            생성 보고서
                         </Text>
                     </Box>
                     <Box
@@ -101,7 +105,7 @@ export const List: React.FC<IListProps> = ({
                     >
                         <Text fontSize="title1">
                             {/* 숫자 구분자 */}
-                            {reportData[task.id]?.articleCountReport || 0}{' '}
+                            {task.articleCountReport}{' '}
                         </Text>
                         <Text fontSize="body" color="neutral-90">
                             데이터 포인트
@@ -113,7 +117,7 @@ export const List: React.FC<IListProps> = ({
                         alignItems="center"
                         className={style.mainData}
                     >
-                        <Text fontSize="title1">{}%</Text>
+                        <Text fontSize="title1">{Math.floor(percentage)}%</Text>
                         <Text fontSize="body" color="neutral-90">
                             진행률
                         </Text>
@@ -133,7 +137,7 @@ export const List: React.FC<IListProps> = ({
                         <Box className={style.progressBarContainer}>
                             <Box
                                 className={style.progressBar}
-                                style={{ width: `${0}%` }}
+                                style={{ width: `${percentage}%` }}
                             />
                         </Box>
                         <Box

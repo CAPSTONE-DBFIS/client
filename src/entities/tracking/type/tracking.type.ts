@@ -43,15 +43,11 @@ export interface ITrackingTeamResponse {
  * @property {string} teamId - 팀 ID
  * @property {string} name - 프로젝트 이름
  * @property {string} description - 프로젝트 설명
- * @property {string} startDate - 프로젝트 시작일
- * @property {string} endDate - 프로젝트 종료일
  */
 export interface ITrackingProjectRequest {
     teamId: number
     name: string
     description: string
-    startDate: string
-    endDate: string
 }
 
 /**
@@ -95,6 +91,18 @@ export interface ITrackingKeyword {
     endDate: string
     trackingInterval: number
     projectId: number
+}
+
+export interface ITrackingList {
+    id: number
+    keyword: string
+    createdAt: string
+    createdOrder: number
+    articleCountReport: string
+}
+export type ListWithDate = ITrackingList & {
+    startDate: string
+    endDate: string
 }
 
 export interface ITrackingReport {

@@ -9,10 +9,16 @@ import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { useAddTask } from '../../model/useAddTask'
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import { getCalendar, getReport } from '@/entities/tracking/api/tracking'
+import {
+    getCalendar,
+    getList,
+    getReport,
+} from '@/entities/tracking/api/tracking'
 import {
     ITrackingKeyword,
+    ITrackingList,
     ITrackingReport,
+    ListWithDate,
 } from '@/entities/tracking/type/tracking.type'
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 
@@ -20,7 +26,6 @@ interface IDashboard {
     activeView: string
     onReportSelect: (id: number) => void // 리스트 클릭 시 호출되는 함수
 }
-
 /**
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
  * @param {string} activeView - 현재 활성화된 뷰 ('calendar' 또는 'list')
@@ -35,17 +40,24 @@ interface IDashboard {
 export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
-    const [tasks, setTasks] = useState<ITrackingKeyword[]>([])
+    //캘린더 작업관리
+    const [calTasks, setCalTasks] = useState<ITrackingKeyword[]>([])
+    //리스트 작업관리
+    const [listTasks, setListTasks] = useState<ITrackingList[]>([])
     const [reportData, setReportData] = useState<{
         [keywordId: number]: ITrackingReport | null
     }>({})
+
     const selectedProject = useTrackingState((state) => state.selectedProject)
+    const [mergedListTasks, setMergedListTasks] = useState<ListWithDate[]>([])
 
     const fetchKeywords = useCallback(async () => {
         try {
-            const response = await getCalendar(selectedProject?.id)
-            setTasks(response.data)
-            console.log(response)
+            const calendar = await getCalendar(selectedProject?.id)
+
+            const list = await getList(selectedProject?.id)
+            setCalTasks(calendar.data)
+            setListTasks(list.data)
         } catch (error) {
             if (error) {
                 alert('키워드 조회를 실패하였습니다.')
@@ -53,31 +65,41 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
         }
     }, [selectedProject?.id])
     useEffect(() => {
-        if (tasks.length === 0) return
-        const fetchReports = async () => {
-            const reports: { [keywordId: number]: ITrackingReport | null } = {}
-            await Promise.all(
-                tasks.map(async (task) => {
-                    try {
-                        const reportRes = await getReport(task.id)
-                        reports[task.id] = reportRes.data
-                        console.log(reports[task.id])
-                    } catch {
-                        reports[task.id] = null
-                    }
-                })
-            )
-            setReportData(reports)
-        }
-        fetchReports()
-    }, [tasks])
-
-    useEffect(() => {
         fetchKeywords()
-    }, [selectedProject?.id])
+    }, [fetchKeywords])
+    useEffect(() => {
+        if (listTasks.length === 0 || calTasks.length === 0) return
 
-    // 작업들 상태 관리
-    const [taskArray, setTaskArray] = useState(tasks)
+        const merged = listTasks.map((listTask) => {
+            const calTask = calTasks.find((cal) => cal.id === listTask.id)
+            return {
+                ...listTask,
+                startDate: calTask?.startDate,
+                endDate: calTask?.endDate,
+            }
+        })
+        setMergedListTasks(merged)
+    }, [listTasks, calTasks])
+    // useEffect(() => {
+    //     if (tasks.length === 0) return
+    //     const fetchReports = async () => {
+    //         const reports: { [keywordId: number]: ITrackingReport | null } = {}
+    //         await Promise.all(
+    //             tasks.map(async (task) => {
+    //                 try {
+    //                     const reportRes = await getReport(task.id)
+    //                     reports[task.id] = reportRes.data
+    //                     console.log(reports[task.id])
+    //                 } catch {
+    //                     reports[task.id] = null
+    //                 }
+    //             })
+    //         )
+    //         setReportData(reports)
+    //     }
+    //     fetchReports()
+    // }, [tasks])
+
     // 작업 추가 모달에 대한 상태
     const { modalConfig, toggleModal } = useModal()
     //삭제/수정할 작업 ID 저장
@@ -89,7 +111,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     // 작업 삭제 핸들러
     const handleDeleteTask = () => {
         if (selectedTaskId) {
-            setTaskArray((prev) =>
+            setListTasks((prev) =>
                 prev.filter((task) => task.id !== selectedTaskId)
             )
             setSelectedTaskId(null) // 삭제 후 선택된 작업 ID 초기화
@@ -100,7 +122,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     // 작업 수정 핸들러
     const handleEeditTask = () => {
         if (selectedTaskId && editEndDate) {
-            setTaskArray((prev) =>
+            setListTasks((prev) =>
                 prev.map((task) =>
                     task.id === selectedTaskId
                         ? { ...task, endDate: editEndDate }
@@ -121,7 +143,7 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
     // 수정 모달 열기
     const openEditModal = (id: number) => {
         setSelectedTaskId(id)
-        const taskToEdit = taskArray.find((task) => task.id === id)
+        const taskToEdit = listTasks.find((task) => task.id === id)
         if (taskToEdit) {
             setEditEndDate(taskToEdit.endDate)
         }
@@ -131,11 +153,11 @@ export const Dashboard = ({ activeView, onReportSelect }: IDashboard) => {
         <Box className={style.layout}>
             {activeView === 'calendar' ? (
                 // 캘린더 뷰 컴포넌트
-                <Calendar tasks={tasks} />
+                <Calendar tasks={calTasks} />
             ) : (
                 // 리스트 뷰 컴포넌트
                 <Box>
-                    {taskArray.map((task) => (
+                    {mergedListTasks.map((task) => (
                         <List
                             reportData={reportData}
                             key={task.id}

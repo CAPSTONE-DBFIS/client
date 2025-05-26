@@ -79,7 +79,7 @@ export const getCalendar = async (id?: number) => {
 
 export const getList = async (projectId?: number) => {
     const response = await axiosInstance.get(
-        `/api/tracking-result/list/${projectId}`
+        `/api/tracking-results/list/${projectId}`
     )
     return response
 }
