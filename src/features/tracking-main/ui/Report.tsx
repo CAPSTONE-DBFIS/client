@@ -29,6 +29,7 @@ import {
 } from '@/entities/tracking/type/report.type'
 import { Keyword } from '@/entities/tracking/ui/Keyword'
 import { OverView } from '@/entities/tracking/ui/OverView'
+import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 interface IReportProps {
     id: number // 선택된 리스트 ID
     onClose: () => void
@@ -51,6 +52,9 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     const [article, setArticle] = useState<IReportArticle[]>([])
     const [overviewData, setOverviewData] = useState<OverViewData[]>([])
     const [keywordData, setKeywordData] = useState<KeywordData[]>([])
+    const selectedTeam = useTrackingState((state) => state.selectedTeam)
+    const selectedProject = useTrackingState((state) => state.selectedProject)
+
     const onTapsChange = () => {
         setSelctedTaps((prev) => !prev)
     }
@@ -68,7 +72,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             setMedia(mediaRes.data) //키워드
             setArticle(articleRes.data) //키워드
             // console.log(llmRes.data)
-            // console.log(sentimentsRes.data)
+            console.log(sentimentsRes.data)
             // console.log(relatedRes.data)
             // console.log(mediaRes.data)
             // console.log(articleRes.data)
@@ -77,33 +81,33 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     }, [id])
 
     useEffect(() => {
-        const overviewData: OverViewData[] = llm.map((item: IReportLlm) => ({
+        const keywordData: KeywordData[] = llm.map((item: IReportLlm) => ({
             ...item,
             relatedWord: relatedWord.filter(
                 (r: IReportKeyword) => r.createdOrder === item.createdOrder
             ),
             setiments: sentiments.filter(
-                (s: IReportSentiments) => s.createdOrder === item.createdOrder
+                (s: IReportSentiments) => s.createOrder === item.createdOrder
             ),
         }))
-        setOverviewData(overviewData)
+        setKeywordData(keywordData)
 
-        const keywordData: KeywordData[] = llm.map((item: IReportLlm) => ({
+        const overviewData: OverViewData[] = llm.map((item: IReportLlm) => ({
             ...item,
             media: media.filter(
                 (m: IReportNews) => m.createdOrder === item.createdOrder
             ),
             article: article.filter(
-                (a: IReportArticle) => a.createdOrder === item.createdOrder
+                (a: IReportArticle) => a.createOrder === item.createdOrder
             ),
         }))
-        setKeywordData(keywordData)
+        setOverviewData(overviewData)
     }, [llm, sentiments, relatedWord, media, article])
 
     console.log(overviewData)
     console.log(keywordData)
     return (
-        <Box style={{ width: '1200px' }}>
+        <Box style={{ width: '1200px', padding: '36px' }}>
             <Box display="flex" flexDirection="column">
                 <Box
                     display="flex"
@@ -133,7 +137,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                                 fill={colors['neutral-60']}
                             />
                             <Text fontSize="body" color={'neutral-60'}>
-                                ㅋㅋ
+                                {selectedTeam?.name || '팀'}
                             </Text>
                         </Box>
                         <Box
@@ -147,7 +151,21 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                                 fill={colors['neutral-60']}
                             />
                             <Text fontSize="body" color={'neutral-60'}>
-                                ㅋ
+                                {selectedProject?.name || '프로젝트'}
+                            </Text>
+                        </Box>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                {llm[0]?.keyword}
                             </Text>
                         </Box>
                     </Box>
@@ -216,11 +234,26 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             </Box>
             {selectedTaps ? (
                 // 키워드분석
-                <Keyword />
+
+                <Box>
+                    {keywordData.length === 0 ? (
+                        <Text>키워드 데이터가 없습니다.</Text>
+                    ) : (
+                        keywordData.map((item) => (
+                            <Keyword key={item.createdOrder} keyData={item} />
+                        ))
+                    )}
+                </Box>
             ) : (
                 // 요약대시보드
                 <Box>
-                    <OverView llm={llm[0]} />
+                    {overviewData.length === 0 ? (
+                        <Text>요약 데이터가 없습니다.</Text>
+                    ) : (
+                        overviewData.map((item) => (
+                            <OverView key={item.createdOrder} overData={item} />
+                        ))
+                    )}
                 </Box>
             )}
         </Box>

@@ -2,18 +2,21 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 
 import Speak from '@/shared/asset/icon/speakerphone.svg?react'
-import * as style from './OverView.css'
+import * as style from './KeyOver.css'
 import { colors } from '@/app/token'
-import { IReportLlm } from '../type/report.type'
-interface KeywordProps {
-    llm: IReportLlm
+import { OverViewData } from '../type/report.type'
+import ReactMarkdown from 'react-markdown'
+import { Graph } from './Graph'
+interface IOverViewReport {
+    overData: OverViewData
 }
-export const OverView: React.FC<KeywordProps> = ({ llm }) => {
+export const OverView: React.FC<IOverViewReport> = ({ overData }) => {
+    const articleCntChange = JSON.parse(overData.articleCntChange)
     return (
         <Box style={{ padding: '24px 0', position: 'relative' }}>
             <Box style={{ padding: '0 24px' }}>
                 <Text fontSize="title1" fontWeight="bold">
-                    {'n'}주차 핵심 트렌드 인사이트
+                    {overData.createdOrder}주차 핵심 트렌드 인사이트
                 </Text>
             </Box>
             <Box
@@ -28,15 +31,24 @@ export const OverView: React.FC<KeywordProps> = ({ llm }) => {
                     className={style.graphContainer}
                 >
                     <Box className={style.graph}>
-                        <Text fontSize="title2">연관 키워드 언급량 통계</Text>
+                        <Text fontSize="title2">기사 언급량 통계</Text>
                         <Box
                             style={{
-                                background: colors['neutral-30'],
+                                paddingTop: '20px',
                             }}
-                        />
+                        >
+                            <Graph
+                                data={overData.article.map(
+                                    ({ date, articleCount }) => ({
+                                        date,
+                                        articleCount,
+                                    })
+                                )}
+                            />
+                        </Box>
                     </Box>
                     <Box className={style.graph}>
-                        <Text fontSize="title2">키워드 긍부정도</Text>
+                        <Text fontSize="title2">기사 출처 언급량 통계</Text>
                         <Box
                             style={{
                                 background: colors['neutral-30'],
@@ -53,7 +65,9 @@ export const OverView: React.FC<KeywordProps> = ({ llm }) => {
                         <Speak />
                         <Text fontSize="title2">한줄 요약</Text>
                     </Box>
-                    <Text>{llm?.articleCntChange}</Text>
+                    <Text fontSize="body">
+                        <ReactMarkdown>{articleCntChange}</ReactMarkdown>
+                    </Text>
                 </Box>
             </Box>
         </Box>

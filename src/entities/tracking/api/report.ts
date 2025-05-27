@@ -2,7 +2,7 @@ import axiosInstance from '@/shared/api/axios'
 
 export const getLlm = async (keywordId: number) => {
     const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}`
+        `/api/tracking-results/${keywordId}/summary`
     )
     return response
 }

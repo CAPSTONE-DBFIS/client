@@ -59,7 +59,7 @@ export const Tracking = () => {
             // 모든 프로젝트를 한 번에 조회
             const projectsResponse = await getProject()
             const allProjects = projectsResponse.data
-            console.log(allProjects)
+
             // 팀별로 프로젝트 분배
             const teamsWithProjects = mappedTeams.map(
                 (team: ITrackingTeam) => ({
@@ -165,7 +165,7 @@ export const Tracking = () => {
             justifyContent="center"
             flexDirection="row"
             style={{
-                paddingTop: '30px',
+                paddingTop: '36px',
                 gap: '46px',
                 backgroundColor: colors['neutral-10'],
             }}
@@ -193,7 +193,7 @@ export const Tracking = () => {
             </Sidebar>
             {/* 메인콘텐츠 */}
             {selectedReport ? (
-                <Box ref={reportRef}>
+                <Box>
                     <Report id={selectedReport} onClose={handleReportClose} />
                 </Box>
             ) : (

@@ -8,7 +8,7 @@ export interface IReportLlm {
 }
 
 export interface IReportSentiments {
-    createdOrder: number
+    createOrder: number
     date: string
     negativeCount: number
     neutralCount: number
@@ -30,17 +30,17 @@ export interface IReportNews {
 }
 
 export interface IReportArticle {
-    createdOrder: number
+    createOrder: number
     date: string
     articleCount: number
 }
 
 export interface OverViewData extends IReportLlm {
-    relatedWord: IReportKeyword[]
-    setiments: IReportSentiments[]
+    media: IReportNews[]
+    article: IReportArticle[]
 }
 
 export interface KeywordData extends IReportLlm {
-    media: IReportNews[]
-    article: IReportArticle[]
+    relatedWord: IReportKeyword[]
+    setiments: IReportSentiments[]
 }

@@ -90,31 +90,6 @@ export const Dashboard = ({
         setMergedListTasks(merged)
     }, [listTasks, calTasks])
 
-    useEffect(() => {
-        console.log('listTasks', listTasks)
-        console.log('calTasks', calTasks)
-    }, [listTasks, calTasks])
-
-    // useEffect(() => {
-    //     if (tasks.length === 0) return
-    //     const fetchReports = async () => {
-    //         const reports: { [keywordId: number]: ITrackingReport | null } = {}
-    //         await Promise.all(
-    //             tasks.map(async (task) => {
-    //                 try {
-    //                     const reportRes = await getReport(task.id)
-    //                     reports[task.id] = reportRes.data
-    //                     console.log(reports[task.id])
-    //                 } catch {
-    //                     reports[task.id] = null
-    //                 }
-    //             })
-    //         )
-    //         setReportData(reports)
-    //     }
-    //     fetchReports()
-    // }, [tasks])
-
     // 작업 추가 모달에 대한 상태
     const { modalConfig, toggleModal } = useModal()
     //삭제/수정할 작업 ID 저장

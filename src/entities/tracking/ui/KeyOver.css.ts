@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 
 export const graphContainer = style({
     width: '100%',
-    height: '570px',
+    height: 'auto',
     gap: '60px',
 })
 

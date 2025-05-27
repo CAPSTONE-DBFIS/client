@@ -3,14 +3,23 @@ import { Text } from '@/shared/ui/Text'
 
 import Speak from '@/shared/asset/icon/speakerphone.svg?react'
 import { colors } from '@/app/token'
-import * as style from './Keyword.css'
+import * as style from './KeyOver.css'
+import { KeywordData } from '../type/report.type'
+import { Graph } from './Graph'
+import ReactMarkdown from 'react-markdown'
 
-export const Keyword = () => {
+interface IKeywordReport {
+    keyData: KeywordData
+}
+
+export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
+    const llmDescription = JSON.parse(keyData.llmDescription)
+
     return (
         <Box style={{ padding: '24px 0', position: 'relative' }}>
             <Box style={{ padding: '0 24px' }}>
                 <Text fontSize="title1" fontWeight="bold">
-                    {'n'}주차 핵심 트렌드 인사이트
+                    {keyData.createdOrder}주차 핵심 트렌드 인사이트
                 </Text>
             </Box>
 
@@ -29,9 +38,18 @@ export const Keyword = () => {
                         <Text fontSize="title2">연관 키워드 언급량 통계</Text>
                         <Box
                             style={{
-                                background: colors['neutral-30'],
+                                paddingTop: '20px',
                             }}
-                        />
+                        >
+                            <Graph
+                                data={keyData.relatedWord.map(
+                                    ({ word, frequency }) => ({
+                                        word,
+                                        frequency,
+                                    })
+                                )}
+                            />
+                        </Box>
                     </Box>
                     <Box className={style.graph}>
                         <Text fontSize="title2">키워드 긍부정도</Text>
@@ -51,7 +69,9 @@ export const Keyword = () => {
                         <Speak />
                         <Text fontSize="title2">한줄 요약</Text>
                     </Box>
-                    <Text>{llm[0].llmDescription}</Text>
+                    <Text fontSize="body">
+                        <ReactMarkdown>{llmDescription}</ReactMarkdown>
+                    </Text>
                 </Box>
             </Box>
         </Box>
