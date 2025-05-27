@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
@@ -6,12 +6,29 @@ import { Text } from '@/shared/ui/Text'
 import Calendar from '@/shared/asset/icon/calendar.svg?react'
 import Search from '@/shared/asset/icon/search.svg?react'
 import Data from '@/shared/asset/icon/chart-square-bar.svg?react'
-import Speak from '@/shared/asset/icon/speakerphone.svg?react'
 import Right from '@/shared/asset/icon/cheveron-right.svg?react'
 
 //css
 import { colors } from '@/app/token'
 import * as style from './styles/report.css'
+import {
+    getArticle,
+    getLlm,
+    getMedia,
+    getRelatedWord,
+    getSentiments,
+} from '@/entities/tracking/api/report'
+import {
+    IReportArticle,
+    IReportKeyword,
+    IReportLlm,
+    IReportNews,
+    IReportSentiments,
+    KeywordData,
+    OverViewData,
+} from '@/entities/tracking/type/report.type'
+import { Keyword } from '@/entities/tracking/ui/Keyword'
+import { OverView } from '@/entities/tracking/ui/OverView'
 interface IReportProps {
     id: number // 선택된 리스트 ID
     onClose: () => void
@@ -26,10 +43,65 @@ interface IReportProps {
 
 export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     const [selectedTaps, setSelctedTaps] = useState(false)
+
+    const [llm, setLlm] = useState<IReportLlm[]>([])
+    const [sentiments, setSentiments] = useState<IReportSentiments[]>([])
+    const [relatedWord, setRelatedWord] = useState<IReportKeyword[]>([])
+    const [media, setMedia] = useState<IReportNews[]>([])
+    const [article, setArticle] = useState<IReportArticle[]>([])
+    const [overviewData, setOverviewData] = useState<OverViewData[]>([])
+    const [keywordData, setKeywordData] = useState<KeywordData[]>([])
     const onTapsChange = () => {
         setSelctedTaps((prev) => !prev)
     }
-    console.log(id)
+    useEffect(() => {
+        const fetchReport = async () => {
+            const llmRes = await getLlm(id)
+            const sentimentsRes = await getSentiments(id)
+            const relatedRes = await getRelatedWord(id)
+            const mediaRes = await getMedia(id)
+            const articleRes = await getArticle(id)
+
+            setLlm(llmRes.data) //요약+키워드드
+            setSentiments(sentimentsRes.data) //요약약
+            setRelatedWord(relatedRes.data) //요약
+            setMedia(mediaRes.data) //키워드
+            setArticle(articleRes.data) //키워드
+            // console.log(llmRes.data)
+            // console.log(sentimentsRes.data)
+            // console.log(relatedRes.data)
+            // console.log(mediaRes.data)
+            // console.log(articleRes.data)
+        }
+        fetchReport()
+    }, [id])
+
+    useEffect(() => {
+        const overviewData: OverViewData[] = llm.map((item: IReportLlm) => ({
+            ...item,
+            relatedWord: relatedWord.filter(
+                (r: IReportKeyword) => r.createdOrder === item.createdOrder
+            ),
+            setiments: sentiments.filter(
+                (s: IReportSentiments) => s.createdOrder === item.createdOrder
+            ),
+        }))
+        setOverviewData(overviewData)
+
+        const keywordData: KeywordData[] = llm.map((item: IReportLlm) => ({
+            ...item,
+            media: media.filter(
+                (m: IReportNews) => m.createdOrder === item.createdOrder
+            ),
+            article: article.filter(
+                (a: IReportArticle) => a.createdOrder === item.createdOrder
+            ),
+        }))
+        setKeywordData(keywordData)
+    }, [llm, sentiments, relatedWord, media, article])
+
+    console.log(overviewData)
+    console.log(keywordData)
     return (
         <Box style={{ width: '1200px' }}>
             <Box display="flex" flexDirection="column">
@@ -40,7 +112,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                     style={{ gap: '8px', fontWeight: '500' }}
                 >
                     <Text fontSize="title1" fontWeight="semibold">
-                        ㅋㅋ
+                        {llm[0]?.keyword}
                     </Text>
                 </Box>
                 <Box>
@@ -112,7 +184,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                     >
                         <Data width={14} height={14} />
                         <Text fontSize="subHeadline" align="center">
-                            데이터 포인트: {0}
+                            데이터 포인트: {}
                         </Text>
                     </Box>
                     <button onClick={onClose}>닫기</button>
@@ -144,206 +216,11 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             </Box>
             {selectedTaps ? (
                 // 키워드분석
-                <Box>
-                    <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Box style={{ padding: '0 24px' }}>
-                            <Text fontSize="title1" fontWeight="bold">
-                                {'n'}주차 핵심 트렌드 인사이트
-                            </Text>
-                        </Box>
-
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            style={{ gap: '25px', marginTop: '25px' }}
-                        >
-                            <Box
-                                display="flex"
-                                flexDirection="row"
-                                justifyContent="space-between"
-                                className={style.graphContainer}
-                            >
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        연관 키워드 언급량 통계
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                        }}
-                                    />
-                                </Box>
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        키워드 긍부정도
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Box>
-                            </Box>
-                            <Box className={style.textBox}>
-                                <Box
-                                    display="flex"
-                                    style={{ gap: '8px', marginBottom: '16px' }}
-                                >
-                                    <Speak />
-                                    <Text fontSize="title2">한줄 요약</Text>
-                                </Box>
-                                <Text>
-                                    {' '}
-                                    Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy
-                                    text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled
-                                    it to make a type specimen book. It has
-                                    survived not only five centuries, but also
-                                    the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was
-                                    popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker
-                                    including versions of Lorem Ipsum.
-                                </Text>
-                            </Box>
-                        </Box>
-                        <Box
-                            style={{
-                                position: 'absolute',
-                                width: '100%',
-                                background: 'rgb(0,0,0,0.01)',
-                                height: '100%',
-                                top: '0',
-                                backdropFilter: 'blur(4px)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Box
-                                style={{
-                                    position: 'relative',
-                                    top: '50%',
-                                    backdropFilter: 'blur(4x)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '12px',
-                                }}
-                            >
-                                <Text fontSize="largeTitle">
-                                    데이터가 부족해 보고서를 만들기 힘들어요.
-                                </Text>
-                                <Text fontSize="largeTitle" align="center">
-                                    예상완료일: 2025-05-28
-                                </Text>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
+                <Keyword />
             ) : (
                 // 요약대시보드
                 <Box>
-                    <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Box style={{ padding: '0 24px' }}>
-                            <Text fontSize="title1" fontWeight="bold">
-                                {'n'}주차 핵심 트렌드 인사이트
-                            </Text>
-                        </Box>
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            style={{ gap: '25px', marginTop: '25px' }}
-                        >
-                            <Box
-                                display="flex"
-                                flexDirection="row"
-                                justifyContent="space-between"
-                                className={style.graphContainer}
-                            >
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        연관 키워드 언급량 통계
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                        }}
-                                    />
-                                </Box>
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        키워드 긍부정도
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Box>
-                            </Box>
-                            <Box className={style.textBox}>
-                                <Box
-                                    display="flex"
-                                    style={{ gap: '8px', marginBottom: '16px' }}
-                                >
-                                    <Speak />
-                                    <Text fontSize="title2">한줄 요약</Text>
-                                </Box>
-                                <Text>
-                                    {' '}
-                                    Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy
-                                    text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled
-                                    it to make a type specimen book. It has
-                                    survived not only five centuries, but also
-                                    the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was
-                                    popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker
-                                    including versions of Lorem Ipsum.
-                                </Text>
-                            </Box>
-                        </Box>
-                        <Box
-                            style={{
-                                position: 'absolute',
-                                width: '100%',
-                                background: 'rgb(0,0,0,0.001)',
-                                height: '100%',
-                                top: '0',
-                                backdropFilter: 'blur(4px)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Box
-                                style={{
-                                    position: 'relative',
-                                    top: '50%',
-                                    backdropFilter: 'blur(4x)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '12px',
-                                }}
-                            >
-                                <Text fontSize="largeTitle">
-                                    데이터가 부족해 보고서를 만들기 힘들어요.
-                                </Text>
-                                <Text fontSize="largeTitle" align="center">
-                                    예상완료일: 2025-05-28
-                                </Text>
-                            </Box>
-                        </Box>
-                    </Box>
+                    <OverView llm={llm[0]} />
                 </Box>
             )}
         </Box>

@@ -83,38 +83,3 @@ export const getListWord = async (projectId: number) => {
     )
     return response
 }
-
-//보고서
-export const getLlm = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}`
-    )
-    return response
-}
-
-export const getSentiments = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}/sentiments_counts`
-    )
-    return response
-}
-
-export const getRelatedWord = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}/related_word_counts`
-    )
-    return response
-}
-export const getMedia = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}/media_counts`
-    )
-    return response
-}
-
-export const getArticle = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}/article_counts`
-    )
-    return response
-}
