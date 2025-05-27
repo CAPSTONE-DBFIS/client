@@ -103,6 +103,7 @@ export interface ITrackingList {
 export type ListWithDate = ITrackingList & {
     startDate: string
     endDate: string
+    trackingInterval?: number
 }
 
 export interface ITrackingReport {

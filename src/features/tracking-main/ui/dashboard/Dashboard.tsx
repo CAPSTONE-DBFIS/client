@@ -9,7 +9,12 @@ import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { useAddTask } from '../../model/useAddTask'
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import { getCalendar, getList } from '@/entities/tracking/api/tracking'
+import {
+    delKeyword,
+    getCalendar,
+    getList,
+    putKeyword,
+} from '@/entities/tracking/api/tracking'
 import {
     ITrackingKeyword,
     ITrackingList,
@@ -63,12 +68,16 @@ export const Dashboard = ({
             }
         }
     }, [selectedProject?.id, projects])
+
     useEffect(() => {
         fetchKeywords()
     }, [fetchKeywords])
-    useEffect(() => {
-        if (listTasks.length === 0 || calTasks.length === 0) return
 
+    useEffect(() => {
+        if (listTasks.length === 0 || calTasks.length === 0) {
+            setMergedListTasks([])
+            return
+        }
         const merged = listTasks.map((listTask) => {
             const calTask = calTasks.find((cal) => cal.id === listTask.id)
             return {
@@ -79,6 +88,12 @@ export const Dashboard = ({
         })
         setMergedListTasks(merged)
     }, [listTasks, calTasks])
+
+    useEffect(() => {
+        console.log('listTasks', listTasks)
+        console.log('calTasks', calTasks)
+    }, [listTasks, calTasks])
+
     // useEffect(() => {
     //     if (tasks.length === 0) return
     //     const fetchReports = async () => {
@@ -106,30 +121,34 @@ export const Dashboard = ({
 
     // 수정 모달의 초기값 상태
     const [editEndDate, setEditEndDate] = useState<string>()
-
+    const [editTrackingInterval, setEditTrackingInterval] = useState<number>(1)
+    const [editStartDate, setEditStartDate] = useState<string>('')
     // 작업 삭제 핸들러
-    const handleDeleteTask = () => {
+    const handleDeleteTask = async () => {
         if (selectedTaskId) {
-            setListTasks((prev) =>
-                prev.filter((task) => task.id !== selectedTaskId)
-            )
-            setSelectedTaskId(null) // 삭제 후 선택된 작업 ID 초기화
-            toggleModal() // 모달 닫기
+            await delKeyword(selectedTaskId)
+            fetchKeywords()
+            setSelectedTaskId(null)
+            toggleModal()
         }
     }
 
     // 작업 수정 핸들러
-    const handleEeditTask = () => {
-        if (selectedTaskId && editEndDate) {
-            setListTasks((prev) =>
-                prev.map((task) =>
-                    task.id === selectedTaskId
-                        ? { ...task, endDate: editEndDate }
-                        : task
-                )
-            )
-            setSelectedTaskId(null) // 수정 후 선택된 작업 ID 초기화
-            toggleModal() // 모달 닫기
+    const handleEeditTask = async () => {
+        if (
+            selectedTaskId &&
+            editStartDate &&
+            editEndDate &&
+            editTrackingInterval
+        ) {
+            await putKeyword(selectedTaskId, {
+                trackingInterval: editTrackingInterval,
+                startDate: editStartDate,
+                endDate: editEndDate,
+            })
+            fetchKeywords() // 최신 데이터 다시 불러오기
+            setSelectedTaskId(null)
+            toggleModal()
         }
     }
 
@@ -140,13 +159,12 @@ export const Dashboard = ({
     }
 
     // 수정 모달 열기
-    const openEditModal = (id: number) => {
-        setSelectedTaskId(id)
-        const taskToEdit = listTasks.find((task) => task.id === id)
-        if (taskToEdit) {
-            setEditEndDate(taskToEdit.endDate)
-        }
-        toggleModal() // 모달 열기
+    const openEditModal = (task: ListWithDate) => {
+        setSelectedTaskId(task.id)
+        setEditTrackingInterval(task?.trackingInterval ?? 7)
+        setEditStartDate(task.startDate)
+        setEditEndDate(task.endDate)
+        toggleModal()
     }
 
     return (
@@ -162,7 +180,7 @@ export const Dashboard = ({
                             key={task.id}
                             task={task}
                             handleDeleteTask={() => openDeleteModal(task.id)}
-                            handleEditTask={() => openEditModal(task.id)}
+                            handleEditTask={() => openEditModal(task)}
                             onClick={() => onReportSelect(task.id)}
                         />
                     ))}
