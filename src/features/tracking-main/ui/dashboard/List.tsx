@@ -66,7 +66,7 @@ export const List: React.FC<IListProps> = ({
     }
 
     return (
-        <Box style={{ position: 'relative', zIndex: '0' }} onClick={onClick}>
+        <Box style={{ position: 'relative', zIndex: '0' }}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
@@ -80,7 +80,7 @@ export const List: React.FC<IListProps> = ({
                     <Menu onClick={toggleMenu} />
                 </Box>
 
-                <Box display="flex" justifyContent="center">
+                <Box display="flex" justifyContent="center" onClick={onClick}>
                     <Box
                         display="flex"
                         flexDirection="column"

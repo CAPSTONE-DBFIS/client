@@ -53,6 +53,7 @@ export const Dashboard = ({
 
     const selectedProject = useTrackingState((state) => state.selectedProject)
     const [mergedListTasks, setMergedListTasks] = useState<ListWithDate[]>([])
+    const [modalType, setModalType] = useState<'delete' | 'edit' | null>(null)
 
     const fetchKeywords = useCallback(async () => {
         try {
@@ -123,6 +124,7 @@ export const Dashboard = ({
     const [editEndDate, setEditEndDate] = useState<string>()
     const [editTrackingInterval, setEditTrackingInterval] = useState<number>(1)
     const [editStartDate, setEditStartDate] = useState<string>('')
+
     // 작업 삭제 핸들러
     const handleDeleteTask = async () => {
         if (selectedTaskId) {
@@ -155,6 +157,7 @@ export const Dashboard = ({
     // 삭제 확인 모달 열기
     const openDeleteModal = (id: number) => {
         setSelectedTaskId(id) // 삭제할 작업 ID 저장
+        setModalType('delete')
         toggleModal() // 모달 열기
     }
 
@@ -164,6 +167,7 @@ export const Dashboard = ({
         setEditTrackingInterval(task?.trackingInterval ?? 7)
         setEditStartDate(task.startDate)
         setEditEndDate(task.endDate)
+        setModalType('edit')
         toggleModal()
     }
 
@@ -188,7 +192,7 @@ export const Dashboard = ({
             )}
 
             {/* 삭제 확인 모달 */}
-            {modalConfig.open && (
+            {modalConfig.open && modalType === 'delete' && (
                 <Modal modalConfig={modalConfig}>
                     <Box
                         display="flex"
@@ -237,7 +241,7 @@ export const Dashboard = ({
             )}
 
             {/* 수정 모달 */}
-            {modalConfig.open && selectedTaskId && (
+            {modalConfig.open && selectedTaskId && modalType === 'edit' && (
                 <Modal modalConfig={modalConfig}>
                     <Box
                         as={'form'}
