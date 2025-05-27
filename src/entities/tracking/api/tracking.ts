@@ -32,13 +32,6 @@ export const getProject = async (projectId?: number) => {
     return response
 }
 
-export const getReport = async (keywordId: number) => {
-    const response = await axiosInstance.get(
-        `/api/tracking-results/${keywordId}`
-    )
-    return response
-}
-
 export const putKeyword = async (
     id: number,
     body: {
@@ -80,6 +73,48 @@ export const getCalendar = async (id?: number) => {
 export const getList = async (projectId?: number) => {
     const response = await axiosInstance.get(
         `/api/tracking-results/list/${projectId}`
+    )
+    return response
+}
+
+export const getListWord = async (projectId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/list/${projectId}/related_word`
+    )
+    return response
+}
+
+//보고서
+export const getLlm = async (keywordId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/${keywordId}`
+    )
+    return response
+}
+
+export const getSentiments = async (keywordId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/${keywordId}/sentiments_counts`
+    )
+    return response
+}
+
+export const getRelatedWord = async (keywordId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/${keywordId}/related_word_counts`
+    )
+    return response
+}
+export const getMedia = async (keywordId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/${keywordId}/media_counts`
+    )
+    return response
+}
+
+export const getArticle = async (keywordId: number) => {
+    const response = await axiosInstance.get(
+        `/api/tracking-results/${keywordId}/article_counts`
     )
     return response
 }
