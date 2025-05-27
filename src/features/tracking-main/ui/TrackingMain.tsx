@@ -1,18 +1,16 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 //components
 import { Box } from '@/shared/ui/Box'
 import { Title } from './Title'
 import { Taps } from './Taps'
 import { Dashboard } from './dashboard/index'
-import { Report } from './Report'
 
 //css
 import * as style from './styles/trackingmain.css'
 
 //interface
 import { IProject } from '../types/project.type'
-import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { ITrackingProject } from '@/entities/tracking/type/tracking.type'
 
 /**
@@ -21,27 +19,23 @@ import { ITrackingProject } from '@/entities/tracking/type/tracking.type'
  * @param {string} projectPath - 프로젝트 경로
  * @returns {JSX.Element}
  */
-export const TrackingMain = ({ projectName, projectPath }: IProject) => {
+export const TrackingMain = ({
+    projectName,
+    projectPath,
+    onReportSelect,
+}: IProject) => {
     const [selectedTaps, setSelectedTaps] = useState('calendar') //현재 선택된 탭(캘린더/리스트)을 관리
-    const [selectedReport, setSelectedReport] = useState<number | null>(null) // 선택된 리스트 데이터
-    const reportRef = useRef<HTMLDivElement>(null)
     const projects = useState<ITrackingProject[]>([])[0]
-
-    // 보고서 밖 클릭시 대시보드
-    useClickOutside(reportRef, () => {
-        setSelectedReport(null)
-    })
 
     return (
         <Box className={style.layout}>
-            <Title projectName={projectName} projectPath={projectPath} />
+            <Box>
+                <Title
+                    projectName={projectName}
+                    projectPath={projectPath}
+                    onReportSelect={onReportSelect}
+                />
 
-            {/* Report 컴포넌트 */}
-            {selectedReport ? (
-                <Box ref={reportRef}>
-                    <Report id={selectedReport} />
-                </Box>
-            ) : (
                 <Box>
                     <Taps
                         selectedTaps={selectedTaps}
@@ -49,11 +43,11 @@ export const TrackingMain = ({ projectName, projectPath }: IProject) => {
                     />
                     <Dashboard
                         activeView={selectedTaps}
-                        onReportSelect={setSelectedReport}
                         projects={projects}
+                        onReportSelect={onReportSelect}
                     />
                 </Box>
-            )}
+            </Box>
         </Box>
     )
 }

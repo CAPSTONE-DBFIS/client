@@ -3,7 +3,7 @@ import { TrackingSidebar } from '@/features/tracking-sidebar/index'
 import { Sidebar } from '@/widgets/Sidebar/index'
 import { colors } from '@/app/token'
 import { TrackingMain } from '@/features/tracking-main/index'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getTeams } from '@/entities/file/api/file'
 import {
     ITrackingProject,
@@ -17,6 +17,9 @@ import {
     putProject,
 } from '@/entities/tracking/api/tracking'
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
+import { Report } from '@/features/tracking-main/ui/Report'
+import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
+
 /**
  * 추적페이지
  * @type {{ name: string, path: string }}
@@ -33,6 +36,13 @@ export const Tracking = () => {
     const [teamsData, setTeamsData] = useState<ITrackingTeam[]>([])
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
+    const [selectedReport, setSelectedReport] = useState<number | null>(null)
+    const reportRef = useRef<HTMLDivElement>(null)
+
+    // 보고서 밖 클릭시 대시보드
+    useClickOutside(reportRef, () => {
+        setSelectedReport(null)
+    })
 
     // 팀과 프로젝트 불러오기
     const fetchTeamsAndProjects = async () => {
@@ -87,6 +97,11 @@ export const Tracking = () => {
         setSelectedTeam,
         setSelectedProject,
     ])
+    // 리포트 닫기
+    const handleReportClose = () => {
+        setSelectedReport(null)
+    }
+    const handleReportSelect = (id: number) => setSelectedReport(id)
 
     // 입력창 토글
     const handleInput = (teamId: number) => {
@@ -149,7 +164,11 @@ export const Tracking = () => {
             alignItems="flex-start"
             justifyContent="center"
             flexDirection="row"
-            style={{ gap: '46px', backgroundColor: colors['neutral-10'] }}
+            style={{
+                paddingTop: '30px',
+                gap: '46px',
+                backgroundColor: colors['neutral-10'],
+            }}
         >
             {/* 사이드바 */}
             <Sidebar headerText="추적">
@@ -173,10 +192,17 @@ export const Tracking = () => {
                 />
             </Sidebar>
             {/* 메인콘텐츠 */}
-            <TrackingMain
-                projectName={selectedTeam?.name || '팀'}
-                projectPath={selectedProject?.name || '프로젝트'}
-            />
+            {selectedReport ? (
+                <Box ref={reportRef}>
+                    <Report id={selectedReport} onClose={handleReportClose} />
+                </Box>
+            ) : (
+                <TrackingMain
+                    projectName={selectedTeam?.name || '팀'}
+                    projectPath={selectedProject?.name || '프로젝트'}
+                    onReportSelect={handleReportSelect}
+                />
+            )}
         </Box>
     )
 }

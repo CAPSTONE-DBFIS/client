@@ -7,28 +7,81 @@ import Calendar from '@/shared/asset/icon/calendar.svg?react'
 import Search from '@/shared/asset/icon/search.svg?react'
 import Data from '@/shared/asset/icon/chart-square-bar.svg?react'
 import Speak from '@/shared/asset/icon/speakerphone.svg?react'
+import Right from '@/shared/asset/icon/cheveron-right.svg?react'
+
 //css
 import { colors } from '@/app/token'
 import * as style from './styles/report.css'
 interface IReportProps {
     id: number // 선택된 리스트 ID
+    onClose: () => void
 }
 
 /**
  * Report 컴포넌트
  * 요약 대시보드와 키워드 분석을 표시
- * @param {string} id - 선택된 리스트 id
+ * @param {number} id - 선택된 리스트 id
  * @returns {JSX.Element}
  */
 
-export const Report: React.FC<IReportProps> = ({ id }) => {
+export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     const [selectedTaps, setSelctedTaps] = useState(false)
     const onTapsChange = () => {
         setSelctedTaps((prev) => !prev)
     }
     console.log(id)
     return (
-        <Box>
+        <Box style={{ width: '1200px' }}>
+            <Box display="flex" flexDirection="column">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    color={'neutral-900'}
+                    style={{ gap: '8px', fontWeight: '500' }}
+                >
+                    <Text fontSize="title1" fontWeight="semibold">
+                        ㅋㅋ
+                    </Text>
+                </Box>
+                <Box>
+                    <Box
+                        display="flex"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        className={style.teamWrapper}
+                    >
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                ㅋㅋ
+                            </Text>
+                        </Box>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                ㅋ
+                            </Text>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+
             <Box style={{ padding: '16px 0' }}>
                 <Box display="flex" alignItems="center" style={{ gap: '16px' }}>
                     <Box
@@ -62,6 +115,7 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                             데이터 포인트: {0}
                         </Text>
                     </Box>
+                    <button onClick={onClose}>닫기</button>
                 </Box>
             </Box>
             <Box>

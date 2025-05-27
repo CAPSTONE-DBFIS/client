@@ -9,24 +9,19 @@ import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { useAddTask } from '../../model/useAddTask'
 import Down from '@/shared/asset/icon/cheveron-down.svg?react'
-import {
-    getCalendar,
-    getList,
-    getReport,
-} from '@/entities/tracking/api/tracking'
+import { getCalendar, getList } from '@/entities/tracking/api/tracking'
 import {
     ITrackingKeyword,
     ITrackingList,
     ITrackingProject,
-    ITrackingReport,
     ListWithDate,
 } from '@/entities/tracking/type/tracking.type'
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 
 interface IDashboard {
     activeView: string
-    onReportSelect: (id: number) => void // 리스트 클릭 시 호출되는 함수
     projects: ITrackingProject[]
+    onReportSelect: (id: number) => void
 }
 /**
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
@@ -41,8 +36,8 @@ interface IDashboard {
 
 export const Dashboard = ({
     activeView,
-    onReportSelect,
     projects,
+    onReportSelect,
 }: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
@@ -50,9 +45,6 @@ export const Dashboard = ({
     const [calTasks, setCalTasks] = useState<ITrackingKeyword[]>([])
     //리스트 작업관리
     const [listTasks, setListTasks] = useState<ITrackingList[]>([])
-    const [reportData, setReportData] = useState<{
-        [keywordId: number]: ITrackingReport | null
-    }>({})
 
     const selectedProject = useTrackingState((state) => state.selectedProject)
     const [mergedListTasks, setMergedListTasks] = useState<ListWithDate[]>([])
@@ -156,6 +148,7 @@ export const Dashboard = ({
         }
         toggleModal() // 모달 열기
     }
+
     return (
         <Box className={style.layout}>
             {activeView === 'calendar' ? (
@@ -166,7 +159,6 @@ export const Dashboard = ({
                 <Box>
                     {mergedListTasks.map((task) => (
                         <List
-                            reportData={reportData}
                             key={task.id}
                             task={task}
                             handleDeleteTask={() => openDeleteModal(task.id)}

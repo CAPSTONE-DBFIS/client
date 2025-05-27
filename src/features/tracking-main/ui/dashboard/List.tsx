@@ -7,15 +7,11 @@ import * as style from './styles/list.css'
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
-import {
-    ITrackingReport,
-    ListWithDate,
-} from '@/entities/tracking/type/tracking.type'
+import { ListWithDate } from '@/entities/tracking/type/tracking.type'
 import { calculatePercentage } from '../../lib/calulatePercentage'
 
 interface IListProps {
     task: ListWithDate
-    reportData: { [keywordId: number]: ITrackingReport | null }
     handleDeleteTask: (id: number) => void // 삭제 함수
     handleEditTask: (id: number) => void // 수정 함수
     onClick: () => void // 리스트 클릭 이벤트
@@ -38,7 +34,6 @@ interface IListProps {
 
 export const List: React.FC<IListProps> = ({
     task,
-    reportData,
     handleDeleteTask,
     handleEditTask,
     onClick,
@@ -160,18 +155,6 @@ export const List: React.FC<IListProps> = ({
                                 예상 완료: {task.endDate}
                             </Text>
                         </Box>
-                    </Box>
-
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        className={style.tagBox}
-                    >
-                        {reportData[task.id]?.relatedWordReport?.map((tag) => (
-                            <Text key={tag} className={style.tag}>
-                                {tag}
-                            </Text>
-                        ))}
                     </Box>
                 </Box>
             </Box>

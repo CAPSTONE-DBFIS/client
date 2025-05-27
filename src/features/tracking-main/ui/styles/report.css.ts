@@ -36,3 +36,12 @@ export const textBox = style({
     boxShadow: shadows.small,
     borderRadius: '5px',
 })
+
+export const teamWrapper = style({
+    paddingTop: '8px',
+    gap: '8px',
+})
+
+export const team = style({
+    gap: '4px',
+})
