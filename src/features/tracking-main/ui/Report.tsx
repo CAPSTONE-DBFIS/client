@@ -73,11 +73,6 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             setRelatedWord(relatedRes.data) //요약
             setMedia(mediaRes.data) //키워드
             setArticle(articleRes.data) //키워드
-            console.log(llmRes.data)
-            console.log(sentimentsRes.data)
-            console.log(relatedRes.data)
-            console.log(mediaRes.data)
-            console.log(articleRes.data)
         }
         fetchReport()
     }, [id])

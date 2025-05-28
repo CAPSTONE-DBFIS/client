@@ -58,6 +58,11 @@ export const Graph: React.FC<IGraph> = ({ data }) => {
                             fontWeight: 600,
                             color: '#96C0FF',
                         }}
+                        contentStyle={{
+                            backgroundColor: '#ffffff',
+                            borderRadius: 8,
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                        }}
                     />
                     <Bar dataKey="frequency" fill="#96C0FF" />
                 </BarChart>

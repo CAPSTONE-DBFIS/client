@@ -39,16 +39,20 @@ export default function ArticleTreemap({ data }: { data: IArticle[] }) {
                 dataKey="frequency"
                 nameKey="companyName"
                 stroke="#ffffff"
-                aspectRatio={4 / 3}
+                aspectRatio={4 / 4}
                 content={<CustomTreemap />}
             >
                 <Tooltip
                     contentStyle={{
                         backgroundColor: '#ffffff',
                         borderRadius: 8,
+                        fontSize: 12,
                         boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
                     }}
-                    labelStyle={{ fontWeight: 600, color: '#000000' }}
+                    labelStyle={{
+                        fontWeight: 600,
+                        color: '#222',
+                    }}
                 />
             </Treemap>
         </ResponsiveContainer>
@@ -68,14 +72,15 @@ function createCustomTreemapContent(): React.FC<any> {
                     width={width}
                     height={height}
                     fill={fillColor}
+                    fillOpacity={0.5}
                     stroke="#F5F6F7"
                 />
                 {width > 60 && height > 20 && (
                     <text
                         x={x + 12}
                         y={y + 25}
-                        fill="#F5F6F7"
-                        fontSize={15}
+                        fill="#fbfdfe"
+                        fontSize={13}
                         stroke="none"
                     >
                         {companyName}

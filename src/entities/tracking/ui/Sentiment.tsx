@@ -39,7 +39,17 @@ export const Sentiment: React.FC<SentimentProps> = ({ data }) => {
                         tickFormatter={(date: string) => date.slice(5)}
                     />
                     <YAxis style={axisStyle} />
-                    <Tooltip />
+                    <Tooltip
+                        wrapperStyle={{
+                            fontSize: 12,
+                            fontWeight: 500,
+                        }}
+                        contentStyle={{
+                            backgroundColor: '#ffffff',
+                            borderRadius: 8,
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                        }}
+                    />
                     <Legend
                         wrapperStyle={{
                             fontSize: 12,
