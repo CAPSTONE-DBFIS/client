@@ -39,7 +39,7 @@ export default function ArticleTreemap({ data }: { data: IArticle[] }) {
                 dataKey="frequency"
                 nameKey="companyName"
                 stroke="#ffffff"
-                aspectRatio={4 / 4}
+                aspectRatio={1}
                 content={<CustomTreemap />}
             >
                 <Tooltip

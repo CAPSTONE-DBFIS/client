@@ -19,7 +19,6 @@ import {
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 import { Report } from '@/features/tracking-main/ui/Report'
 import { getLlm } from '@/entities/tracking/api/report'
-import { IReportLlm } from '@/entities/tracking/type/report.type'
 
 /**
  * 추적페이지
@@ -39,7 +38,6 @@ export const Tracking = () => {
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
     const [selectedReport, setSelectedReport] = useState<number | null>(null)
 
-    const [llm, setLlm] = useState<IReportLlm[]>([])
     // 팀과 프로젝트 불러오기
     const fetchTeamsAndProjects = async () => {
         try {
@@ -96,8 +94,8 @@ export const Tracking = () => {
 
     const fetchLlm = async (reportId: number) => {
         const llmRes = await getLlm(reportId)
-        setLlm(llmRes.data)
-        return llm
+
+        return llmRes.data
     }
 
     const handleReportSelect = async (id: number) => {
