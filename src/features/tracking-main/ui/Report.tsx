@@ -7,6 +7,7 @@ import Calendar from '@/shared/asset/icon/calendar.svg?react'
 import Search from '@/shared/asset/icon/search.svg?react'
 import Data from '@/shared/asset/icon/chart-square-bar.svg?react'
 import Right from '@/shared/asset/icon/cheveron-right.svg?react'
+import Back from '@/shared/asset/icon/x 2.svg?react'
 
 //css
 import { colors } from '@/app/token'
@@ -54,6 +55,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     const [keywordData, setKeywordData] = useState<KeywordData[]>([])
     const selectedTeam = useTrackingState((state) => state.selectedTeam)
     const selectedProject = useTrackingState((state) => state.selectedProject)
+    const [indicatorIndex, setIndicatorIndex] = useState(0)
 
     const onTapsChange = () => {
         setSelctedTaps((prev) => !prev)
@@ -71,53 +73,77 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             setRelatedWord(relatedRes.data) //요약
             setMedia(mediaRes.data) //키워드
             setArticle(articleRes.data) //키워드
-            // console.log(llmRes.data)
-            // console.log(sentimentsRes.data)
-            // console.log(relatedRes.data)
-            // console.log(mediaRes.data)
-            // console.log(articleRes.data)
+            console.log(llmRes.data)
+            console.log(sentimentsRes.data)
+            console.log(relatedRes.data)
+            console.log(mediaRes.data)
+            console.log(articleRes.data)
         }
         fetchReport()
     }, [id])
 
     useEffect(() => {
-        const keywordData: KeywordData[] = llm.map((item: IReportLlm) => ({
-            ...item,
-            relatedWord: relatedWord.filter(
-                (r: IReportKeyword) => r.createdOrder === item.createdOrder
-            ),
-            setiments: sentiments.filter(
-                (s: IReportSentiments) => s.createOrder === item.createdOrder
-            ),
-        }))
+        const keywordData: KeywordData[] = llm
+            .map((item: IReportLlm) => ({
+                ...item,
+                relatedWord: relatedWord.filter(
+                    (r: IReportKeyword) => r.createdOrder === item.createdOrder
+                ),
+                setiments: sentiments.filter(
+                    (s: IReportSentiments) =>
+                        s.createOrder === item.createdOrder
+                ),
+            }))
+            .sort((a, b) => b.createdOrder - a.createdOrder)
         setKeywordData(keywordData)
 
-        const overviewData: OverViewData[] = llm.map((item: IReportLlm) => ({
-            ...item,
-            media: media.filter(
-                (m: IReportNews) => m.createdOrder === item.createdOrder
-            ),
-            article: article.filter(
-                (a: IReportArticle) => a.createOrder === item.createdOrder
-            ),
-        }))
+        const overviewData: OverViewData[] = llm
+            .map((item: IReportLlm) => ({
+                ...item,
+                media: media.filter(
+                    (m: IReportNews) => m.createdOrder === item.createdOrder
+                ),
+                article: article.filter(
+                    (a: IReportArticle) => a.createOrder === item.createdOrder
+                ),
+            }))
+            .sort((a, b) => b.createdOrder - a.createdOrder)
         setOverviewData(overviewData)
     }, [llm, sentiments, relatedWord, media, article])
 
-    console.log(overviewData)
-    console.log(keywordData)
+    const totalArticleCount = article.reduce(
+        (sum, item) => sum + item.articleCount,
+        0
+    )
+
+    const weekLabels = () => {
+        return [...overviewData].reverse().map((item) => `${item.createdOrder}`)
+    }
+
+    const handleIndex = (index: number) => {
+        setIndicatorIndex(index)
+    }
+
     return (
         <Box style={{ width: '1200px', padding: '36px' }}>
             <Box display="flex" flexDirection="column">
                 <Box
                     display="flex"
                     alignItems="center"
+                    justifyContent="space-between"
                     color={'neutral-900'}
                     style={{ gap: '8px', fontWeight: '500' }}
                 >
                     <Text fontSize="title1" fontWeight="semibold">
                         {llm[0]?.keyword}
                     </Text>
+                    <Box as={'button'} onClick={onClose}>
+                        <Back
+                            width={25}
+                            height={25}
+                            fill={colors['neutral-300']}
+                        />
+                    </Box>
                 </Box>
                 <Box>
                     <Box
@@ -125,6 +151,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                         justifyContent="flex-start"
                         alignItems="center"
                         className={style.teamWrapper}
+                        onClick={onClose}
                     >
                         <Box
                             display="flex"
@@ -182,7 +209,8 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                     >
                         <Calendar width={14} height={14} />
                         <Text fontSize="subHeadline">
-                            기간: {'2025-05-13 ~ 2025-05-28'}
+                            기간:
+                            {`${article[0]?.date}~${article[article.length - 1]?.date}`}
                         </Text>
                     </Box>
                     <Box
@@ -192,7 +220,9 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                         style={{ gap: '4px' }}
                     >
                         <Search width={14} height={14} />
-                        <Text fontSize="subHeadline">연관 키워드: {0}개</Text>
+                        <Text fontSize="subHeadline">
+                            연관 키워드: {relatedWord.length}개
+                        </Text>
                     </Box>
                     <Box
                         display="flex"
@@ -202,10 +232,9 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                     >
                         <Data width={14} height={14} />
                         <Text fontSize="subHeadline" align="center">
-                            데이터 포인트: {}
+                            데이터 포인트: {totalArticleCount}
                         </Text>
                     </Box>
-                    <button onClick={onClose}>닫기</button>
                 </Box>
             </Box>
             <Box>
@@ -236,16 +265,85 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                 // 키워드분석
 
                 <Box>
-                    {keywordData.map((item) => (
-                        <Keyword key={item.createdOrder} keyData={item} />
-                    ))}
+                    {keywordData.length > 0 && (
+                        <>
+                            {keywordData[indicatorIndex] && (
+                                <Keyword
+                                    key={
+                                        keywordData[indicatorIndex].createdOrder
+                                    }
+                                    keyData={keywordData[indicatorIndex]}
+                                />
+                            )}
+
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{ gap: '12px', padding: '20px 0' }}
+                            >
+                                {weekLabels().map((label, index) => (
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        key={index}
+                                        onClick={() => handleIndex(index)}
+                                        className={style.indicator}
+                                        style={{
+                                            backgroundColor:
+                                                indicatorIndex === index
+                                                    ? colors['neutral-40']
+                                                    : colors['neutral-20'],
+                                        }}
+                                    >
+                                        <Text fontSize="title3">{label}</Text>
+                                    </Box>
+                                ))}
+                            </Box>
+                        </>
+                    )}
                 </Box>
             ) : (
                 // 요약대시보드
                 <Box>
-                    {overviewData.map((item) => (
-                        <OverView key={item.createdOrder} overData={item} />
-                    ))}
+                    {overviewData.length > 0 && (
+                        <>
+                            {overviewData[indicatorIndex] && (
+                                <OverView
+                                    key={
+                                        overviewData[indicatorIndex]
+                                            .createdOrder
+                                    }
+                                    overData={overviewData[indicatorIndex]}
+                                />
+                            )}
+
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{ gap: '12px', padding: '20px 0' }}
+                            >
+                                {weekLabels().map((label, index) => (
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        key={index}
+                                        onClick={() => handleIndex(index)}
+                                        className={style.indicator}
+                                        style={{
+                                            backgroundColor:
+                                                indicatorIndex === index
+                                                    ? colors['neutral-40']
+                                                    : colors['neutral-20'],
+                                        }}
+                                    >
+                                        <Text fontSize="title3">{label}</Text>
+                                    </Box>
+                                ))}
+                            </Box>
+                        </>
+                    )}
                 </Box>
             )}
         </Box>

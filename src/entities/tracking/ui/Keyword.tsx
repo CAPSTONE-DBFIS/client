@@ -19,7 +19,7 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
         <Box style={{ padding: '24px 0', position: 'relative' }}>
             <Box style={{ padding: '0 24px' }}>
                 <Text fontSize="title1" fontWeight="bold">
-                    {keyData.createdOrder}주차 핵심 트렌드 인사이트
+                    {keyData.createdOrder}주차 핵심 키워드 인사이트
                 </Text>
             </Box>
 
@@ -35,7 +35,7 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
                     className={style.graphContainer}
                 >
                     <Box className={style.graph}>
-                        <Text fontSize="title2">연관 키워드 언급량 통계</Text>
+                        <Text fontSize="title2">키워드 언급 추이</Text>
                         <Box
                             style={{
                                 paddingTop: '20px',
@@ -52,7 +52,7 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
                         </Box>
                     </Box>
                     <Box className={style.graph}>
-                        <Text fontSize="title2">키워드 긍부정도</Text>
+                        <Text fontSize="title2">감정 분포</Text>
                         <Box
                             style={{
                                 paddingTop: '20px',
@@ -84,7 +84,7 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
                         style={{ gap: '8px', marginBottom: '16px' }}
                     >
                         <Speak />
-                        <Text fontSize="title2">한줄 요약</Text>
+                        <Text fontSize="title2">한눈에 보는 핵심 요약</Text>
                     </Box>
                     <Text fontSize="title3">
                         <ReactMarkdown>{llmDescription}</ReactMarkdown>

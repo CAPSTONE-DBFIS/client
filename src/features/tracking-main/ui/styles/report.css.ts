@@ -3,7 +3,8 @@ import { style } from '@vanilla-extract/css'
 
 export const tap = style({
     borderBottom: `2px solid ${colors['neutral-20']}`,
-    padding: '12px 257px',
+    padding: '12px 240px',
+    whiteSpace: 'nowrap',
 })
 
 export const taskBtn = style({
@@ -30,4 +31,14 @@ export const teamWrapper = style({
 
 export const team = style({
     gap: '4px',
+})
+
+export const indicator = style({
+    padding: '8px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    border: `1px solid ${colors['neutral-20']}`,
+    width: '36px',
+    textAlign: 'center',
 })

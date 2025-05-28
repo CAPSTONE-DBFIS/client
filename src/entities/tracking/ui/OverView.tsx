@@ -48,7 +48,7 @@ export const OverView: React.FC<IOverViewReport> = ({ overData }) => {
                         </Box>
                     </Box>
                     <Box className={style.graph}>
-                        <Text fontSize="title2">기사 출처 언급량 통계</Text>
+                        <Text fontSize="title2">언론사별 보도량</Text>
                         <Box
                             style={{
                                 paddingTop: '20px',
@@ -74,7 +74,7 @@ export const OverView: React.FC<IOverViewReport> = ({ overData }) => {
                         style={{ gap: '8px', marginBottom: '16px' }}
                     >
                         <Speak />
-                        <Text fontSize="title2">한줄 요약</Text>
+                        <Text fontSize="title2">한눈에 보는 핵심 요약</Text>
                     </Box>
                     <Text fontSize="title3">
                         <ReactMarkdown>{articleCntChange}</ReactMarkdown>

@@ -40,7 +40,12 @@ export const Sentiment: React.FC<SentimentProps> = ({ data }) => {
                     />
                     <YAxis style={axisStyle} />
                     <Tooltip />
-                    <Legend />
+                    <Legend
+                        wrapperStyle={{
+                            fontSize: 12,
+                            fontWeight: 500,
+                        }}
+                    />
                     <Bar
                         dataKey="positiveCount"
                         stackId="a"
@@ -50,7 +55,7 @@ export const Sentiment: React.FC<SentimentProps> = ({ data }) => {
                     <Bar
                         dataKey="neutralCount"
                         stackId="a"
-                        fill="#fcf18a"
+                        fill="#B0B8C4"
                         name="중립"
                     />
                     <Bar

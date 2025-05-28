@@ -45,7 +45,7 @@ export const Graph: React.FC<IGraph> = ({ data }) => {
                     />
                     <YAxis
                         tickLine={false}
-                        axisLine={{ stroke: '#dfe3e8' }}
+                        axisLine={{ stroke: '#e0eeff' }}
                         style={axisStyle}
                     />
                     <Tooltip
