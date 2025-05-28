@@ -22,6 +22,7 @@ import {
     ListWithDate,
 } from '@/entities/tracking/type/tracking.type'
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
+import { EmptyList } from './EmptyList'
 
 interface IDashboard {
     activeView: string
@@ -154,15 +155,21 @@ export const Dashboard = ({
             ) : (
                 // 리스트 뷰 컴포넌트
                 <Box>
-                    {mergedListTasks.map((task) => (
-                        <List
-                            key={task.id}
-                            task={task}
-                            handleDeleteTask={() => openDeleteModal(task.id)}
-                            handleEditTask={() => openEditModal(task)}
-                            onClick={() => onReportSelect(task.id)}
-                        />
-                    ))}
+                    {mergedListTasks.length === 0 ? (
+                        <EmptyList />
+                    ) : (
+                        mergedListTasks.map((task) => (
+                            <List
+                                key={task.id}
+                                task={task}
+                                handleDeleteTask={() =>
+                                    openDeleteModal(task.id)
+                                }
+                                handleEditTask={() => openEditModal(task)}
+                                onClick={() => onReportSelect(task.id)}
+                            />
+                        ))
+                    )}
                 </Box>
             )}
 

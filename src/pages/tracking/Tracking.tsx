@@ -135,6 +135,7 @@ export const Tracking = () => {
     ) => {
         setSelectedTeam(team)
         setSelectedProject(project)
+        setSelectedReport(null)
     }
 
     //수정
