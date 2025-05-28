@@ -15,6 +15,7 @@ import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 
 interface IAddTask {
     onClose: () => void
+    onAdd: () => void
 }
 
 /**
@@ -27,7 +28,7 @@ interface IAddTask {
  * - 보고서 생성 주기를 선택하고 시작일과 종료일을 설정할 수 있습니다.
  */
 
-export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
+export const AddTask: React.FC<IAddTask> = ({ onClose, onAdd }) => {
     const {
         inputValue,
         selectedPeriod,
@@ -64,6 +65,7 @@ export const AddTask: React.FC<IAddTask> = ({ onClose }) => {
                 projectId: selectedProject?.id ?? 0,
             })
             onClose()
+            onAdd()
         } catch (error) {
             if (error) {
                 alert('작업 추가를 실패하였습니다다.')

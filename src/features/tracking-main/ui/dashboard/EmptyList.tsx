@@ -8,10 +8,15 @@ import * as style from './styles/emptyList.css'
 import Modal from '@/shared/ui/Modal/Modal'
 import { AddTask } from '../AddTask'
 import { useModal } from '@/shared/lib/hooks/useModal'
+import { useUploadListStore } from '@/entities/tracking/store/trackingStore'
 
 export const EmptyList = () => {
     const { modalConfig, toggleModal } = useModal()
+    const { increaseUploadList } = useUploadListStore()
 
+    const handleTaskAdd = () => {
+        increaseUploadList()
+    }
     return (
         <>
             <Box
@@ -123,7 +128,7 @@ export const EmptyList = () => {
             </Box>
             <Box style={{ zIndex: '10' }}>
                 <Modal modalConfig={modalConfig}>
-                    <AddTask onClose={toggleModal} />
+                    <AddTask onClose={toggleModal} onAdd={handleTaskAdd} />
                 </Modal>
             </Box>
         </>

@@ -3,7 +3,7 @@ import { TrackingSidebar } from '@/features/tracking-sidebar/index'
 import { Sidebar } from '@/widgets/Sidebar/index'
 import { colors } from '@/app/token'
 import { TrackingMain } from '@/features/tracking-main/index'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getTeams } from '@/entities/file/api/file'
 import {
     ITrackingProject,
@@ -18,7 +18,8 @@ import {
 } from '@/entities/tracking/api/tracking'
 import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 import { Report } from '@/features/tracking-main/ui/Report'
-import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
+import { getLlm } from '@/entities/tracking/api/report'
+import { IReportLlm } from '@/entities/tracking/type/report.type'
 
 /**
  * 추적페이지
@@ -37,13 +38,8 @@ export const Tracking = () => {
     const [inProject, setInProject] = useState<{ [key: number]: string }>({})
     const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
     const [selectedReport, setSelectedReport] = useState<number | null>(null)
-    const reportRef = useRef<HTMLDivElement>(null)
 
-    // 보고서 밖 클릭시 대시보드
-    useClickOutside(reportRef, () => {
-        setSelectedReport(null)
-    })
-
+    const [llm, setLlm] = useState<IReportLlm[]>([])
     // 팀과 프로젝트 불러오기
     const fetchTeamsAndProjects = async () => {
         try {
@@ -97,11 +93,25 @@ export const Tracking = () => {
         setSelectedTeam,
         setSelectedProject,
     ])
+
+    const fetchLlm = async (reportId: number) => {
+        const llmRes = await getLlm(reportId)
+        setLlm(llmRes.data)
+        return llm
+    }
+
+    const handleReportSelect = async (id: number) => {
+        const llmData = await fetchLlm(id)
+        if (!llmData[0]?.llmDescription) {
+            alert('보고서 생성 전입니다.')
+            return
+        }
+        setSelectedReport(id)
+    }
     // 리포트 닫기
     const handleReportClose = () => {
         setSelectedReport(null)
     }
-    const handleReportSelect = (id: number) => setSelectedReport(id)
 
     // 입력창 토글
     const handleInput = (teamId: number) => {

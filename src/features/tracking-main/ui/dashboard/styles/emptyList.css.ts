@@ -9,7 +9,7 @@ export const container = style({
     padding: '80px 40px',
     minHeight: '400px',
     textAlign: 'center',
-    border: `2px dashed ${colors['neutral-30']}`,
+    border: `1.5px dashed ${colors['neutral-30']}`,
     background: 'linear-gradient(135deg, #f8fafc 0%,rgba(9, 30, 66, 0.02)100%)',
     borderRadius: '16px',
 })
@@ -32,7 +32,6 @@ export const featureIcon = style({
     width: '32px',
     height: '32px',
     backgroundColor: colors['blue-50'],
-
     borderRadius: '6px',
     flexShrink: 0,
 })

@@ -28,6 +28,7 @@ interface IDashboard {
     activeView: string
     projects: ITrackingProject[]
     onReportSelect: (id: number) => void
+    upload: number
 }
 /**
  * 메인 콘텐츠 영역 중 달력/리스트에 해당하는 콘텐츠를 보여주는 대시보드
@@ -44,6 +45,7 @@ export const Dashboard = ({
     activeView,
     projects,
     onReportSelect,
+    upload,
 }: IDashboard) => {
     const { selectedPeriod, isOpen, onToggle, onOptionClicked, onSubmit } =
         useAddTask()
@@ -73,7 +75,7 @@ export const Dashboard = ({
 
     useEffect(() => {
         fetchKeywords()
-    }, [fetchKeywords])
+    }, [fetchKeywords, upload])
 
     useEffect(() => {
         if (listTasks.length === 0 || calTasks.length === 0) {

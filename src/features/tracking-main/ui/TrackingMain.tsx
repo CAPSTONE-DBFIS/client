@@ -12,6 +12,7 @@ import * as style from './styles/trackingmain.css'
 //interface
 import { IProject } from '../types/project.type'
 import { ITrackingProject } from '@/entities/tracking/type/tracking.type'
+import { useUploadListStore } from '@/entities/tracking/store/trackingStore'
 
 /**
  * 메인 콘텐츠 영역(Title, Tap, Dashboard)
@@ -26,6 +27,7 @@ export const TrackingMain = ({
 }: IProject) => {
     const [selectedTaps, setSelectedTaps] = useState('calendar') //현재 선택된 탭(캘린더/리스트)을 관리
     const projects = useState<ITrackingProject[]>([])[0]
+    const uploadList = useUploadListStore((state) => state.uploadList)
 
     return (
         <Box className={style.layout}>
@@ -42,6 +44,7 @@ export const TrackingMain = ({
                         onTapsChange={setSelectedTaps}
                     />
                     <Dashboard
+                        upload={uploadList}
                         activeView={selectedTaps}
                         projects={projects}
                         onReportSelect={onReportSelect}

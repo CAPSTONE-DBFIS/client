@@ -26,3 +26,16 @@ export const useTrackingState = create<TrackingState>((set) => ({
     selectedTask: null,
     setSelectedTask: (task) => set({ selectedTask: task }),
 }))
+
+interface UploadListState {
+    uploadList: number
+    increaseUploadList: () => void
+    resetUploadList: () => void
+}
+
+export const useUploadListStore = create<UploadListState>((set) => ({
+    uploadList: 0,
+    increaseUploadList: () =>
+        set((state) => ({ uploadList: state.uploadList + 1 })),
+    resetUploadList: () => set({ uploadList: 0 }),
+}))
