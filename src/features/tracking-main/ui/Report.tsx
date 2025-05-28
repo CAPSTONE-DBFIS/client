@@ -72,7 +72,7 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
             setMedia(mediaRes.data) //키워드
             setArticle(articleRes.data) //키워드
             // console.log(llmRes.data)
-            console.log(sentimentsRes.data)
+            // console.log(sentimentsRes.data)
             // console.log(relatedRes.data)
             // console.log(mediaRes.data)
             // console.log(articleRes.data)
@@ -236,24 +236,16 @@ export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
                 // 키워드분석
 
                 <Box>
-                    {keywordData.length === 0 ? (
-                        <Text>키워드 데이터가 없습니다.</Text>
-                    ) : (
-                        keywordData.map((item) => (
-                            <Keyword key={item.createdOrder} keyData={item} />
-                        ))
-                    )}
+                    {keywordData.map((item) => (
+                        <Keyword key={item.createdOrder} keyData={item} />
+                    ))}
                 </Box>
             ) : (
                 // 요약대시보드
                 <Box>
-                    {overviewData.length === 0 ? (
-                        <Text>요약 데이터가 없습니다.</Text>
-                    ) : (
-                        overviewData.map((item) => (
-                            <OverView key={item.createdOrder} overData={item} />
-                        ))
-                    )}
+                    {overviewData.map((item) => (
+                        <OverView key={item.createdOrder} overData={item} />
+                    ))}
                 </Box>
             )}
         </Box>

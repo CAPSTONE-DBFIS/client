@@ -2,11 +2,11 @@ import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 
 import Speak from '@/shared/asset/icon/speakerphone.svg?react'
-import { colors } from '@/app/token'
 import * as style from './KeyOver.css'
 import { KeywordData } from '../type/report.type'
 import { Graph } from './Graph'
 import ReactMarkdown from 'react-markdown'
+import { Sentiment } from './Sentiment'
 
 interface IKeywordReport {
     keyData: KeywordData
@@ -55,10 +55,27 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
                         <Text fontSize="title2">키워드 긍부정도</Text>
                         <Box
                             style={{
-                                background: colors['neutral-30'],
-                                width: '100%',
+                                paddingTop: '20px',
                             }}
-                        />
+                        >
+                            <Sentiment
+                                data={keyData.setiments.map(
+                                    ({
+                                        date,
+                                        positiveCount,
+                                        negativeCount,
+                                        neutralCount,
+                                        createOrder,
+                                    }) => ({
+                                        date,
+                                        positiveCount,
+                                        negativeCount,
+                                        neutralCount,
+                                        createOrder,
+                                    })
+                                )}
+                            />
+                        </Box>
                     </Box>
                 </Box>
                 <Box className={style.textBox}>
@@ -69,7 +86,7 @@ export const Keyword: React.FC<IKeywordReport> = ({ keyData }) => {
                         <Speak />
                         <Text fontSize="title2">한줄 요약</Text>
                     </Box>
-                    <Text fontSize="body">
+                    <Text fontSize="title3">
                         <ReactMarkdown>{llmDescription}</ReactMarkdown>
                     </Text>
                 </Box>

@@ -3,10 +3,10 @@ import { Text } from '@/shared/ui/Text'
 
 import Speak from '@/shared/asset/icon/speakerphone.svg?react'
 import * as style from './KeyOver.css'
-import { colors } from '@/app/token'
 import { OverViewData } from '../type/report.type'
 import ReactMarkdown from 'react-markdown'
 import { Graph } from './Graph'
+import ArticleTreemap from './Article'
 interface IOverViewReport {
     overData: OverViewData
 }
@@ -51,10 +51,21 @@ export const OverView: React.FC<IOverViewReport> = ({ overData }) => {
                         <Text fontSize="title2">기사 출처 언급량 통계</Text>
                         <Box
                             style={{
-                                background: colors['neutral-30'],
-                                width: '100%',
+                                paddingTop: '20px',
                             }}
-                        />
+                        >
+                            <ArticleTreemap
+                                data={overData.media.map(
+                                    ({ date, companyName, frequency }) => ({
+                                        data: {
+                                            date,
+                                            companyName,
+                                            frequency,
+                                        },
+                                    })
+                                )}
+                            />
+                        </Box>
                     </Box>
                 </Box>
                 <Box className={style.textBox}>
@@ -65,7 +76,7 @@ export const OverView: React.FC<IOverViewReport> = ({ overData }) => {
                         <Speak />
                         <Text fontSize="title2">한줄 요약</Text>
                     </Box>
-                    <Text fontSize="body">
+                    <Text fontSize="title3">
                         <ReactMarkdown>{articleCntChange}</ReactMarkdown>
                     </Text>
                 </Box>
