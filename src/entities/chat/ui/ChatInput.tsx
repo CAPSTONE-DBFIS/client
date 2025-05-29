@@ -11,18 +11,12 @@ import { PersonaType } from '@/entities/persona/type/persona.type'
 import { getPersona } from '@/entities/persona/api/persona'
 
 const LLM_MODELS = [
+    { value: 'claude-sonnet-4', label: 'claude-sonnet-4' },
+    { value: 'gpt-4.1', label: 'gpt-4.1' },
     { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
-    { value: 'o4-mini', label: 'gpt-o4-mini' },
-    { value: 'claude-3-7-sonnet-20250219', label: 'claude-3-7-sonnet' },
-    { value: 'grok-3-mini-beta', label: 'grok-3-mini-beta' },
-    { value: 'grok-3-beta', label: 'grok-3-beta' },
+    { value: 'grok-3', label: 'grok-3' },
 ]
-const LLM_MODELS_LABEL = [
-    'gpt-4o-mini',
-    'gpt-o4-mini',
-    'claude-3-7-sonnet',
-    'grok-3-mini-beta',
-]
+const LLM_MODELS_LABEL = ['claude-sonnet-4', 'gpt-4.1', 'gpt-4o-mini', 'grok-3']
 
 export const ChatInput = ({
     chatId,
