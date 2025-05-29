@@ -1,12 +1,9 @@
-import { useState } from 'react'
 //css
 import * as style from './styles/tracking-sidebar.css'
 //components
 import { Box } from '@/shared/ui/Box'
 import { TeamSection } from './TeamSection'
-//constant
-import { teams } from '@/pages/tracking/const/teams'
-import { IProject, ITeam, TrackingSidebarProps } from '../types/team.types'
+import { ITrackingSidebar } from '@/entities/tracking/type/tracking.type'
 
 /**
  * TrackingSidebar
@@ -27,54 +24,18 @@ import { IProject, ITeam, TrackingSidebarProps } from '../types/team.types'
  * @returns {JSX.Element}
  */
 
-export const TrackingSidebar: React.FC<TrackingSidebarProps> = ({
-    onTeamSelect,
-    onProjectSelect,
+export const TrackingSidebar: React.FC<ITrackingSidebar> = ({
+    teamsData,
+    addProject,
+    inProject,
+    onAddProject,
+    onInputChange,
+    onToggleInput,
+    selectedProject,
+    onProjectClick,
+    onEditProject,
+    onDeleteProject,
 }) => {
-    const [selectedTask, setSelectedTask] = useState<number | null>(null)
-    const [addProject, setAddProject] = useState<{ [key: number]: boolean }>({})
-    const [inProject, setInProject] = useState<{ [key: number]: string }>({})
-    const [teamData, setTeamData] = useState(teams)
-
-    const handleInput = (teamId: number) => {
-        setAddProject((prev) => ({ ...prev, [teamId]: !prev[teamId] }))
-    }
-
-    const handleAddProject = (teamId: number) => {
-        const name = inProject[teamId]
-        if (!name) return
-
-        setTeamData((prev) =>
-            prev.map((team) => {
-                if (team.id !== teamId) return team
-
-                const nextId = team.projects.length
-                    ? Math.max(...team.projects.map((p) => p.id)) + 1
-                    : 1
-
-                const newProject = { id: nextId, name }
-
-                return {
-                    ...team,
-                    projects: [...team.projects, newProject],
-                }
-            })
-        )
-
-        setInProject((prev) => ({ ...prev, [teamId]: '' }))
-        setAddProject((prev) => ({ ...prev, [teamId]: false }))
-    }
-
-    const handleInputChange = (teamId: number, value: string) => {
-        setInProject((prev) => ({ ...prev, [teamId]: value }))
-    }
-
-    const handleProjectClick = (team: ITeam, project: IProject) => {
-        setSelectedTask(project.id)
-        onTeamSelect(team) // 선택된 팀 전달
-        onProjectSelect(project) // 선택된 프로젝트 전달
-    }
-
     return (
         <Box
             display="flex"
@@ -82,24 +43,21 @@ export const TrackingSidebar: React.FC<TrackingSidebarProps> = ({
             justifyContent="center"
             className={style.layout}
         >
-            {teamData.map((team) => (
+            {teamsData.map((team) => (
                 <TeamSection
                     key={team.id}
                     team={team}
                     addProject={addProject[team.id] || false}
                     inProject={inProject[team.id] || ''}
-                    onAddProject={handleAddProject}
-                    onInputChange={handleInputChange}
-                    onToggleInput={handleInput}
-                    selectedTask={selectedTask}
-                    onProjectClick={(projectId) => {
-                        const project = team.projects.find(
-                            (p) => p.id === projectId
-                        )
-                        if (project) {
-                            handleProjectClick(team, project)
-                        }
-                    }}
+                    onAddProject={onAddProject}
+                    onInputChange={onInputChange}
+                    onToggleInput={onToggleInput}
+                    selectedProject={selectedProject}
+                    onProjectClick={(projectId) =>
+                        onProjectClick(projectId, team.id)
+                    }
+                    onEditProject={onEditProject}
+                    onDeleteProject={onDeleteProject}
                 />
             ))}
         </Box>

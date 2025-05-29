@@ -21,7 +21,7 @@ import { CalendarPopup } from './CalendarPopup'
 
 //interface
 import { IPopupConfig } from '@/shared/types/popup.types'
-import { ITask } from '../../types/task.type'
+import { ITrackingKeyword } from '@/entities/tracking/type/tracking.type'
 
 //popup
 import { Popup } from '@/shared/ui/Popup'
@@ -36,12 +36,12 @@ interface PopupConfig extends IPopupConfig {
 
 /**
  * 대시보드 중 캘린더
- * @param {Array<ITask>} props.tasks - 렌더링할 작업
+ *
  * @returns {JSX.Element}
  */
 
 export const Calendar: React.FC<{
-    tasks: ITask[]
+    tasks: ITrackingKeyword[]
 }> = ({ tasks }) => {
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState(new Date()) //날짜 저장
@@ -111,7 +111,6 @@ export const Calendar: React.FC<{
                     fixedWeekCount={false}
                     headerToolbar={false}
                     contentHeight={800}
-                    //팝업 수정필요
                     eventMouseEnter={(info) => {
                         const { top, left } = eventMouseEnter({ info })
                         const originalStartDate =

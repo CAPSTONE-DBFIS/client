@@ -1,23 +1,10 @@
 import { colors, shadows } from '@/app/token'
 import { style } from '@vanilla-extract/css'
 
-export const graphContainer = style({
-    width: '100%',
-    height: '570px',
-    gap: '60px',
-})
-
-export const graph = style({
-    padding: '16px 24px',
-    width: '100%',
-    background: colors.white,
-    boxShadow: shadows.small,
-    borderRadius: '5px',
-})
-
 export const tap = style({
     borderBottom: `2px solid ${colors['neutral-20']}`,
-    padding: '12px 257px',
+    padding: '12px 240px',
+    whiteSpace: 'nowrap',
 })
 
 export const taskBtn = style({
@@ -35,4 +22,23 @@ export const textBox = style({
     padding: '16px 24px',
     boxShadow: shadows.small,
     borderRadius: '5px',
+})
+
+export const teamWrapper = style({
+    paddingTop: '8px',
+    gap: '8px',
+})
+
+export const team = style({
+    gap: '4px',
+})
+
+export const indicator = style({
+    padding: '8px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    border: `1px solid ${colors['neutral-20']}`,
+    width: '36px',
+    textAlign: 'center',
 })
