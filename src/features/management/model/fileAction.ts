@@ -67,14 +67,8 @@ export function useFileActions({
 
                 try {
                     const folderId = currentFolderId ?? null
-                    console.log('업로드 대상 폴더 ID:', folderId)
 
-                    const response = await postUpload(
-                        teamId,
-                        folderId,
-                        formData
-                    )
-                    console.log(response.data)
+                    await postUpload(teamId, folderId, formData)
                     onFolderCreated() // 업로드 후 FileList 새로고침
                 } catch (error) {
                     console.error(error)
@@ -101,9 +95,8 @@ export function useFileActions({
                     parentId = currentFolderId // 파일 클릭했거나 아무것도 선택 안 한 경우 → 현재 폴더에 생성
                 }
 
-                console.log('parentId:', parentId)
-                const response = await postfolder(teamId, parentId, folderName)
-                console.log(response.data)
+                await postfolder(teamId, parentId, folderName)
+
                 onFolderCreated()
                 return true
             } catch (error) {

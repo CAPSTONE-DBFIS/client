@@ -74,7 +74,7 @@ const FileList = forwardRef<FileListHandle, FileListProps>(
 
         const handleGoBack = () => {
             goBack()
-            onFolderChange(currentFolderId) // updated inside goBack
+            onFolderChange(currentFolderId)
         }
 
         const handleFileClick = (fileId: number, fileName: string) => {
