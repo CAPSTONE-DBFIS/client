@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 //components
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
@@ -6,29 +6,194 @@ import { Text } from '@/shared/ui/Text'
 import Calendar from '@/shared/asset/icon/calendar.svg?react'
 import Search from '@/shared/asset/icon/search.svg?react'
 import Data from '@/shared/asset/icon/chart-square-bar.svg?react'
-import Speak from '@/shared/asset/icon/speakerphone.svg?react'
+import Right from '@/shared/asset/icon/cheveron-right.svg?react'
+import Back from '@/shared/asset/icon/x 2.svg?react'
+
 //css
 import { colors } from '@/app/token'
 import * as style from './styles/report.css'
+import {
+    getArticle,
+    getLlm,
+    getMedia,
+    getRelatedWord,
+    getSentiments,
+} from '@/entities/tracking/api/report'
+import {
+    IReportArticle,
+    IReportKeyword,
+    IReportLlm,
+    IReportNews,
+    IReportSentiments,
+    KeywordData,
+    OverViewData,
+} from '@/entities/tracking/type/report.type'
+import { Keyword } from '@/entities/tracking/ui/Keyword'
+import { OverView } from '@/entities/tracking/ui/OverView'
+import { useTrackingState } from '@/entities/tracking/store/trackingStore'
 interface IReportProps {
-    id: string // 선택된 리스트 ID
+    id: number // 선택된 리스트 ID
+    onClose: () => void
 }
 
 /**
  * Report 컴포넌트
  * 요약 대시보드와 키워드 분석을 표시
- * @param {string} id - 선택된 리스트 id
+ * @param {number} id - 선택된 리스트 id
  * @returns {JSX.Element}
  */
 
-export const Report: React.FC<IReportProps> = ({ id }) => {
+export const Report: React.FC<IReportProps> = ({ id, onClose }) => {
     const [selectedTaps, setSelctedTaps] = useState(false)
+
+    const [llm, setLlm] = useState<IReportLlm[]>([])
+    const [sentiments, setSentiments] = useState<IReportSentiments[]>([])
+    const [relatedWord, setRelatedWord] = useState<IReportKeyword[]>([])
+    const [media, setMedia] = useState<IReportNews[]>([])
+    const [article, setArticle] = useState<IReportArticle[]>([])
+    const [overviewData, setOverviewData] = useState<OverViewData[]>([])
+    const [keywordData, setKeywordData] = useState<KeywordData[]>([])
+    const selectedTeam = useTrackingState((state) => state.selectedTeam)
+    const selectedProject = useTrackingState((state) => state.selectedProject)
+    const [indicatorIndex, setIndicatorIndex] = useState(0)
+
     const onTapsChange = () => {
         setSelctedTaps((prev) => !prev)
     }
-    console.log(id)
+    useEffect(() => {
+        const fetchReport = async () => {
+            const llmRes = await getLlm(id)
+            const sentimentsRes = await getSentiments(id)
+            const relatedRes = await getRelatedWord(id)
+            const mediaRes = await getMedia(id)
+            const articleRes = await getArticle(id)
+
+            setLlm(llmRes.data) //요약+키워드드
+            setSentiments(sentimentsRes.data) //요약약
+            setRelatedWord(relatedRes.data) //요약
+            setMedia(mediaRes.data) //키워드
+            setArticle(articleRes.data) //키워드
+        }
+        fetchReport()
+    }, [id])
+
+    useEffect(() => {
+        const keywordData: KeywordData[] = llm
+            .map((item: IReportLlm) => ({
+                ...item,
+                relatedWord: relatedWord.filter(
+                    (r: IReportKeyword) => r.createdOrder === item.createdOrder
+                ),
+                setiments: sentiments.filter(
+                    (s: IReportSentiments) =>
+                        s.createOrder === item.createdOrder
+                ),
+            }))
+            .sort((a, b) => b.createdOrder - a.createdOrder)
+        setKeywordData(keywordData)
+
+        const overviewData: OverViewData[] = llm
+            .map((item: IReportLlm) => ({
+                ...item,
+                media: media.filter(
+                    (m: IReportNews) => m.createdOrder === item.createdOrder
+                ),
+                article: article.filter(
+                    (a: IReportArticle) => a.createOrder === item.createdOrder
+                ),
+            }))
+            .sort((a, b) => b.createdOrder - a.createdOrder)
+        setOverviewData(overviewData)
+    }, [llm, sentiments, relatedWord, media, article])
+
+    const totalArticleCount = article.reduce(
+        (sum, item) => sum + item.articleCount,
+        0
+    )
+
+    const weekLabels = () => {
+        return [...overviewData].reverse().map((item) => `${item.createdOrder}`)
+    }
+
+    const handleIndex = (index: number) => {
+        setIndicatorIndex(index)
+    }
+
     return (
-        <Box>
+        <Box style={{ width: '1200px', padding: '36px' }}>
+            <Box display="flex" flexDirection="column">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    color={'neutral-900'}
+                    style={{ gap: '8px', fontWeight: '500' }}
+                >
+                    <Text fontSize="title1" fontWeight="semibold">
+                        {llm[0]?.keyword}
+                    </Text>
+                    <Box as={'button'} onClick={onClose}>
+                        <Back
+                            width={25}
+                            height={25}
+                            fill={colors['neutral-300']}
+                        />
+                    </Box>
+                </Box>
+                <Box>
+                    <Box
+                        display="flex"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        className={style.teamWrapper}
+                        onClick={onClose}
+                    >
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                {selectedTeam?.name || '팀'}
+                            </Text>
+                        </Box>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                {selectedProject?.name || '프로젝트'}
+                            </Text>
+                        </Box>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            className={style.team}
+                        >
+                            <Right
+                                width={17}
+                                height={17}
+                                fill={colors['neutral-60']}
+                            />
+                            <Text fontSize="body" color={'neutral-60'}>
+                                {llm[0]?.keyword}
+                            </Text>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+
             <Box style={{ padding: '16px 0' }}>
                 <Box display="flex" alignItems="center" style={{ gap: '16px' }}>
                     <Box
@@ -39,7 +204,8 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                     >
                         <Calendar width={14} height={14} />
                         <Text fontSize="subHeadline">
-                            기간: {'2025-05-13 ~ 2025-05-28'}
+                            기간:
+                            {`${article[0]?.date}~${article[article.length - 1]?.date}`}
                         </Text>
                     </Box>
                     <Box
@@ -49,7 +215,9 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                         style={{ gap: '4px' }}
                     >
                         <Search width={14} height={14} />
-                        <Text fontSize="subHeadline">연관 키워드: {0}개</Text>
+                        <Text fontSize="subHeadline">
+                            연관 키워드: {relatedWord.length}개
+                        </Text>
                     </Box>
                     <Box
                         display="flex"
@@ -59,7 +227,7 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
                     >
                         <Data width={14} height={14} />
                         <Text fontSize="subHeadline" align="center">
-                            데이터 포인트: {0}
+                            데이터 포인트: {totalArticleCount}
                         </Text>
                     </Box>
                 </Box>
@@ -90,206 +258,87 @@ export const Report: React.FC<IReportProps> = ({ id }) => {
             </Box>
             {selectedTaps ? (
                 // 키워드분석
-                <Box>
-                    <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Box style={{ padding: '0 24px' }}>
-                            <Text fontSize="title1" fontWeight="bold">
-                                {'n'}주차 핵심 트렌드 인사이트
-                            </Text>
-                        </Box>
 
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            style={{ gap: '25px', marginTop: '25px' }}
-                        >
+                <Box>
+                    {keywordData.length > 0 && (
+                        <>
+                            {keywordData[indicatorIndex] && (
+                                <Keyword
+                                    key={
+                                        keywordData[indicatorIndex].createdOrder
+                                    }
+                                    keyData={keywordData[indicatorIndex]}
+                                />
+                            )}
+
                             <Box
                                 display="flex"
-                                flexDirection="row"
-                                justifyContent="space-between"
-                                className={style.graphContainer}
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{ gap: '12px', padding: '20px 0' }}
                             >
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        연관 키워드 언급량 통계
-                                    </Text>
+                                {weekLabels().map((label, index) => (
                                     <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        key={index}
+                                        onClick={() => handleIndex(index)}
+                                        className={style.indicator}
                                         style={{
-                                            background: colors['neutral-30'],
+                                            backgroundColor:
+                                                indicatorIndex === index
+                                                    ? colors['neutral-40']
+                                                    : colors['neutral-20'],
                                         }}
-                                    />
-                                </Box>
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        키워드 긍부정도
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Box>
+                                    >
+                                        <Text fontSize="title3">{label}</Text>
+                                    </Box>
+                                ))}
                             </Box>
-                            <Box className={style.textBox}>
-                                <Box
-                                    display="flex"
-                                    style={{ gap: '8px', marginBottom: '16px' }}
-                                >
-                                    <Speak />
-                                    <Text fontSize="title2">한줄 요약</Text>
-                                </Box>
-                                <Text>
-                                    {' '}
-                                    Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy
-                                    text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled
-                                    it to make a type specimen book. It has
-                                    survived not only five centuries, but also
-                                    the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was
-                                    popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker
-                                    including versions of Lorem Ipsum.
-                                </Text>
-                            </Box>
-                        </Box>
-                        <Box
-                            style={{
-                                position: 'absolute',
-                                width: '100%',
-                                background: 'rgb(0,0,0,0.01)',
-                                height: '100%',
-                                top: '0',
-                                backdropFilter: 'blur(4px)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Box
-                                style={{
-                                    position: 'relative',
-                                    top: '50%',
-                                    backdropFilter: 'blur(4x)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '12px',
-                                }}
-                            >
-                                <Text fontSize="largeTitle">
-                                    데이터가 부족해 보고서를 만들기 힘들어요.
-                                </Text>
-                                <Text fontSize="largeTitle" align="center">
-                                    예상완료일: 2025-05-28
-                                </Text>
-                            </Box>
-                        </Box>
-                    </Box>
+                        </>
+                    )}
                 </Box>
             ) : (
                 // 요약대시보드
                 <Box>
-                    <Box style={{ padding: '24px 0', position: 'relative' }}>
-                        <Box style={{ padding: '0 24px' }}>
-                            <Text fontSize="title1" fontWeight="bold">
-                                {'n'}주차 핵심 트렌드 인사이트
-                            </Text>
-                        </Box>
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            style={{ gap: '25px', marginTop: '25px' }}
-                        >
+                    {overviewData.length > 0 && (
+                        <>
+                            {overviewData[indicatorIndex] && (
+                                <OverView
+                                    key={
+                                        overviewData[indicatorIndex]
+                                            .createdOrder
+                                    }
+                                    overData={overviewData[indicatorIndex]}
+                                />
+                            )}
+
                             <Box
                                 display="flex"
-                                flexDirection="row"
-                                justifyContent="space-between"
-                                className={style.graphContainer}
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{ gap: '12px', padding: '20px 0' }}
                             >
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        연관 키워드 언급량 통계
-                                    </Text>
+                                {weekLabels().map((label, index) => (
                                     <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        key={index}
+                                        onClick={() => handleIndex(index)}
+                                        className={style.indicator}
                                         style={{
-                                            background: colors['neutral-30'],
+                                            backgroundColor:
+                                                indicatorIndex === index
+                                                    ? colors['neutral-40']
+                                                    : colors['neutral-20'],
                                         }}
-                                    />
-                                </Box>
-                                <Box className={style.graph}>
-                                    <Text fontSize="title2">
-                                        키워드 긍부정도
-                                    </Text>
-                                    <Box
-                                        style={{
-                                            background: colors['neutral-30'],
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Box>
+                                    >
+                                        <Text fontSize="title3">{label}</Text>
+                                    </Box>
+                                ))}
                             </Box>
-                            <Box className={style.textBox}>
-                                <Box
-                                    display="flex"
-                                    style={{ gap: '8px', marginBottom: '16px' }}
-                                >
-                                    <Speak />
-                                    <Text fontSize="title2">한줄 요약</Text>
-                                </Box>
-                                <Text>
-                                    {' '}
-                                    Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy
-                                    text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled
-                                    it to make a type specimen book. It has
-                                    survived not only five centuries, but also
-                                    the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was
-                                    popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker
-                                    including versions of Lorem Ipsum.
-                                </Text>
-                            </Box>
-                        </Box>
-                        <Box
-                            style={{
-                                position: 'absolute',
-                                width: '100%',
-                                background: 'rgb(0,0,0,0.001)',
-                                height: '100%',
-                                top: '0',
-                                backdropFilter: 'blur(4px)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Box
-                                style={{
-                                    position: 'relative',
-                                    top: '50%',
-                                    backdropFilter: 'blur(4x)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '12px',
-                                }}
-                            >
-                                <Text fontSize="largeTitle">
-                                    데이터가 부족해 보고서를 만들기 힘들어요.
-                                </Text>
-                                <Text fontSize="largeTitle" align="center">
-                                    예상완료일: 2025-05-28
-                                </Text>
-                            </Box>
-                        </Box>
-                    </Box>
+                        </>
+                    )}
                 </Box>
             )}
         </Box>

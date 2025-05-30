@@ -10,7 +10,7 @@
  *
  */
 export const expandToDailyEvents = (
-    task: { id: string; startDate: string; endDate: string; title: string },
+    task: { id: number; startDate: string; endDate: string; keyword: string },
     color: string
 ) => {
     const start = new Date(task.startDate)
@@ -23,7 +23,7 @@ export const expandToDailyEvents = (
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
         events.push({
             id: `${task.id}-${d.toISOString().split('T')[0]}`,
-            title: task.title,
+            title: task.keyword,
             start: d.toISOString().split('T')[0],
             end: d.toISOString().split('T')[0],
             allDay: true,

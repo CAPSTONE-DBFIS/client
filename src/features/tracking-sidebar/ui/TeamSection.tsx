@@ -1,7 +1,6 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
 import { colors } from '@/app/token'
-import { ITeamSection, IProject } from '../types/team.types'
 //icons
 import Plus from '@/shared/asset/icon/plus-sm.svg?react'
 import Trash from '@/shared/asset/icon/trash.svg?react'
@@ -10,6 +9,10 @@ import Edit from '@/shared/asset/icon/pencil-alt.svg?react'
 import { Box } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/Input/TextInput'
+import {
+    ITeamSection,
+    ITrackingProject,
+} from '@/entities/tracking/type/tracking.type'
 //css
 import * as style from './styles/team-secion.css'
 
@@ -36,12 +39,31 @@ export const TeamSection: React.FC<ITeamSection> = ({
     onAddProject,
     onInputChange,
     onToggleInput,
-    selectedTask,
+    selectedProject,
     onProjectClick,
+    onEditProject,
+    onDeleteProject,
 }) => {
+    // 수정 프로젝트id와 값
+    const [editProjectId, setEditProjectId] = useState<number | null>(null)
+    const [editProjectName, setEditProjectName] = useState<string>('')
+
     const inputRef = useRef<HTMLDivElement>(null)
 
     useClickOutside(inputRef, () => onToggleInput(team.id))
+
+    // 수정 시작
+    const handleEditClick = (project: ITrackingProject) => {
+        setEditProjectId(project.id)
+        setEditProjectName(project.name)
+    }
+
+    // 수정 완료
+    const handleEditSubmit = (projectId: number, teamId: number) => {
+        onEditProject(projectId, editProjectName, teamId)
+        setEditProjectId(null)
+        setEditProjectName('')
+    }
 
     return (
         <Box>
@@ -72,18 +94,18 @@ export const TeamSection: React.FC<ITeamSection> = ({
                     ref={inputRef}
                     display="flex"
                     justifyContent="center"
-                    style={{ marginBottom: '12px' }}
+                    style={{ marginBottom: '12px', width: '100%' }}
                 >
                     <TextInput
-                        placeholder="프로젝트 이름을 입력해주세요."
+                        placeholder="프로젝트를 입력해주세요."
                         size="small"
-                        width="95%"
+                        width="230px"
                         value={inProject}
                         onChange={(e) => onInputChange(team.id, e.target.value)}
                         rightIcon={
                             <Plus
                                 fill={colors['neutral-90']}
-                                onClick={() => onAddProject(team.id)}
+                                onClick={() => onAddProject(team.id, inProject)}
                             />
                         }
                     />
@@ -92,14 +114,14 @@ export const TeamSection: React.FC<ITeamSection> = ({
 
             {/* 프로젝트 리스트 */}
             <Box display="flex" flexDirection="column" style={{ gap: '6px' }}>
-                {team.projects.map((project: IProject) => (
+                {team.projects.map((project: ITrackingProject) => (
                     <Box
                         key={project.id}
                         display="flex"
                         justifyContent="space-between"
                         fontSize="body"
                         className={`${style.taskItem}
-                        ${style.menuItemClick[selectedTask === project.id ? 'selected' : 'default']}
+                        ${style.menuItemClick[selectedProject === project.id ? 'selected' : 'default']}
                                         `}
                         onClick={() => onProjectClick(project.id)}
                     >
@@ -113,20 +135,60 @@ export const TeamSection: React.FC<ITeamSection> = ({
                                 align="left"
                                 fontSize="body"
                                 className={`${style.taskIcon} ${
-                                    selectedTask === project.id &&
+                                    selectedProject === project.id &&
                                     style.selectedTaskIcon
                                 }`}
                             >
                                 {project.name.charAt(0)}
                             </Text>
-                            <Text>{project.name}</Text>
+                            {editProjectId === project.id ? (
+                                <input
+                                    type="text"
+                                    defaultValue={editProjectName}
+                                    autoFocus
+                                    onChange={(e) =>
+                                        setEditProjectName(e.target.value)
+                                    }
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            const newName =
+                                                e.currentTarget.value
+                                            if (
+                                                newName &&
+                                                newName !== project.name
+                                            ) {
+                                                handleEditSubmit(
+                                                    project.id,
+                                                    team.id
+                                                )
+                                            }
+                                            setEditProjectId(null)
+                                        }
+                                        if (e.key === 'Escape') {
+                                            setEditProjectId(null)
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <Text>{project.name}</Text>
+                            )}
                         </Box>
 
-                        {selectedTask === project.id && (
+                        {selectedProject === project.id && (
                             <Box className={style.selectedEdit}>
                                 <Box className={style.slidingContent}>
-                                    <Trash width={16} height={16} />
-                                    <Edit width={16} height={16} />
+                                    <Trash
+                                        width={16}
+                                        height={16}
+                                        onClick={() =>
+                                            onDeleteProject(project.id)
+                                        }
+                                    />
+                                    <Edit
+                                        width={16}
+                                        height={16}
+                                        onClick={() => handleEditClick(project)}
+                                    />
                                 </Box>
                             </Box>
                         )}

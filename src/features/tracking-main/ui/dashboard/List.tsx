@@ -7,20 +7,13 @@ import * as style from './styles/list.css'
 import Menu from '@/shared/asset/icon/dots-vertical.svg?react'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/shared/lib/hooks/useOutsideClick'
-interface ITaskdata {
-    id: string
-    title: string
-    keywords: number
-    dataPoints: number
-    percentage: number
-    startDate: string
-    endDate: string
-    tags: string[]
-}
+import { ListWithDate } from '@/entities/tracking/type/tracking.type'
+import { calculatePercentage } from '../../lib/calulatePercentage'
+
 interface IListProps {
-    task: ITaskdata
-    handleDeleteTask: (id: string) => void // 삭제 함수
-    handleEditTask: (id: string) => void // 수정 함수
+    task: ListWithDate
+    handleDeleteTask: (id: number) => void // 삭제 함수
+    handleEditTask: (id: number) => void // 수정 함수
     onClick: () => void // 리스트 클릭 이벤트
 }
 /**
@@ -49,7 +42,10 @@ export const List: React.FC<IListProps> = ({
     const [menuOpen, setMenuOpen] = useState(false)
     // 메뉴 영역 감지용 ref
     const menuRef = useRef<HTMLDivElement>(null)
-
+    const percentage = calculatePercentage(
+        new Date(task.startDate),
+        new Date(task.endDate)
+    )
     useClickOutside(menuRef, () => setMenuOpen(false))
 
     // 메뉴 클릭시 상태 변경
@@ -70,7 +66,7 @@ export const List: React.FC<IListProps> = ({
     }
 
     return (
-        <Box style={{ position: 'relative', zIndex: '0' }} onClick={onClick}>
+        <Box style={{ position: 'relative', zIndex: '0' }}>
             <Box className={style.layout} background={'white'}>
                 {/* 헤더: 제목 및 메뉴 버튼 */}
                 <Box
@@ -79,21 +75,21 @@ export const List: React.FC<IListProps> = ({
                     className={style.header}
                 >
                     <Text fontSize="title2" fontWeight="medium">
-                        {task.title}
+                        {task.keyword}
                     </Text>
                     <Menu onClick={toggleMenu} />
                 </Box>
 
-                <Box display="flex" justifyContent="center">
+                <Box display="flex" justifyContent="center" onClick={onClick}>
                     <Box
                         display="flex"
                         flexDirection="column"
                         alignItems="center"
                         className={style.mainData}
                     >
-                        <Text fontSize="title1">{task.keywords}</Text>
+                        <Text fontSize="title1">{task.createdOrder}</Text>
                         <Text fontSize="body" color="neutral-90">
-                            연관 키워드
+                            생성 보고서
                         </Text>
                     </Box>
                     <Box
@@ -104,7 +100,7 @@ export const List: React.FC<IListProps> = ({
                     >
                         <Text fontSize="title1">
                             {/* 숫자 구분자 */}
-                            {task.dataPoints.toLocaleString()}{' '}
+                            {task.articleCountReport}{' '}
                         </Text>
                         <Text fontSize="body" color="neutral-90">
                             데이터 포인트
@@ -116,7 +112,7 @@ export const List: React.FC<IListProps> = ({
                         alignItems="center"
                         className={style.mainData}
                     >
-                        <Text fontSize="title1">{task.percentage}%</Text>
+                        <Text fontSize="title1">{Math.floor(percentage)}%</Text>
                         <Text fontSize="body" color="neutral-90">
                             진행률
                         </Text>
@@ -136,7 +132,7 @@ export const List: React.FC<IListProps> = ({
                         <Box className={style.progressBarContainer}>
                             <Box
                                 className={style.progressBar}
-                                style={{ width: `${task.percentage}%` }}
+                                style={{ width: `${percentage}%` }}
                             />
                         </Box>
                         <Box
@@ -159,18 +155,6 @@ export const List: React.FC<IListProps> = ({
                                 예상 완료: {task.endDate}
                             </Text>
                         </Box>
-                    </Box>
-
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        className={style.tagBox}
-                    >
-                        {task.tags.map((tag) => (
-                            <Text key={tag} className={style.tag}>
-                                {tag}
-                            </Text>
-                        ))}
                     </Box>
                 </Box>
             </Box>

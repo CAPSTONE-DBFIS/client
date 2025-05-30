@@ -9,6 +9,13 @@ export interface IProject {
     name: string
 }
 
+export interface Project {
+    id: number
+    name: string
+    description: string
+    startDate: string
+    endDate: string
+}
 /**
  * 팀 데이터 인터페이스
  * @interface ITeam
@@ -34,11 +41,15 @@ export interface ITeam {
  * @property {number | null} selectedTask - 선택된 프로젝트 ID
  * @property {function} onProjectClick - 프로젝트 클릭 핸들러
  */
+export interface ITeams {
+    id: number
+    name: string
+}
 export interface ITeamSection {
-    team: ITeam
+    team: ITeams
     addProject: boolean
     inProject: string
-    onAddProject: (teamId: number) => void
+    onAddProject: (teamId: number, teamName: string) => void
     onInputChange: (teamId: number, value: string) => void
     onToggleInput: (teamId: number) => void
     selectedTask: number | null
@@ -46,6 +57,7 @@ export interface ITeamSection {
 }
 
 export interface TrackingSidebarProps {
-    onTeamSelect: (team: ITeam) => void
+    onTeamSelect: (team: ITeams) => void
     onProjectSelect: (project: IProject) => void
+    teamsData: ITeams[]
 }
