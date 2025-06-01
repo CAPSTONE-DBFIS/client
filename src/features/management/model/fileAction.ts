@@ -68,7 +68,12 @@ export function useFileActions({
                 try {
                     const folderId = currentFolderId ?? null
 
-                    await postUpload(teamId, folderId, formData)
+                    const response = await postUpload(
+                        teamId,
+                        folderId,
+                        formData
+                    )
+                    console.log(response.data)
                     onFolderCreated() // 업로드 후 FileList 새로고침
                 } catch (error) {
                     console.error(error)
