@@ -149,11 +149,7 @@ export const LoadingDots = ({ log }: { log: string[] | undefined }) => {
     }, [])
 
     return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            style={{ gap: '4px'}}
-        >
+        <Box display="flex" flexDirection="column" style={{ gap: '4px' }}>
             {log && log.length > 0 ? (
                 log.map((line, idx) => (
                     <Text key={idx} fontSize="body" color="neutral-100">
@@ -199,9 +195,11 @@ const CustomAnchor = ({
         >
             {children}
             <Popup config={config} LEFT={-15} TOP={20}>
-                <Text fontSize="subHeadline" color="neutral-500">
-                    {href}
-                </Text>
+                <div style={{ objectFit: 'cover', minWidth: '200px' }}>
+                    <Text fontSize="subHeadline" color="neutral-500">
+                        {href}
+                    </Text>
+                </div>
             </Popup>
         </a>
     )
