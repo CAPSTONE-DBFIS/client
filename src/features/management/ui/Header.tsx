@@ -9,8 +9,10 @@ import FolderIcon from '@/shared/asset/icon/folder-add.svg?react'
 import TrashIcon from '@/shared/asset/icon/folder-remove.svg?react'
 import { TextInput } from '@/shared/ui/Input/TextInput'
 import { Button } from '@/shared/ui/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFileActions } from '../model/fileAction'
+import { getFileStorage } from '@/entities/file/api/file'
+import { IStorage } from '@/entities/file/type/IFileItem.type'
 
 interface ITeam {
     teamName: string
@@ -35,6 +37,7 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
 }) => {
     const [activeButton, setActiveButton] = useState<string | null>(null)
     const [folderName, setFolderName] = useState('') //폴더업로드
+    const [storage, setStorage] = useState<IStorage>()
 
     const { handleDownload, handleUpload, handleCreateFolder, handleDelete } =
         useFileActions({
@@ -46,6 +49,21 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
             selectedItemType,
         })
 
+    useEffect(() => {
+        const fetchStorage = async () => {
+            try {
+                const response = await getFileStorage(teamId)
+                setStorage(response.data)
+                console.log(storage)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        if (teamId) {
+            fetchStorage()
+        }
+    }, [teamId])
+
     return (
         <Box display="flex" flexDirection="column" style={{ gap: '20px' }}>
             <Box display="flex" alignItems="center" style={{ gap: '20px' }}>
@@ -55,7 +73,8 @@ export const Header: React.FC<ITeam & { onFolderCreated: () => void }> = ({
                 <Box display="flex" alignItems="center" style={{ gap: '4px' }}>
                     <StorageIcon width={16} height={16} fill="#7A8699" />
                     <Text fontSize="headline" color="neutral-100">
-                        팀 스토리지
+                        팀 스토리지 사용량 : {storage?.usedMegaBytes}MB /{' '}
+                        {storage?.limitMegaBytes}MB
                     </Text>
                 </Box>
             </Box>

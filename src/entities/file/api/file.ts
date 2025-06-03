@@ -76,3 +76,7 @@ export const deleteFileFolder = async (
 
     throw new Error('삭제할 파일 또는 폴더 ID가 필요합니다.')
 }
+
+export const getFileStorage = async (teamId: number) => {
+    return await axiosInstance.get(`/api/teams/${teamId}/storage/remaining`)
+}
